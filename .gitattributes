@@ -1,0 +1,6 @@
+# 行尾统一为 LF，避免 Windows / macOS / Linux 之间产生无意义的 diff
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.pdf binary

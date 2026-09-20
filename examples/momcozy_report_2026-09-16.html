@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momcozy：把吸奶器做成母婴科技入口 · DTC 增长研究 · 2026-09-16</title>
+<style>
+/* ============ Design Tokens（明暗双主题）· 品牌主色取自官网主题 CSS 实测 --pri-cl:#9c5455 / 组件色 #6a2c3a ============ */
+:root{
+  --bg:#ffffff; --surface:#faf8f8; --surface-2:#f0ebeb;
+  --border:#e6e0e0; --text:#1a1d21; --text-muted:#5c6470;
+  --accent:#6a2c3a; --on-accent:#ffffff; --accent-soft:#f6eeed;
+  --ok:#15803d; --obs:#1d4ed8; --inf:#b45309; --est:#7e22ce; --unk:#475569;
+  --radius:12px; --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 12px rgba(16,24,40,.06);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --maxw:1080px;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#0e1116; --surface:#181b21; --surface-2:#212630;
+    --border:#2c323d; --text:#e7eaf0; --text-muted:#9aa3b2;
+    --accent:#cf9ba6; --on-accent:#2a0f16; --accent-soft:#33202a;
+    --ok:#4ade80; --obs:#60a5fa; --inf:#fbbf24; --est:#c084fc; --unk:#94a3b8;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 16px rgba(0,0,0,.35); }
+}
+/* ============ Base ============ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:20px}
+.accentbar{height:4px;background:linear-gradient(90deg,var(--accent),transparent 70%)}
+h1,h2,h3{margin:0;line-height:1.25}
+h1{font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.15rem,2.5vw,1.4rem);margin-bottom:16px}
+h3{font-size:1.05rem}
+section{margin:48px 0}
+.muted{color:var(--text-muted)}
+.num{font-variant-numeric:tabular-nums;text-align:right}
+.mono{font-family:var(--mono)}
+/* ============ Hero ============ */
+.hero{padding:56px 0 32px}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin:0 0 12px}
+.lead{font-size:clamp(1.05rem,2vw,1.25rem);color:var(--text);margin:16px 0 0;width:100%;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px}
+.lead b{font-weight:750}
+.meta-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-size:12px;padding:4px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);color:var(--text-muted)}
+.takeaway{margin-top:28px;padding:20px 24px;border-radius:var(--radius);background:var(--accent-soft);border:1px solid var(--border);border-left:4px solid var(--accent)}
+.takeaway h2{margin-bottom:8px}
+.takeaway ol{margin:0;padding-left:0;list-style:none;counter-reset:fd}
+.takeaway li{counter-increment:fd;position:relative;padding:6px 0 6px 34px}
+.takeaway li::before{content:counter(fd);position:absolute;left:0;top:10px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+/* ============ Evidence badges ============ */
+.badge{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.03em;border:1px solid;vertical-align:1px;white-space:nowrap}
+.badge.fact{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent);background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.badge.obs{color:var(--obs);border-color:color-mix(in srgb,var(--obs) 40%,transparent);background:color-mix(in srgb,var(--obs) 12%,transparent)}
+.badge.inf{color:var(--inf);border-color:color-mix(in srgb,var(--inf) 40%,transparent);background:color-mix(in srgb,var(--inf) 12%,transparent)}
+.badge.est{color:var(--est);border-color:color-mix(in srgb,var(--est) 40%,transparent);background:color-mix(in srgb,var(--est) 12%,transparent)}
+.badge.unk{color:var(--unk);border-color:color-mix(in srgb,var(--unk) 40%,transparent);background:color-mix(in srgb,var(--unk) 12%,transparent)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--text-muted);margin-top:16px}
+/* ============ Cards / grids ============ */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.kpi-grid{display:flex;flex-wrap:nowrap;gap:16px}
+.kpi-grid>.kpi{flex:1 1 0;min-width:0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;display:flex;flex-direction:column}
+.kpi-label{font-size:12px;color:var(--text-muted);margin:0;min-height:2.9em;line-height:1.45}
+.kpi-value{font-size:clamp(1.15rem,2vw,1.6rem);font-weight:750;font-variant-numeric:tabular-nums;margin:4px 0 6px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi-value small{font-size:.55em;font-weight:600;color:var(--text-muted)}
+.kpi-note{font-size:12px;color:var(--text-muted);margin:0;line-height:1.5;padding-top:6px;border-top:1px solid var(--border)}
+/* ============ Finding / evidence ============ */
+.finding{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:16px 0;box-shadow:var(--shadow)}
+.finding-head{display:flex;gap:12px;align-items:flex-start}
+.fnum{font-family:var(--mono);font-weight:700;color:var(--accent);font-size:14px;padding-top:2px;flex:none}
+.evidence{list-style:none;margin:12px 0 0;padding:0}
+.evidence li{padding:6px 0 6px 8px;border-left:2px solid var(--border);margin:8px 0;font-size:14.5px}
+.analysis{margin:12px 0 0;padding:12px 16px;background:var(--surface-2);border-radius:8px;font-size:14.5px}
+.analysis b{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted)}
+.src-chip{font-size:11px;padding:1px 8px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);white-space:nowrap}
+/* ============ Table ============ */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+caption{text-align:left;font-weight:600;padding:14px 16px;caption-side:top}
+th,td{padding:10px 14px;text-align:left;border-top:1px solid var(--border);vertical-align:top}
+thead th{border-top:none;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);background:var(--surface-2)}
+tbody tr:hover{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+/* ============ Chart suite ============ */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:10px}
+.c1{background:var(--accent)}.c2{background:var(--obs)}.c3{background:var(--ok)}
+.c4{background:var(--est)}.c5{background:var(--inf)}
+.chart-title{font-size:14.5px;font-weight:700;margin:20px 0 2px}
+.chart-note{font-size:12px;color:var(--text-muted);margin:8px 0 0;line-height:1.6}
+.bars{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.bar-row{display:flex;align-items:center;gap:12px;font-size:14px;min-width:0}
+.blabel{color:var(--text);min-width:0;flex:0 1 44%;overflow-wrap:anywhere;line-height:1.35}
+.blabel .s{display:block;font-size:11.5px;color:var(--text-muted);font-weight:500;margin-top:2px}
+.bar-track{background:var(--surface-2);border-radius:6px;height:18px;overflow:hidden;flex:1 1 auto;min-width:36px}
+.bar-fill{height:100%;border-radius:6px;background:var(--accent);min-width:2px}
+.bar-val{font-family:var(--mono);font-size:13.5px;font-weight:700;color:var(--text);white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums;flex:0 0 auto;min-width:0}
+.bar-val small{display:block;font-size:10.5px;font-weight:500;color:var(--text-muted);white-space:normal;text-align:right;line-height:1.3}
+.vcols{display:flex;align-items:flex-end;gap:12px;min-height:170px;padding:10px 6px 0;border-bottom:1px solid var(--border);margin-top:8px}
+.vcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0}
+.vcol .vbar{width:min(46px,72%);height:calc(var(--v)/var(--max)*130px);min-height:3px;border-radius:6px 6px 0 0;background:var(--accent)}
+.vcol.alt .vbar{background:var(--obs)}
+.vcol .vval{font-family:var(--mono);font-size:12px;font-weight:700}
+.vcol .vlab{font-size:11.5px;color:var(--text-muted);line-height:1.35}
+.donut-wrap{display:flex;flex-wrap:wrap;gap:20px;align-items:center;margin-top:8px}
+.donut-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12.5px;color:var(--text-muted)}
+.donut{--col:var(--accent);width:104px;height:104px;border-radius:50%;background:conic-gradient(var(--col) calc(var(--p)*1%),var(--surface-2) 0);display:grid;place-items:center;position:relative;flex:none}
+.donut::before{content:"";position:absolute;inset:13px;border-radius:50%;background:var(--bg)}
+.donut b{position:relative;font-family:var(--mono);font-size:15px}
+.funnel{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:8px}
+.fstep{width:var(--w);background:var(--accent);color:var(--on-accent);border-radius:6px;padding:8px 14px;display:flex;justify-content:space-between;gap:12px;font-size:13.5px;white-space:nowrap}
+.engine{display:flex;flex-direction:column;align-items:center;margin-top:10px}
+.elayer{width:min(720px,100%);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px}
+.enode{flex:1 1 200px;border-left:3px solid var(--accent);padding:6px 12px;background:var(--bg);border-radius:8px;font-size:13.5px;min-width:0}
+.enode b{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted)}
+.econn{color:var(--text-muted);font-size:12.5px;padding:5px 0 3px;text-align:center}
+.econn::before{content:"↓ "}
+@media (max-width:640px){
+  .bar-row{flex-direction:column;align-items:stretch;gap:4px}
+  .blabel{flex:1 1 auto}
+  .bar-track{flex:1 1 auto;width:100%}
+  .bar-val{text-align:right}
+  .enode{flex:1 1 100%}
+}
+/* ============ Timeline / Quote / sources ============ */
+.timeline{list-style:none;margin:0;padding:0 0 0 18px;border-left:2px solid var(--border)}
+.timeline li{position:relative;padding:0 0 22px 22px}
+.timeline li::before{content:"";position:absolute;left:-24px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.timeline time{font-family:var(--mono);font-size:13px;color:var(--text-muted);display:block}
+.timeline-h{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:22px 14px}
+.timeline-h li{position:relative;flex:1 1 200px;min-width:150px;padding-top:26px;font-size:13px;line-height:1.5}
+.timeline-h li::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--border)}
+.timeline-h li::after{content:"";position:absolute;top:-4px;left:0;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.timeline-h time{font-family:var(--mono);font-size:12px;color:var(--accent);display:block;font-weight:700;margin-bottom:2px}
+.timeline-h p{color:var(--text);margin:0}
+.quote{margin:16px 0;padding:16px 20px;border-left:4px solid var(--accent);background:var(--surface);border-radius:0 var(--radius) var(--radius) 0}
+.quote blockquote{margin:0;font-size:1.05rem;font-style:italic}
+.quote figcaption{margin-top:8px;font-size:13px;color:var(--text-muted)}
+details.sources{margin:48px 0 24px;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;background:var(--surface)}
+details.sources summary{cursor:pointer;font-weight:600}
+details.sources ol{font-size:13.5px;color:var(--text-muted);padding-left:20px}
+details.sources li{margin:8px 0;word-break:break-word}
+footer{padding:24px 0 48px;color:var(--text-muted);font-size:13px;border-top:1px solid var(--border)}
+footer p{margin:4px 0}
+@media print{ details.sources{display:none} body{background:#fff} .card,.finding{box-shadow:none} }
+</style>
+</head>
+<body>
+<div class="accentbar"></div>
+<main class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <header class="hero">
+    <p class="kicker">DTC 增长研究 · 2026-09-16 · 研究市场：美国（已验证）</p>
+    <h1>Momcozy：把吸奶器做成母婴科技入口</h1>
+    <p class="lead"><b>核心结论：</b>Momcozy 是深圳路特创新体系运营的全球化母婴科技品牌，把<b>穿戴式吸奶器从医疗器械重新定义为可穿戴生活产品</b>，再用同一套「妈妈视角」把品类铺到孕期、哺乳、喂养、睡眠、出行全场景。它的增长由三条腿同时推——<b>类目第一的制度性背书</b>、<b>两万余条创作者内容的长尾密度</b>、<b>独立站上完整的信任栈</b>；而当前最大的两个变量是<b>配件耐久性差评</b>与<b>2026 年美国 ITC 337 调查</b>。</p>
+    <div class="meta-chips">
+      <span class="chip">研究对象：Momcozy</span>
+      <span class="chip">母公司：深圳市路特创新科技有限公司</span>
+      <span class="chip">数据截止：2026-09-16</span>
+      <span class="chip">证据分级见页尾</span>
+    </div>
+    <aside class="takeaway">
+      <h2>关键发现</h2>
+      <ol>
+        <li><strong>品类重定义是增长的起点</strong> —— 把吸奶器做成「可穿戴生活产品」，价格卡在 $100–200 空白带，避开 $350+ 的高端正面战场。 <span class="badge fact">FACT</span></li>
+        <li><strong>创作者走「密度」不走「高度」</strong> —— 近 12 个月 <b>24,227 条</b>赞助内容，TikTok 占 <b>73.2%</b>；<b>37.2%</b> 合作创作者平均播放量仅 1K–5K，是铺量而非头部投放。 <span class="badge est">ESTIMATE</span></li>
+        <li><strong>自然搜索是最大的可识别渠道，但结构偏「品牌承接」</strong> —— Semrush（2026-07，一手平台数据）自然搜索 <b>1.06M</b> 访问、约占全站 <b>45.1%</b>（派生值），为已知渠道中体量最大的一条；同期付费搜索仅 <b>80.77K</b>。首位自然关键词即品牌词 <code>momcozy pump</code>，独立站更多在接住已有品牌需求，而非制造增量入口。 <span class="badge est">ESTIMATE</span></li>
+        <li><strong>独立站的信任栈完整度高于同类新锐</strong> —— 2 年质保（推车 3 年）、以换代修、30 天无理由、FSA/HSA 通道、随 M5 赠 IBCLC 一对一咨询。 <span class="badge fact">FACT</span></li>
+        <li><strong>337 调查是最大的结构性风险</strong> —— 2026-08 Willow 就穿戴式吸奶器向 USITC 提起申请，列名 12 家被告含路特创新体系，覆盖几乎全线在售穿戴泵及配件。 <span class="badge fact">FACT</span></li>
+      </ol>
+    </aside>
+    <p class="legend">
+      <span class="badge fact">FACT</span> 可验证事实
+      <span class="badge obs">OBSERVATION</span> 公开页面观察
+      <span class="badge inf">INFERENCE</span> 推断
+      <span class="badge est">ESTIMATE</span> 第三方估算
+      <span class="badge unk">UNKNOWN</span> 无可靠公开信息
+    </p>
+  </header>
+
+  <!-- ===== 01 品牌与生意 ===== -->
+  <section id="business">
+    <h2>01 · 品牌与生意</h2>
+
+    <div class="kpi-grid">
+      <div class="kpi"><p class="kpi-label">Momcozy 用户规模</p><p class="kpi-value">600<small>万+</small></p>
+        <p class="kpi-note">品牌官方口径 · 数据截至 2026-06 <a href="#SRC-007">SRC-007 ↗</a></p></div>
+      <div class="kpi"><p class="kpi-label">覆盖国家和地区</p><p class="kpi-value">80<small>+</small></p>
+        <p class="kpi-note">同上 <a href="#SRC-007">SRC-007 ↗</a></p></div>
+      <div class="kpi"><p class="kpi-label">集团员工 / 产研占比</p><p class="kpi-value">2,200<small>+</small></p>
+        <p class="kpi-note">产研人才占比 40%+ <a href="#SRC-007">SRC-007 ↗</a></p></div>
+      <div class="kpi"><p class="kpi-label">授权专利</p><p class="kpi-value">1,000<small>+</small></p>
+        <p class="kpi-note">另有国际奖项 160+ <a href="#SRC-007">SRC-007 ↗</a></p></div>
+      <div class="kpi"><p class="kpi-label">2024 全球营收（媒体口径）</p><p class="kpi-value">¥35<small>亿</small></p>
+        <p class="kpi-note">官方从未披露·媒体转述 <span class="badge est">ESTIMATE</span> <a href="#SRC-033">SRC-033 ↗</a></p></div>
+    </div>
+
+    <article class="finding">
+      <div class="finding-head"><span class="fnum">01</span><h3>一家深圳企业运营的品牌，在海外被大量消费者当作本土品牌</h3></div>
+      <ul class="evidence">
+        <li><span class="badge fact">FACT</span> 母公司为<b>深圳市路特创新科技有限公司</b>（英文名 Shenzhen Root Innovation Technology Co., Ltd.，部分公开文件写作 Lute Innovation），法定代表人潘俊宇，集团邮箱域 <span class="mono">rootglobal.net</span>；337 申诉文件中同时列名关联主体 Hong Kong Lute Technology Co., Ltd.、Root Technology, Ltd.（Beverly Hills, CA）。<span class="src-chip"><a href="#SRC-008">SRC-008 ↗</a></span> <span class="src-chip"><a href="#SRC-009">SRC-009 ↗</a></span></li>
+        <li><span class="badge fact">FACT</span><span class="badge obs">OBSERVATION</span> <b>成立时间存在两种口径</b>：官方校招材料与中文站称集团 2017 年成立、Momcozy 品牌 2018 年成立；面向海外的英文新闻稿统一写「Since 2018」。<span class="src-chip"><a href="#SRC-007">SRC-007 ↗</a></span> <span class="src-chip"><a href="#SRC-002">SRC-002 ↗</a></span></li>
+        <li><span class="badge fact">FACT</span> <b>创始人</b>公开场合以 <b>Athena</b> 署名（Founder &amp; CEO），在 2026 年母亲节新闻稿中有原话引用。 <span class="src-chip"><a href="#SRC-024">SRC-024 ↗</a></span></li>
+        <li><span class="badge fact">FACT</span> <b>渠道</b>为官网自营 + Amazon + Babylist / Walmart / Target 三轨；新闻稿署名主体为「ROOT technology ltd.」。 <span class="src-chip"><a href="#SRC-024">SRC-024 ↗</a></span> <span class="src-chip"><a href="#SRC-039">SRC-039 ↗</a></span></li>
+        <li><span class="badge unk">UNKNOWN</span> <b>独立站在整体业务中的收入占比</b>：无可靠公开数据（No reliable public data found.），不做估算、也不推断独立站为主渠道。</li>
+      </ul>
+    </article>
+
+    <h3 class="chart-title">营收体量（中国行业媒体转述 · 逐年）</h3>
+    <div class="vcols">
+      <div class="vcol"><div class="vbar" style="--v:10;--max:35"></div><div class="vval">¥10 亿+</div><div class="vlab">2022</div></div>
+      <div class="vcol"><div class="vbar" style="--v:20;--max:35"></div><div class="vval">¥20 亿</div><div class="vlab">2023</div></div>
+      <div class="vcol"><div class="vbar" style="--v:35;--max:35"></div><div class="vval">¥35 亿+</div><div class="vlab">2024</div></div>
+    </div>
+    <p class="chart-note">柱长按数值比例示意 · 官方从未披露财务数据，以上均系媒体转述（部分文章自我标注「如有误欢迎品牌方联系修正」）· <span class="badge est">ESTIMATE</span> <a href="#SRC-033">SRC-033 ↗</a> <a href="#SRC-034">SRC-034 ↗</a> <a href="#SRC-014">SRC-014 ↗</a></p>
+
+    <p class="analysis"><b>Analysis</b> · 这家公司真正的异常点不是营收增速，而是<b>认知错位</b>：一个深圳团队做出的品牌，被大量海外消费者当作本土品牌，且在美国的零售、保险（FSA/HSA）、监管（ITC 337）三个体系里都已具备「本土玩家」级别的存在感。这意味着它的增长不再只依赖「性价比」叙事，而开始依赖<b>制度性位置</b>——同时也意味着它开始承受制度性风险。</p>
+  </section>
+
+  <!-- ===== 02 产品与价格 ===== -->
+  <section id="product">
+    <h2>02 · 产品与价格</h2>
+    <p class="muted" style="margin-top:-6px">产品逻辑从「一台泵」升级为「一个妈妈的两年」——以吸奶器为高频入口，横向铺开孕期、哺乳、喂养、睡眠、出行五条线。</p>
+
+    <article class="finding">
+      <div class="finding-head"><span class="fnum">02</span><h3>价格阶梯从 $29.99 拉到 $629.99，真正的战略动作在「底部持续下探」</h3></div>
+      <ul class="evidence">
+        <li><span class="badge fact">FACT</span> 产品差异化主张（官网原文级）：M5 Smart 主打「专利 DoubleFit™ 法兰（内部数据显示泵奶效率提升 28.2%）」「仅 8 oz」「只有 4 个部件需清洗」「30 分钟自动停止」，规格为 285 mmHg / 3 模式 9 档 / 160 ml / &lt;48 dB / 180 分钟续航。 <span class="src-chip"><a href="#SRC-004">SRC-004 ↗</a></span></li>
+        <li><span class="badge fact">FACT</span> <b>Offer 策略（可观察）</b>：Buy 3 Save 25% / Buy 4 Save 30% 阶梯组合优惠；大量场景 Bundle（M5 + 洗瓶机、M9 + 洗瓶机、孕妇枕 + 托腹带等）；FSA/HSA 可用并附保险合作页；$25 起免运费；2 年质保（推车 3 年）；随 M5 赠 30 分钟 IBCLC 一对一咨询；支持 Klarna / Afterpay 分期；CozyCoins 会员分级（年消费 $0 / $300 / $500 三档，积分倍率 1 / 1.2 / 1.5）。 <span class="src-chip"><a href="#SRC-001">SRC-001 ↗</a></span> <span class="src-chip"><a href="#SRC-004">SRC-004 ↗</a></span></li>
+        <li><span class="badge est">ESTIMATE</span> <b>亚马逊侧</b>：品牌披露截至 2026-07-23，M5 Smart、KleanPal Pro、U 型孕妇枕、便携暖奶器分别位居亚马逊美国站对应类目第一；第三方横评亦把 M5 列为「Amazon 电动吸奶器类目畅销第一」。 <span class="src-chip"><a href="#SRC-013">SRC-013 ↗</a></span> <span class="src-chip"><a href="#SRC-035">SRC-035 ↗</a></span></li>
+      </ul>
+    </article>
+
+    <h3 class="chart-title">价格阶梯（美国官网，As of 2026-09-16）</h3>
+    <div class="vcols">
+      <div class="vcol alt"><div class="vbar" style="--v:74.99;--max:629.99"></div><div class="vval">$74.99</div><div class="vlab">S12 Pro Quick</div></div>
+      <div class="vcol alt"><div class="vbar" style="--v:119.99;--max:629.99"></div><div class="vval">$119.99</div><div class="vlab">M5 Smart</div></div>
+      <div class="vcol alt"><div class="vbar" style="--v:159.99;--max:629.99"></div><div class="vval">$159.99</div><div class="vlab">M9 Mobile Flow</div></div>
+      <div class="vcol alt"><div class="vbar" style="--v:199.99;--max:629.99"></div><div class="vval">$199.99</div><div class="vlab">V1 Pro</div></div>
+      <div class="vcol"><div class="vbar" style="--v:299.99;--max:629.99"></div><div class="vval">$299.99</div><div class="vlab">KleanPal Pro</div></div>
+      <div class="vcol"><div class="vbar" style="--v:329.99;--max:629.99"></div><div class="vval">$329.99</div><div class="vlab">Wellness 1 / W1</div></div>
+      <div class="vcol"><div class="vbar" style="--v:369.99;--max:629.99"></div><div class="vval">$369.99</div><div class="vlab">Air 1</div></div>
+      <div class="vcol"><div class="vbar" style="--v:629.99;--max:629.99"></div><div class="vval">$629.99</div><div class="vlab">ChangeGo 推车</div></div>
+    </div>
+    <p class="chart-note">柱长按数值比例示意（非等轴展示，仅示意价格量级）· 蓝色为穿戴式吸奶器系列，品牌色为其余品类 · <span class="badge fact">FACT</span> <a href="#SRC-003">SRC-003 ↗</a> <a href="#SRC-004">SRC-004 ↗</a></p>
+
+    <div class="table-wrap" style="margin-top:22px">
+      <table>
+        <caption>美国官网完整价格表（As of 2026-09-16）</caption>
+        <thead><tr><th>品类</th><th>代表产品</th><th class="num">价格（USD）</th></tr></thead>
+        <tbody>
+          <tr><td>穿戴式吸奶器</td><td>S12 Pro Quick</td><td class="num">From $74.99</td></tr>
+          <tr><td>穿戴式吸奶器</td><td>M5 Smart（App 控制）</td><td class="num">From $119.99<span class="muted">（标准配置页显示 $199.99）</span></td></tr>
+          <tr><td>穿戴式吸奶器</td><td>M6 Mobile Style</td><td class="num">From $129.99</td></tr>
+          <tr><td>穿戴式吸奶器</td><td>M9 Mobile Flow</td><td class="num">From $159.99</td></tr>
+          <tr><td>穿戴式吸奶器</td><td>V1 Pro（300 mmHg）</td><td class="num">$199.99</td></tr>
+          <tr><td>穿戴式吸奶器</td><td>Wellness 1 / W1（加热+按摩）</td><td class="num">$329.99</td></tr>
+          <tr><td>穿戴式吸奶器</td><td>Air 1（2.4 英寸超薄）</td><td class="num">$369.99</td></tr>
+          <tr><td>奶瓶清洗</td><td>KleanPal Pro 洗消烘储一体</td><td class="num">$299.99</td></tr>
+          <tr><td>喂养</td><td>On-the-Go 暖奶+冷藏套装</td><td class="num">$159.99<span class="muted">（原 $169.99）</span></td></tr>
+          <tr><td>睡眠 / 孕期</td><td>U 型孕妇枕</td><td class="num">From $44.99</td></tr>
+          <tr><td>睡眠 / 孕期</td><td>孕妇托腹带 BumpEase</td><td class="num">$59.99</td></tr>
+          <tr><td>睡眠 / 孕期</td><td>内衣（YN21 / YN46）</td><td class="num">From $29.99 / From $39.99</td></tr>
+          <tr><td>出行</td><td>PureHug 婴儿背带</td><td class="num">From $53.99</td></tr>
+          <tr><td>出行</td><td>ChangeGo 婴儿推车</td><td class="num">From $629.99<span class="muted">（原 $699.99）</span></td></tr>
+          <tr><td>监护</td><td>BM04 双模监护器 / BM01</td><td class="num">$259.99 / From $139.99</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="chart-note">来源 <span class="badge fact">FACT</span> <a href="#SRC-003">SRC-003 ↗</a> <a href="#SRC-004">SRC-004 ↗</a></p>
+
+    <p class="analysis"><b>Analysis</b> · 价格表里最值得注意的不是高端（Air 1 $369.99 已接近 Elvie 区间），而是<b>底部的持续下探</b>。S12 Pro Quick 起价 $74.99、M5 起价 $119.99，已低于 2021 年「$150–200 中端空白带」的原始定位——这是一个清晰的战略选择：用入门款守住亚马逊类目第一的销量位置（防御同供应链对手），用 Air 1 / Wellness 1 这类「品类首创」产品向上试探毛利。<b>代价是型号过多</b>（M5 / M5 Lite / M5 Smart / M6 / M9 / S9 Pro / S12 Pro / S12 Pro Quick / V1 Pro / Air 1 / W1），社区已出现选型困惑与预期错配——例如有用户指出 S12 Pro 不支持 App 控制。 <span class="badge inf">INFERENCE</span> <a href="#SRC-003">SRC-003 ↗</a> <a href="#SRC-035">SRC-035 ↗</a></p>
+  </section>
+
+  <!-- ===== 03 客户与市场 ===== -->
+  <section id="customer">
+    <h2>03 · 客户与市场</h2>
+    <p class="muted" style="margin-top:-6px">目标人群锁定得非常窄——孕期与产后的新手妈妈，尤其是需要返岗、时间被切碎的职场妈妈；购买动机不是「吸力更强」，而是「不用被机器绑住」。</p>
+
+    <div class="grid3">
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">品牌自述用户结构</h3>
+        <div class="donut-wrap">
+          <div class="donut-item"><div class="donut" style="--p:87"><b>87%</b></div>初为人母</div>
+          <div class="donut-item"><div class="donut" style="--p:45;--col:var(--obs)"><b>45%</b></div>购买动机<br>来自「免手持吸奶」</div>
+        </div>
+        <p class="chart-note">品牌披露口径 · <span class="badge est">ESTIMATE</span> <a href="#SRC-014">SRC-014 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">Grand View Research 口径区域份额</h3>
+        <div class="bars">
+          <div class="bar-row"><span class="blabel">全球</span><div class="bar-track"><div class="bar-fill c1" style="width:87%"></div></div><span class="bar-val">19.32%</span></div>
+          <div class="bar-row"><span class="blabel">北美</span><div class="bar-track"><div class="bar-fill c1" style="width:100%"></div></div><span class="bar-val">22.21%</span></div>
+          <div class="bar-row"><span class="blabel">欧洲</span><div class="bar-track"><div class="bar-fill c1" style="width:91%"></div></div><span class="bar-val">20.20%</span></div>
+        </div>
+        <p class="chart-note">2024 年穿戴式吸奶器份额 · 柱长按比例示意 · <span class="badge est">ESTIMATE</span> <a href="#SRC-012">SRC-012 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">Frost &amp; Sullivan 口径全球销量份额</h3>
+        <div class="vcols" style="min-height:120px">
+          <div class="vcol"><div class="vbar" style="--v:8.5;--max:27.6"></div><div class="vval">8.5%</div><div class="vlab">2021</div></div>
+          <div class="vcol"><div class="vbar" style="--v:27.6;--max:27.6"></div><div class="vval">27.6%</div><div class="vlab">2025</div></div>
+        </div>
+        <p class="chart-note">连续五年全球销量第一（品牌引述该认证）· 两家机构方法论 / 年份 / 统计范围不同，<b>两组数字不可直接比较或相加</b> · <span class="badge est">ESTIMATE</span> <a href="#SRC-012">SRC-012 ↗</a></p>
+      </div>
+    </div>
+
+    <h3 class="chart-title">官网自营评价与第三方评价体量</h3>
+    <div class="bars">
+      <div class="bar-row"><span class="blabel">S12 Pro Quick<span class="s">官网自营 · 4.5★</span></span><div class="bar-track"><div class="bar-fill c2" style="width:61%"></div></div><span class="bar-val">1,960</span></div>
+      <div class="bar-row"><span class="blabel">M5 Smart<span class="s">官网自营 · 4.6★</span></span><div class="bar-track"><div class="bar-fill c2" style="width:57%"></div></div><span class="bar-val">1,817</span></div>
+      <div class="bar-row"><span class="blabel">KleanPal Pro<span class="s">官网自营 · 4.9★</span></span><div class="bar-track"><div class="bar-fill c2" style="width:36%"></div></div><span class="bar-val">1,151</span></div>
+      <div class="bar-row"><span class="blabel">Trustpilot 累计评价<span class="s">品牌引用评分 4.2 / Great</span></span><div class="bar-track"><div class="bar-fill c1" style="width:100%"></div></div><span class="bar-val">3,200<small>+</small></span></div>
+    </div>
+    <p class="chart-note">柱长按数量比例示意 · Trustpilot 页面本次未能直接读取，数字来自品牌引用与第三方汇总站（41 条来源）· <span class="badge est">ESTIMATE</span> <a href="#SRC-001">SRC-001 ↗</a> <a href="#SRC-030">SRC-030 ↗</a> <a href="#SRC-013">SRC-013 ↗</a></p>
+
+    <h3 class="chart-title">穿戴式吸奶器市场规模（Grand View Research 口径）</h3>
+    <div class="vcols" style="min-height:140px">
+      <div class="vcol"><div class="vbar" style="--v:6.46;--max:11.94"></div><div class="vval">$6.46 亿</div><div class="vlab">2025</div></div>
+      <div class="vcol alt"><div class="vbar" style="--v:11.94;--max:11.94"></div><div class="vval">$11.94 亿</div><div class="vlab">2033（预测）</div></div>
+    </div>
+    <p class="chart-note">全球市场规模 · 柱长按数值比例示意 · <span class="badge est">ESTIMATE</span> <a href="#SRC-014">SRC-014 ↗</a></p>
+
+    <h3 class="chart-title">用户声音：重复出现的高频主题</h3>
+    <div class="cols2">
+      <div class="card">
+        <h3 style="color:var(--ok);margin-bottom:8px">正向高频主题</h3>
+        <ul class="evidence" style="margin-top:0">
+          <li>免手持与省时间——「有时忘了它在身上，就泵得更久」「比我的墙泵用得多」</li>
+          <li>输出量超出预期——「很多人说穿戴泵出不来，但我用它比墙泵多」</li>
+          <li>安静、便携、清洗件少</li>
+          <li>客户服务响应与保修换新</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--inf);margin-bottom:8px">负向高频主题</h3>
+        <ul class="evidence" style="margin-top:0">
+          <li><b>耐久性</b>——喇叭罩 / 鸭嘴阀 2–3 个月开裂或变形导致吸力下降，电机重度使用后出现疲劳</li>
+          <li><b>泄漏</b>——装配稍有偏差即从底部漏奶（M6 / M9 类）</li>
+          <li><b>配件为持续成本</b>——替换件需另购，社区建议「提前备一套」</li>
+          <li><b>体积</b>——M6 / M9 在紧身衣物下可见</li>
+          <li><b>App</b>——有用户抱怨内含广告、连接不稳</li>
+          <li><b>售后时效</b>——个别案例反映换货耗时数周、退款争议</li>
+        </ul>
+      </div>
+    </div>
+    <p class="chart-note">基于重复出现的主题归纳，非单条评论 · 社区声音来自公开横评与第三方汇总页对用户讨论的转述 · <span class="badge obs">OBSERVATION</span> <a href="#SRC-029">SRC-029 ↗</a> <a href="#SRC-030">SRC-030 ↗</a> <a href="#SRC-035">SRC-035 ↗</a></p>
+
+    <div class="table-wrap" style="margin-top:22px">
+      <table>
+        <caption>竞品对照（同一目标市场：美国）</caption>
+        <thead><tr><th>竞品</th><th>定位</th><th class="num">价格（2026 参考）</th><th>与 Momcozy 的关键差异</th></tr></thead>
+        <tbody>
+          <tr><td>Elvie Pump（现属 Willow 体系）</td><td>静音 + App 高端穿戴泵</td><td class="num">约 $499+</td><td>价格高一档；品牌溢价与静音表现仍是标杆</td></tr>
+          <tr><td>Willow Go / Willow 3.0</td><td>医院级吸力 + 防漏</td><td class="num">约 $329–400 / 约 $500</td><td>吸力与密封更强；体积与价格更高</td></tr>
+          <tr><td>eufy S1 Pro（Anker）</td><td>大容量、强吸力、保险覆盖</td><td class="num">约 $299–329</td><td>同为「消费电子派」打法，同时被卷入同一 337 案</td></tr>
+          <tr><td>Spectra S1 Plus</td><td>传统电动泵效率标杆</td><td class="num">约 $226–280</td><td>非穿戴；被 IBCLC 作为「主力泵」推荐，Momcozy 更多作补充泵</td></tr>
+          <tr><td>Medela Freestyle / Pump In Style</td><td>医疗背景经典品牌</td><td class="num">约 $250–400</td><td>医学信任资产深厚，但价格与便携性弱于穿戴泵</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="chart-note">来源 <span class="badge est">ESTIMATE</span> <a href="#SRC-035">SRC-035 ↗</a></p>
+
+    <p class="analysis"><b>Analysis</b> · 这个品类的窗口期极短（孕期 + 哺乳约 1–2 年），所以「品牌记忆」几乎决定复购路径——而 Momcozy 的解法是<b>把窗口期从一个品类延展成一条时间线</b>：孕期买托腹带，产后买泵，返岗买免手持泵 + 背奶用品，之后买清洗机、睡袋、背带、推车。<b>风险同样明显</b>：一旦首台泵出问题（漏奶、吸力衰减、换件），用户对整条产品线的信任会一起受损——耐久性差评因此不是售后问题，而是增长问题。 <span class="badge inf">INFERENCE</span> <a href="#SRC-003">SRC-003 ↗</a> <a href="#SRC-030">SRC-030 ↗</a> <a href="#SRC-035">SRC-035 ↗</a></p>
+  </section>
+
+  <!-- ===== 04 获客与增长 ===== -->
+  <section id="acquisition">
+    <h2>04 · 获客与增长</h2>
+    <p class="muted" style="margin-top:-6px">获客由<b>自然搜索 + 直接访问</b>承担主力，<b>付费搜索体量小但在回升</b>，社媒与创作者矩阵负责「发现」；独立站的角色更接近<b>品牌需求承接</b>。分析以最新的一手平台口径（Semrush 2026-07）为准，较早的二手转述口径（Similarweb 2025-08~10）并列列出作参照、不作为分析依据。</p>
+
+    <h3 class="chart-title">独立站流量来源 · 以最新一手口径为准</h3>
+    <p class="chart-note"><b>口径说明</b>：两个平台的方法论、统计范围与统计月份均不同，<b>跨平台数字不可相加、不可互比</b>；平台未公开的维度一律标 UNKNOWN，<b>不做反推，也不为凑「Top 3」而排列</b>——能取到几个渠道就呈现几个。分析重心放在 ① 主口径上。</p>
+
+    <p class="kicker" style="margin:16px 0 6px">① 主口径 · Semrush 2026-07（一手平台数据）</p>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <p class="kpi-label">自然搜索 Organic Search</p>
+        <p class="kpi-value">1.06<small>M</small></p>
+        <p class="kpi-note">占全站 <b>≈45.1%</b>（派生值 = 1.06M ÷ 2.35M）<br>已知渠道中体量最大；头部位由品牌词承担<br><a href="#SRC-016">SRC-016 ↗</a></p>
+      </div>
+      <div class="kpi">
+        <p class="kpi-label">付费搜索 Paid Search</p>
+        <p class="kpi-value">80.77<small>K</small></p>
+        <p class="kpi-note">占全站 <b>≈3.4%</b>（派生值）· 环比 <b>+11.06%</b><br>规模远小于自然搜索，但在回升<br><a href="#SRC-016">SRC-016 ↗</a></p>
+      </div>
+      <div class="kpi">
+        <p class="kpi-label">站点总量 Monthly Visits</p>
+        <p class="kpi-value">2.35<small>M</small></p>
+        <p class="kpi-note">环比 +0.38% · 2026-05 3.06M → 06 2.34M → 07 2.35M<br><a href="#SRC-016">SRC-016 ↗</a></p>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:18px">
+      <table>
+        <caption>主口径（Semrush 2026-07）可得的全部渠道 — 该平台能取到几项就列几项</caption>
+        <thead><tr><th>渠道</th><th class="num">数值</th><th class="num">占全站比例（派生值）</th><th>环比</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>自然搜索 Organic Search</td><td class="num"><b>1.06M</b> 访问</td><td class="num"><b>≈45.1%</b></td><td>−59.49%（平台自报，见下）</td><td>已知渠道中体量最大；首位自然关键词即品牌词</td></tr>
+          <tr><td>付费搜索 Paid Search</td><td class="num"><b>80.77K</b> 访问</td><td class="num"><b>≈3.4%</b></td><td><b>+11.06%</b></td><td>规模远小于自然搜索，但在回升</td></tr>
+          <tr><td>AI 平台（ChatGPT / Gemini 等）</td><td class="num">≈2.2K 访问</td><td class="num">≈0.09%</td><td>—</td><td>新增观察项：ChatGPT 2K、Gemini 188</td></tr>
+          <tr><td>社交媒体 Social</td><td class="num">UNKNOWN</td><td class="num">—</td><td>—</td><td>该平台免费版未公开此维度，不反推</td></tr>
+          <tr><td><b>站点总量</b></td><td class="num"><b>2.35M</b> 访问</td><td class="num">100%</td><td><b>+0.38%</b></td><td>趋势以上表总量为准，见站点规模段</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="chart-note"><b>同一平台另给出「桌面流量旅程」</b>（分母为桌面端访问，<b>不是全站来源结构，不可与上表占比混比</b>）：Direct <b>40.97%</b> → google.com <b>24.59%</b>；用户离开本站后主要去向 thebump.com、shop.app。 <span class="badge est">ESTIMATE</span> <a href="#SRC-016">SRC-016 ↗</a></p>
+
+    <p class="kicker" style="margin:22px 0 6px">② 参照口径 · Similarweb 2025-08~10（二手转述，数据月较今早约 11 个月）</p>
+    <div class="table-wrap">
+      <table>
+        <caption>参照口径全部渠道 — 仅作参照，不作为分析依据</caption>
+        <thead><tr><th>渠道</th><th class="num">占比</th><th>渠道</th><th class="num">占比</th></tr></thead>
+        <tbody>
+          <tr><td>付费搜索 Paid Search</td><td class="num">45.04%</td><td>自然搜索 Organic Search</td><td class="num">5.80%</td></tr>
+          <tr><td>直接访问 Direct</td><td class="num">32.88%</td><td>引荐 Referrals</td><td class="num">2.80%</td></tr>
+          <tr><td>社交媒体 Social</td><td class="num">12.70%</td><td>展示 Display</td><td class="num">0.72%</td></tr>
+          <tr><td>邮件 Email</td><td class="num">0.05%</td><td>—</td><td class="num">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="chart-note"><b>两个口径的差异量级</b>：同一「付费搜索」概念，参照口径 45.04% vs 主口径折算 ≈3.4%，<b>差逾 40pp</b>；「自然搜索」从 5.80% 到 ≈45.1%（派生值）。差异可能同时来自方法论、统计范围（全球全流量 vs 平台自有样本）与统计月份——此处并列呈现、不做归因，<b>分析一律基于 ① 主口径</b>。 <span class="badge inf">INFERENCE</span> <a href="#SRC-015">SRC-015 ↗</a> <a href="#SRC-016">SRC-016 ↗</a></p>
+    <p class="chart-note"><b>口径提示（不作分析依据）</b>：主口径标注的自然搜索环比 <b>−59.49%</b> 与月度总量无法调和（按此推算 6 月自然搜索需约 2.62M，而当月站点总量仅 2.34M）。该数字仅作平台自报值记录，<b>不用于推断趋势</b>；趋势以月度总量为准。 <span class="badge obs">OBSERVATION</span> <a href="#SRC-016">SRC-016 ↗</a></p>
+
+    <h3 class="chart-title">站点规模与参与度（Semrush 口径，2026-07）</h3>
+    <div class="kpi-grid">
+      <div class="kpi"><p class="kpi-label">月总访问量</p><p class="kpi-value">2.35<small>M</small></p><p class="kpi-note">环比 +0.38% <a href="#SRC-016">SRC-016 ↗</a></p></div>
+      <div class="kpi"><p class="kpi-label">页面 / 访问</p><p class="kpi-value">2.39</p><p class="kpi-note">Semrush <a href="#SRC-016">SRC-016 ↗</a></p></div>
+      <div class="kpi"><p class="kpi-label">平均访问时长</p><p class="kpi-value">6:40</p><p class="kpi-note">Semrush <a href="#SRC-016">SRC-016 ↗</a></p></div>
+      <div class="kpi"><p class="kpi-label">跳出率</p><p class="kpi-value">67.42<small>%</small></p><p class="kpi-note">Semrush <a href="#SRC-016">SRC-016 ↗</a></p></div>
+      <div class="kpi"><p class="kpi-label">Authority Score</p><p class="kpi-value">61</p><p class="kpi-note">Semrush <a href="#SRC-016">SRC-016 ↗</a></p></div>
+    </div>
+    <p class="chart-note">以上均为第三方估算（Semrush 免费版口径）· <span class="badge est">ESTIMATE</span></p>
+
+    <div class="cols2">
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">月访问量三个月走势</h3>
+        <div class="vcols" style="min-height:130px">
+          <div class="vcol"><div class="vbar" style="--v:3.06;--max:3.06"></div><div class="vval">3.06M</div><div class="vlab">2026-05</div></div>
+          <div class="vcol"><div class="vbar" style="--v:2.34;--max:3.06"></div><div class="vval">2.34M</div><div class="vlab">2026-06</div></div>
+          <div class="vcol"><div class="vbar" style="--v:2.35;--max:3.06"></div><div class="vval">2.35M</div><div class="vlab">2026-07</div></div>
+        </div>
+        <p class="chart-note">柱长按数值比例示意 · <span class="badge est">ESTIMATE</span> <a href="#SRC-016">SRC-016 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">访问来源地域结构（2026-07）</h3>
+        <div class="bars">
+          <div class="bar-row"><span class="blabel">美国</span><div class="bar-track"><div class="bar-fill c1" style="width:100%"></div></div><span class="bar-val">49.61%</span></div>
+          <div class="bar-row"><span class="blabel">英国</span><div class="bar-track"><div class="bar-fill c1" style="width:24%"></div></div><span class="bar-val">11.79%</span></div>
+          <div class="bar-row"><span class="blabel">法国</span><div class="bar-track"><div class="bar-fill c1" style="width:18%"></div></div><span class="bar-val">8.76%</span></div>
+          <div class="bar-row"><span class="blabel">德国</span><div class="bar-track"><div class="bar-fill c1" style="width:13%"></div></div><span class="bar-val">6.41%</span></div>
+          <div class="bar-row"><span class="blabel">西班牙</span><div class="bar-track"><div class="bar-fill c1" style="width:7%"></div></div><span class="bar-val">3.27%</span></div>
+        </div>
+        <p class="chart-note">柱长按占比比例示意 · 2026-03 美国占比为 62.63%，美国占比在下降、欧洲占比上升 · <span class="badge est">ESTIMATE</span> <a href="#SRC-016">SRC-016 ↗</a></p>
+      </div>
+    </div>
+
+    <div class="cols2" style="margin-top:16px">
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">设备结构（2026-07）</h3>
+        <div class="bars">
+          <div class="bar-row"><span class="blabel">移动端</span><div class="bar-track"><div class="bar-fill c1" style="width:100%"></div></div><span class="bar-val">68.69%</span></div>
+          <div class="bar-row"><span class="blabel">桌面端</span><div class="bar-track"><div class="bar-fill c1" style="width:46%"></div></div><span class="bar-val">31.31%</span></div>
+        </div>
+        <p class="chart-note">柱长按占比比例示意（100% : 45.6%）· 移动优先是这一品类的基本盘，与「免手持 + 随时随地」的产品叙事一致 · <span class="badge est">ESTIMATE</span> <a href="#SRC-016">SRC-016 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">AI 平台流量（2026-07 · 新增观察项）</h3>
+        <div class="bars">
+          <div class="bar-row"><span class="blabel">ChatGPT</span><div class="bar-track"><div class="bar-fill c4" style="width:100%"></div></div><span class="bar-val">2K</span></div>
+          <div class="bar-row"><span class="blabel">Gemini</span><div class="bar-track"><div class="bar-fill c4" style="width:9%"></div></div><span class="bar-val">188</span></div>
+        </div>
+        <p class="chart-note">另有 gethookd.ai 2、adfox.ai 2；AI 渠道合计 ≈2.2K 访问、占全站 ≈0.09%（派生值）——已开始贡献访问，但占比仍极低 · <span class="badge est">ESTIMATE</span> <a href="#SRC-016">SRC-016 ↗</a></p>
+      </div>
+    </div>
+
+    <div class="grid3" style="margin-top:16px">
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">自然搜索关键词结构（品牌词 / 非品牌词）</h3>
+        <div class="donut-wrap">
+          <div class="donut-item"><div class="donut" style="--p:61"><b>61%</b></div>品牌词</div>
+          <div class="donut-item"><div class="donut" style="--p:39;--col:var(--obs)"><b>39%</b></div>非品牌词</div>
+        </div>
+        <p class="chart-note"><b>该拆分仅参照口径（Similarweb 2025-08~10，二手转述）可得</b>；主口径侧的一手证据是「站点首位自然关键词即品牌词 <code>momcozy pump</code>」。两者指向同一结论：自然流量以「品牌承接」为主，而非品牌入口仍是待补的增量空间 · <span class="badge est">ESTIMATE</span> <a href="#SRC-016">SRC-016 ↗</a> <a href="#SRC-015">SRC-015 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">非品牌词增速最快的两条（工具型内容）</h3>
+        <div class="bars">
+          <div class="bar-row"><span class="blabel">chinese gender calendar</span><div class="bar-track"><div class="bar-fill c3" style="width:100%"></div></div><span class="bar-val">+857.89%</span></div>
+          <div class="bar-row"><span class="blabel">baby name generator</span><div class="bar-track"><div class="bar-fill c3" style="width:27%"></div></div><span class="bar-val">+235.29%</span></div>
+        </div>
+        <p class="chart-note"><b>参照口径（二手转述，2025-08~10）</b>数据；一手侧可印证同一方向的是「受众重叠站点为 nameberry.com / babynames.com / thebump.com」——流量池已向备孕·孕期上游延伸 · <span class="badge est">ESTIMATE</span> <a href="#SRC-016">SRC-016 ↗</a> <a href="#SRC-015">SRC-015 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3 class="chart-title" style="margin-top:0">Meta 广告在投规模（第三方监测）</h3>
+        <div class="donut-wrap">
+          <div class="donut-item"><div class="donut" style="--p:100;--col:var(--obs)"><b>558</b></div>在投广告条数</div>
+        </div>
+        <p class="chart-note">另每周约 <b>123 条</b>新素材；素材构成以 Demo 28%、Offer-First Banner 12%、Testimonial 8% 为主 · 素材类型为场景化 UGC 视频 45%、痛点视频 25%、促销图文 18% · <b>广告存在 ≠ 知道预算 / ROAS</b>，此处不做此类推断 · <span class="badge est">ESTIMATE</span> <a href="#SRC-019">SRC-019 ↗</a> <a href="#SRC-021">SRC-021 ↗</a></p>
+      </div>
+    </div>
+
+    <h3 class="chart-title">创作者合作收录情况（近 12 个月）</h3>
+    <div class="cols2">
+      <div class="card">
+        <h3 style="margin-bottom:4px">赞助内容平台分布</h3>
+        <div class="bars">
+          <div class="bar-row"><span class="blabel">TikTok<span class="s">17.7k 条</span></span><div class="bar-track"><div class="bar-fill c1" style="width:100%"></div></div><span class="bar-val">73.2%</span></div>
+          <div class="bar-row"><span class="blabel">Instagram<span class="s">6.3k 条</span></span><div class="bar-track"><div class="bar-fill c2" style="width:35%"></div></div><span class="bar-val">25.8%</span></div>
+          <div class="bar-row"><span class="blabel">YouTube<span class="s">225 条（过短，按比例仅示意）</span></span><div class="bar-track"><div class="bar-fill c3" style="width:1%"></div></div><span class="bar-val">0.9%</span></div>
+        </div>
+        <p class="chart-note">合计 <b>24,227 条</b>赞助内容 · 柱长按占比比例示意 · <span class="badge est">ESTIMATE</span> <a href="#SRC-017">SRC-017 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:4px">TikTok 合作按平均播放量分层</h3>
+        <div class="bars">
+          <div class="bar-row"><span class="blabel">1K–5K</span><div class="bar-track"><div class="bar-fill c4" style="width:100%"></div></div><span class="bar-val">37.2%</span></div>
+          <div class="bar-row"><span class="blabel">&lt;1K</span><div class="bar-track"><div class="bar-fill c4" style="width:65%"></div></div><span class="bar-val">24.3%</span></div>
+          <div class="bar-row"><span class="blabel">10K–50K</span><div class="bar-track"><div class="bar-fill c4" style="width:45%"></div></div><span class="bar-val">16.9%</span></div>
+          <div class="bar-row"><span class="blabel">5K–10K</span><div class="bar-track"><div class="bar-fill c4" style="width:27%"></div></div><span class="bar-val">10.2%</span></div>
+          <div class="bar-row"><span class="blabel">100K–500K</span><div class="bar-track"><div class="bar-fill c4" style="width:14%"></div></div><span class="bar-val">5.3%</span></div>
+          <div class="bar-row"><span class="blabel">50K–100K</span><div class="bar-track"><div class="bar-fill c4" style="width:14%"></div></div><span class="bar-val">5.1%</span></div>
+          <div class="bar-row"><span class="blabel">500K+</span><div class="bar-track"><div class="bar-fill c4" style="width:3%"></div></div><span class="bar-val">1.0%</span></div>
+        </div>
+        <p class="chart-note">柱长按占比比例示意 · TikTok 内容 97.9% 为视频 · 主体是 1K–5K 播放量层级的铺量型合作，而非高价头部投放 · <span class="badge est">ESTIMATE</span> <a href="#SRC-017">SRC-017 ↗</a></p>
+      </div>
+    </div>
+    <p class="chart-note">月均约 2k 条，2025-11 峰值 3,435 条、2026-04 谷值 1,535 条。示例合作（含第三方估算 EMV）：@sergey.be.be（2,890 万播放 / EMV $909.0k）、@thaoem1709（1,100 万播放 / EMV $229.5k）、@gail.nextdoor（41.2 万播放 / EMV $12.4k）· <span class="badge est">ESTIMATE</span> <a href="#SRC-017">SRC-017 ↗</a> <a href="#SRC-018">SRC-018 ↗</a></p>
+
+    <div class="grid3" style="margin-top:16px">
+      <div class="card">
+        <h3>SEO / 内容底座</h3>
+        <p style="margin:8px 0 0;font-size:14.5px">官网设有育儿知识栏目、与 IBCLC / 妇产科 / 儿科专家合作的专业内容、Podcast、Breastfeeding Support Hub；Blog 覆盖哺乳技巧、吸奶器使用、产后恢复、婴儿睡眠等高频议题。</p>
+        <p class="chart-note"><span class="badge obs">OBSERVATION</span> <a href="#SRC-001">SRC-001 ↗</a> <a href="#SRC-025">SRC-025 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3>联盟计划（官方页）</h3>
+        <p style="margin:8px 0 0;font-size:14.5px">佣金 <b>7% 起、最高 15%</b>（高于行业水平）；30 天 cookie；覆盖 60+ 国家；运行于 <b>Awin / Impact / CJ</b> 三网；配专属 Affiliate Manager 与定制素材。另有 Influencer Rewards Program 招募长期品牌大使。</p>
+        <p class="chart-note"><span class="badge fact">FACT</span> <a href="#SRC-005">SRC-005 ↗</a> <a href="#SRC-006">SRC-006 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3>众筹</h3>
+        <p style="margin:8px 0 0;font-size:14.5px">未检索到 Momcozy 在 Kickstarter / Indiegogo 等平台的众筹记录。</p>
+        <p class="chart-note"><span class="badge unk">UNKNOWN</span> 无可靠公开数据（No reliable public data found.）</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 05 转化与留存 ===== -->
+  <section id="conversion">
+    <h2>05 · 转化与留存</h2>
+    <p class="muted" style="margin-top:-6px">独立站的转化设计高度依赖「信任前置」：把类目第一、质保、专业顾问、保险支付全部堆在决策路径上，而不是靠折扣催促。</p>
+
+    <div class="grid3">
+      <div class="card">
+        <h3>导航按「妈妈所处阶段」组织</h3>
+        <p style="margin:8px 0 6px;font-size:14px"><b>顶部</b>：Pregnancy｜Bras &amp; Postpartum｜Pumping｜Feeding｜On The Go｜Baby Care｜Bundle｜Sale</p>
+        <p style="margin:0;font-size:14px"><b>页脚</b>：Our Story｜Brand Events｜Momcozy Care Program｜Baby Registry｜Community｜Podcast｜Support Center｜IBCLC｜App｜Size Guide｜FAQ｜Shipping｜Return &amp; Exchange</p>
+        <p class="chart-note"><span class="badge obs">OBSERVATION</span> <a href="#SRC-001">SRC-001 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3>首页核心社会认同</h3>
+        <p style="margin:8px 0 0;font-size:15px">「Chosen by over <b>6 million</b> moms and families worldwide」</p>
+        <p class="chart-note">注释：全球销售数据截至 2026 年 6 月 · Hero 轮播 5 屏（One-Click Foldable Playard / D8 DeepClean Bottle Washer / Pregnancy Essentials / BirthEase Maternity Ball / No-WiFi Baby Monitor −20%）· <span class="badge obs">OBSERVATION</span> <a href="#SRC-001">SRC-001 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3>信任条（6 项并列）</h3>
+        <div class="meta-chips" style="margin-top:8px">
+          <span class="chip">FSA/HSA Accepted</span>
+          <span class="chip">IBCLC Certified Support</span>
+          <span class="chip">30-Day Risk-Free Return</span>
+          <span class="chip">2-Years Full Warranty</span>
+          <span class="chip">Free 1-on-1 Consult</span>
+          <span class="chip">Free Shipping over $25</span>
+        </div>
+        <p class="chart-note"><span class="badge obs">OBSERVATION</span> <a href="#SRC-001">SRC-001 ↗</a></p>
+      </div>
+    </div>
+
+    <article class="finding">
+      <div class="finding-head"><span class="fnum">05</span><h3>CRO 诊断：信任元素密度极高，但选型与耗材是两处结构性摩擦</h3></div>
+      <ul class="evidence">
+        <li><span class="badge obs">OBSERVATION</span> <b>产品页（M5 Smart）</b>：顶部奖项徽章墙（2023 Preferred Choice、2024 Mother&amp;Baby Awards 等 7 枚）；价格 $199.99；分期支付提示；<b>「Buy from Amazon」按钮与站内 Add to Cart 并列</b>（明确的跨渠道导流设计）；规格表（285 mmHg、160 ml、&lt;48 dB、180 min、230 g）；赠 30 分钟 IBCLC 一对一咨询（限美国订单）；2 年质保并按品类分档（推车 3 年）；支付图标含 Klarna、Afterpay、HSA/FSA 卡。 <span class="src-chip"><a href="#SRC-004">SRC-004 ↗</a></span></li>
+      </ul>
+      <div class="cols2">
+        <div>
+          <h3 style="color:var(--ok);font-size:14.5px;margin:12px 0 6px">做得好的</h3>
+          <ul class="evidence" style="margin-top:0">
+            <li>信任元素密度极高且分工明确（保障类 / 专业类 / 支付类 / 社会认同类）</li>
+            <li>按「妈妈所处阶段」而非「产品分类」组织导航，降低新手的选择成本</li>
+            <li>站内与 Amazon 双出口，不强行把用户锁在自营站，减少决策摩擦</li>
+            <li>评价量级（单品 1,000–2,000 条级）本身就是转化资产</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color:var(--inf);font-size:14.5px;margin:12px 0 6px">可能产生摩擦的</h3>
+          <ul class="evidence" style="margin-top:0">
+            <li><b>默认法兰尺码单一（24 mm）</b>，社区反馈需第三方配件才能适配小尺码——退货与差评的常见起点</li>
+            <li><b>型号过多且命名相似</b>（M5 / M5 Lite / M5 Smart / S12 Pro / S12 Pro Quick），需用户自行对比</li>
+            <li><b>配件为持续成本</b>，且未在购买页前置提示更换周期</li>
+            <li>各 variant 起价差异大（「From $119.99」与「$199.99」并存），首屏价格认知可能被误读</li>
+          </ul>
+        </div>
+      </div>
+      <p class="chart-note">无法观察真实转化率、A/B 测试、热力图与弃单数据，此处不做任何相关推测。 <span class="badge obs">OBSERVATION</span> <a href="#SRC-004">SRC-004 ↗</a></p>
+    </article>
+
+    <h3 class="chart-title">留存机制：把「专业支持」当作留存基础设施</h3>
+    <div class="grid3">
+      <div class="card">
+        <h3>CozyCoins 会员分级</h3>
+        <div class="bars">
+          <div class="bar-row"><span class="blabel">入门档<span class="s">年消费 $0 · 1× coins</span></span><div class="bar-track"><div class="bar-fill c1" style="width:67%"></div></div><span class="bar-val">1.0×</span></div>
+          <div class="bar-row"><span class="blabel">进阶档<span class="s">年消费 $300 · 1.2× coins</span></span><div class="bar-track"><div class="bar-fill c1" style="width:80%"></div></div><span class="bar-val">1.2×</span></div>
+          <div class="bar-row"><span class="blabel">高阶档<span class="s">年消费 $500 · 1.5× coins</span></span><div class="bar-track"><div class="bar-fill c1" style="width:100%"></div></div><span class="bar-val">1.5×</span></div>
+        </div>
+        <p class="chart-note">柱长按积分倍率比例示意 · 权益含延长保修、折扣券、满额免运、新品抢先、母乳指南电子刊、免费在线课程、妈妈 / 宝宝生日礼、社区支持（「Cozy Village」）· <span class="badge obs">OBSERVATION</span> <a href="#SRC-001">SRC-001 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3>内容与社群留存</h3>
+        <ul class="evidence" style="margin-top:8px">
+          <li>Baby Registry（母婴清单）</li>
+          <li>Community 社群 · Podcast</li>
+          <li>App（设备控制 + 奶量记录 + 个性化洞察）</li>
+          <li>Momcozy Care Program（专业支持计划）</li>
+          <li>站内推荐返利 / 幸运大转盘类互动</li>
+        </ul>
+        <p class="chart-note"><span class="badge obs">OBSERVATION</span> <span class="badge est">ESTIMATE</span> <a href="#SRC-001">SRC-001 ↗</a> <a href="#SRC-014">SRC-014 ↗</a></p>
+      </div>
+      <div class="card">
+        <h3>专业服务（非卖货资产）</h3>
+        <ul class="evidence" style="margin-top:8px">
+          <li>与 PSI 连续三年合作（2024 报告 / 2025 母亲节公益 / 2026《Truths of Motherhood Report》）</li>
+          <li>世界母乳喂养周免费 24/7 IBCLC 热线（8/1–8/14，300+ 小时）</li>
+          <li>儿科 / 妇科专家内容合作</li>
+        </ul>
+        <p class="chart-note"><span class="badge fact">FACT</span> <a href="#SRC-013">SRC-013 ↗</a> <a href="#SRC-025">SRC-025 ↗</a></p>
+      </div>
+    </div>
+
+    <p class="chart-note">无后台数据，不推断其真实留存率、复购率、LTV 或邮件 / SMS 效果。 <span class="badge unk">UNKNOWN</span></p>
+
+    <p class="analysis"><b>Analysis</b> · 留存设计上，Momcozy 的独特之处是把「专业支持」当成留存手段而不是成本中心——IBCLC 咨询、PSI 合作、社群、课程都不直接卖货，但恰好卡在用户最焦虑的几个节点（下奶、通乳、返岗、产后情绪）。结合品类窗口期短的现实，这几乎是把「品牌记忆」当作复购基础设施在做。<b>真正的缺口在于：服务承诺（2 年质保 + 以换代修）与用户实际体验的耐久性投诉之间存在落差</b>——这是留存最容易被击穿的地方。 <span class="badge inf">INFERENCE</span> <a href="#SRC-013">SRC-013 ↗</a> <a href="#SRC-029">SRC-029 ↗</a> <a href="#SRC-030">SRC-030 ↗</a></p>
+  </section>
+
+  <!-- ===== 06 Campaign ===== -->
+  <section id="campaign">
+    <h2>06 · Campaign</h2>
+
+    <div class="grid3">
+      <div class="card">
+        <p class="kicker" style="margin:0 0 6px">Campaign 1 · SIGNATURE</p>
+        <h3>#StandUpForMums</h3>
+        <p class="muted" style="margin:2px 0 10px;font-size:13px">英国 · 2023-11</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Objective</b>：以「妈妈真实故事」建立品牌情感资产与本地认知。</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Core message / Channels</b>：社媒话题征集；发起一周内吸引英国约 <b>8,000 名</b>母亲在线分享故事。</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Results</b>：参与人数有公开数字；转化类结果 Not publicly disclosed。</p>
+        <p style="font-size:14.5px;margin:0"><b>Why it matters</b>：这是「不找明星、把麦克风交回真实妈妈」这一内容路线的早期样板。</p>
+        <p class="chart-note"><span class="badge est">ESTIMATE</span> <a href="#SRC-033">SRC-033 ↗</a></p>
+      </div>
+      <div class="card">
+        <p class="kicker" style="margin:0 0 6px">Campaign 2 · RECENT</p>
+        <h3>Choose You, Too 母亲节 +《Truths of Motherhood Report》</h3>
+        <p class="muted" style="margin:2px 0 10px;font-size:13px">美国 · 2026-04-22 发布，4/26–5/10 促销</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Partner</b>：Postpartum Support International（PSI）。</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Core message</b>：以调研 + 临床洞察呈现「母亲身份是多维的」——三条公开「真相」：每个选择都是取舍 / 支持不等于被支持 / 母职是多维的。</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Offer / Channels</b>：4/26–5/10 指定睡眠类产品（睡袋、襁褓、孕妇枕）销售额的 <b>15%</b> 捐赠给 PSI 心理热线；购买附赠母亲节卡片 + 心理健康 NFC 冰箱贴 + 手机支架；话题 #ThingsLeftUnsaid（4/20–5/3）。</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Results</b>：Not publicly disclosed（官网设有实时捐赠计数器，但未公布最终总额）；品牌侧称同期 #chooseyoutoo 话题一周内获 <b>80 万+ 播放</b>。</p>
+        <p style="font-size:14.5px;margin:0"><b>Why it matters</b>：把「情感营销」升级为「议题营销 + 公益结构」，同时给独立站提供高转化的节日流量入口。</p>
+        <p class="chart-note"><span class="badge est">ESTIMATE</span> <a href="#SRC-024">SRC-024 ↗</a> <a href="#SRC-027">SRC-027 ↗</a></p>
+      </div>
+      <div class="card">
+        <p class="kicker" style="margin:0 0 6px">Campaign 3 · LATEST</p>
+        <h3>Breathe &amp; Breastfeed / 600 Hours of Support</h3>
+        <p class="muted" style="margin:2px 0 10px;font-size:13px">美国 + 中东 · 2026-07-27 起，跨年度</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Research hook</b>：委托调研 <b>2,000 名</b>美国哺乳妈妈——每周哺乳 <b>23 小时以上</b>、每月近 100 小时；40% 认为哺乳是初为人母最难的环节之一；51% 提到奶量不足、35% 提到心理情绪、33% 提到疲惫。</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Offer / Channels</b>：<b>The Lactation Line</b>——8/1–8/14 免费 24 小时 IBCLC 支持（电话 / 在线客服 / 邮件，合计 300+ 小时）；后续延展为专家网络研讨会、教育内容、战略合作，以及 Babylist Registry Weekend 的一对一咨询。</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Influencer / Regional</b>：与 IBCLC（Melissa Kotlen，RN，品牌 Clinical Manager）共同背书；中东同步启动，并与利雅得医院合作。</p>
+        <p style="font-size:14.5px;margin:0 0 8px"><b>Results</b>：Not publicly disclosed。</p>
+        <p style="font-size:14.5px;margin:0"><b>Why it matters</b>：把一次性节点 campaign 做成<b>跨年的支持承诺</b>，把「专业服务」沉淀为品牌资产，并同时撬动中东新市场。</p>
+        <p class="chart-note"><span class="badge fact">FACT</span> <a href="#SRC-025">SRC-025 ↗</a> <a href="#SRC-026">SRC-026 ↗</a> <a href="#SRC-038">SRC-038 ↗</a></p>
+      </div>
+    </div>
+
+    <h3 class="chart-title">其他代表性节点（不在三主案例之列，但同样构成增长节奏）</h3>
+    <ol class="timeline-h">
+      <li><time>2024-09</time><p><b>NYFW「Cozy Evolution: Together We Grow」快闪</b>（纽约 SoHo，09-06~11）：Momcozy Lounge 快闪空间，首发 Maternity Wear 系列与 M9 Mobile Flow；演员 Danielle Panabaker、Caity Lotz 与设计师 Rebecca Minkoff 参与对谈。Results：Not publicly disclosed。<span class="badge fact">FACT</span></p></li>
+      <li><time>2026-02</time><p><b>Babylist Beverly Hills 快闪店</b>（注册表周末）：线下信任触点与渠道互导。 <span class="badge fact">FACT</span></p></li>
+      <li><time>2026-07</time><p><b>Prime Day 2026</b>：美 / 加 / 德 / 法 / 西 / 意 / 英 / 墨多站点多个细分榜 TOP1。 <span class="badge est">ESTIMATE</span></p></li>
+      <li><time>节奏性促销</time><p><b>Black Friday</b> 全站 <span class="mono">BDBFFS20</span>（20% OFF）；<b>世界母乳喂养周</b> <span class="mono">BDBW20</span>（20% OFF，覆盖暖奶套装 / KleanPal Pro / 鼻腔吸引器）；<b>2026 夏季</b> Big Summer Deals。 <span class="badge obs">OBSERVATION</span></p></li>
+    </ol>
+    <p class="chart-note">来源 <a href="#SRC-022">SRC-022 ↗</a> <a href="#SRC-023">SRC-023 ↗</a> <a href="#SRC-028">SRC-028 ↗</a> <a href="#SRC-013">SRC-013 ↗</a> <a href="#SRC-020">SRC-020 ↗</a> <a href="#SRC-039">SRC-039 ↗</a></p>
+  </section>
+
+  <!-- ===== 07 增长诊断 ===== -->
+  <section id="diagnosis">
+    <h2>07 · 增长诊断</h2>
+
+    <h3 class="chart-title" style="margin-top:0">增长引擎</h3>
+    <div class="engine">
+      <div class="elayer"><div class="enode"><b>起点</b>品类重定义：吸奶器 → 可穿戴生活科技</div></div>
+      <div class="econn">drives →</div>
+      <div class="elayer">
+        <div class="enode"><b>轨道 A</b>Amazon 类目第一 → 销量 + 评论 + 榜单资产</div>
+        <div class="enode"><b>轨道 B</b>中小 KOC 高密度铺量（TikTok 73.2%）→ 社媒发现</div>
+      </div>
+      <div class="econn">两者汇入双入口承接（官网 + Amazon）</div>
+      <div class="elayer"><div class="enode"><b>转化</b>独立站信任栈完成转化（质保 / IBCLC / FSA-HSA / 会员 / 真实评价）</div></div>
+      <div class="econn">enables →</div>
+      <div class="elayer"><div class="enode"><b>扩张</b>品类横向扩张（哺乳 → 喂养 → 睡眠 → 出行 → 孕期）</div></div>
+      <div class="econn">compounds →</div>
+      <div class="elayer"><div class="enode"><b>复利</b>单用户 2–3 年生命周期占位 → 复购 / 交叉销售 / 配件耗材</div></div>
+    </div>
+    <p class="chart-note">每条箭头的依据：品类重定义与份额 <a href="#SRC-012">SRC-012 ↗</a> <a href="#SRC-014">SRC-014 ↗</a>；类目第一与评论资产 <a href="#SRC-013">SRC-013 ↗</a> <a href="#SRC-003">SRC-003 ↗</a>；KOC 密度 <a href="#SRC-017">SRC-017 ↗</a>；双入口 <a href="#SRC-004">SRC-004 ↗</a>；信任栈 <a href="#SRC-001">SRC-001 ↗</a>；品类扩张 <a href="#SRC-003">SRC-003 ↗</a> · <span class="badge inf">INFERENCE</span></p>
+
+    <div class="cols2">
+      <div class="card">
+        <h3 style="color:var(--ok);margin-bottom:10px">增长优势</h3>
+        <ol style="margin:0;padding-left:20px;font-size:14.5px;line-height:1.6">
+          <li style="margin-bottom:10px"><b>权威认证可持续转化为广告与谈判筹码</b>——连续五年全球销量第一 + GVR 2024 全球 / 北美第一，使「No.1」成为可反复使用的素材主题，直接降低高信任成本品类的决策门槛。 <span class="badge est">ESTIMATE</span></li>
+          <li style="margin-bottom:10px"><b>创作者结构反常识且成本效率高</b>——37.2% 合作创作者平均播放量仅 1K–5K，24.3% 甚至 &lt;1K，主体是 gifting / affiliate 型铺量而非高价头部投放；并用专属折扣码把每个 KOC 变成可追踪渠道。 <span class="badge est">ESTIMATE</span></li>
+          <li style="margin-bottom:10px"><b>信任栈完整度足以对冲「中国品牌」的初始折扣</b>——2 年质保（推车 3 年）、以换代修、30 天无理由、FSA/HSA 与保险通道、随机器赠 IBCLC 咨询。 <span class="badge fact">FACT</span></li>
+          <li style="margin-bottom:10px"><b>专业支持体系难以被短期复制</b>——PSI 三年合作、IBCLC 热线、Momcozy Care Program、1 万+ 人用户社群、近 600 项用户研究（品牌披露）。 <span class="badge fact">FACT</span></li>
+          <li><b>价格阶梯完整，单用户可被多次服务</b>——$6.99 配件到 $629.99 推车，横跨孕期到出行，把 1–2 年的品类窗口拉长成 2–3 年的用户关系。 <span class="badge fact">FACT</span></li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--inf);margin-bottom:10px">痛点与风险</h3>
+        <ol style="margin:0;padding-left:20px;font-size:14.5px;line-height:1.6">
+          <li style="margin-bottom:10px"><b>【Observed】核心配件与电机耐久性是反复出现的负面主题</b>——喇叭罩 / 鸭嘴阀 2–3 个月开裂、吸力衰减、电机故障，更换需自费；品牌承诺 2 年质保与以换代修，形成「承诺强 / 体验弱」的落差。→ 直接冲击复购与整条产品线的信任迁移。 <span class="badge obs">OBSERVATION</span></li>
+          <li style="margin-bottom:10px"><b>【Observed】独立站规模与品牌地位不匹配，自然搜索体量在回落</b>——以「连续五年全球销量第一 + 600 万用户」的体量衡量，月度访问仅 2.35M（2026-07），2026-05 的 3.06M 高峰未延续；首位自然关键词即品牌词 <code>momcozy pump</code>。→ 独立站目前主要承担「品牌需求承接」，尚未成为增量获客引擎。 <span class="badge obs">OBSERVATION</span> <a href="#SRC-016">SRC-016 ↗</a></li>
+          <li style="margin-bottom:10px"><b>【Observed】337 调查覆盖几乎全线穿戴泵型号且包含配件</b>——2026-08-19/20 Willow Innovations 及其子公司向 USITC 提交申请（DN 3932，2026-08-25 公示），列名 12 家被告含路特创新等 Momcozy 体系主体；指控 5 项美国专利；被诉产品含 M5 / M5 Lite / M5 Smart / M6 / M9 / Wellness 1 / Air 1 / S12 / S12 Pro / S12 Pro Quick / S9 / S9 Pro 及 Air 1、Wellness 1、M9 的储奶杯等替换件。ITC 救济为排除令与停止令（非金钱赔偿）。<b>反方信息</b>：2026-02 PTAB 在 Shenzhen Root Technology v. Willow Blossom HoldCo（IPR2024-01296）中就 US 11,413,380 B2 作出终裁，认定被挑战权利要求不可专利。→ 这是本案中影响最大、时间跨度最长的变量。 <span class="badge fact">FACT</span></li>
+          <li style="margin-bottom:10px"><b>【Observed】型号过多带来的选型摩擦</b>——在售泵型至少 11 款，命名高度相似，社区出现「S12 Pro 不支持 App」类预期落差与选择困难。→ 抬高转化摩擦与退货率。 <span class="badge obs">OBSERVATION</span></li>
+          <li><b>【Potential】品类窗口期短，且站点流量偏品牌承接</b>——首位自然关键词即品牌词 <code>momcozy pump</code>（Semrush 2026-07 一手数据），参照口径亦显示品牌词占自然搜索 61%，说明站点目前更多在「接住已有的品牌需求」，而非持续制造新的非品牌入口；而孕期 + 哺乳窗口仅 1–2 年，用户天然流失。→ 一旦品牌需求的自然增长见顶，缺少非品牌入口会限制增量。<b>（推断，非事实）</b> <span class="badge inf">INFERENCE</span> <a href="#SRC-016">SRC-016 ↗</a> <a href="#SRC-015">SRC-015 ↗</a></li>
+        </ol>
+      </div>
+    </div>
+
+    <h3 class="chart-title">增长机会</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:34px">#</th><th>Opportunity</th><th>支撑证据</th><th>潜在影响</th><th>难度</th><th>优先级</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>把易损配件做成订阅制</b>（鸭嘴阀 / 喇叭罩 / 整套密封件按期配送，含更换提醒）</td><td>社区反复出现「2–3 个月开裂」「建议提前备一套」「换件是持续成本」 <a href="#SRC-035">SRC-035 ↗</a> <a href="#SRC-030">SRC-030 ↗</a></td><td>高：一次性消化最大差评来源，同时把一次性交易变成可预测复购</td><td>低（配件 SKU 与仓配已具备）</td><td><b>高</b></td></tr>
+          <tr><td>2</td><td><b>把工具型 SEO 扩展为完整内容矩阵</b>（备孕 → 孕期 → 产后 → 返岗）</td><td><b>一手依据</b>：受众重叠站点为 <span class="mono">nameberry.com</span> / <span class="mono">babynames.com</span> / <span class="mono">thebump.com</span>（取名·备孕·孕期信息站）<a href="#SRC-016">SRC-016 ↗</a>；<b>参照口径</b>：非品牌词 <span class="mono">chinese gender calendar</span> +857.89%、<span class="mono">baby name generator</span> +235.29% <a href="#SRC-015">SRC-015 ↗</a>；站内已有 Podcast / Care Program / Support Hub 内容底座 <a href="#SRC-001">SRC-001 ↗</a></td><td>高：在备孕期就以极低成本建立品牌首触，绕开日后昂贵的品类词竞价</td><td>中（需要内容产能与本地化）</td><td><b>高</b></td></tr>
+          <tr><td>3</td><td><b>把专业服务产品化</b>（IBCLC 咨询、课程、Care Program 会员付费层）</td><td>母乳喂养周免费热线与 Babylist 一对一咨询已跑通 <a href="#SRC-025">SRC-025 ↗</a>；NIQ 2026 美国母婴白皮书指出客服与情感支持是品牌信任首要来源（品牌引用） <a href="#SRC-012">SRC-012 ↗</a></td><td>中：提升 LTV 与留存，并把服务从成本中心转为收入项</td><td>中</td><td>中</td></tr>
+          <tr><td>4</td><td><b>区域纵深降低单一市场依赖</b></td><td>已有 UK / DE / ES / PL / MENA 本地子站与本地化广告 <a href="#SRC-016">SRC-016 ↗</a> <a href="#SRC-021">SRC-021 ↗</a>；中东已启动 600 Hours 计划并与利雅得医院合作 <a href="#SRC-026">SRC-026 ↗</a></td><td>中高：美国访问占比已从 62.63%（2026-03）降至 49.61%（2026-07），欧洲占比上升，趋势已被数据支持</td><td>中高（合规、本地服务、供应链）</td><td>中</td></tr>
+          <tr><td>5</td><td><b>在独立站前置耗材与配件信息</b>（购买页明示更换周期与订阅入口）</td><td>配件成本与更换周期目前未在购买页前置呈现，属可观察的转化缺口 <a href="#SRC-004">SRC-004 ↗</a></td><td>中：降低退货与差评率，同时为机会 1 引流</td><td>低</td><td>中</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="chart-note">以上每条均绑定本研究已采集到的证据；未提出与证据无关的泛化建议。</p>
+  </section>
+
+  <!-- ===== 研究口径与局限 ===== -->
+  <section id="caveats">
+    <h2>研究口径与局限</h2>
+    <div class="cols2">
+      <div class="card">
+        <h3>研究市场</h3>
+        <p style="font-size:14.5px;margin:8px 0 0"><b>主要市场：美国（United States）· 状态已验证。</b>依据：① momcozy.com 访问来源中美国占比最高（2026-07 为 49.61%，2026-03 为 62.63%）；② 品牌的零售、保险（FSA/HSA）、监管（美国 ITC 337 案件）、促销节点与新闻稿发布地均以美国为核心；③ 品牌自述的类目第一认证以「美国亚马逊」「美国线上出货量」为口径。</p>
+        <p class="chart-note">品牌从未披露区域营收或销售占比，因此「美国为主要市场」的判定基于站点地理数据与业务足迹，<b>不等同于营收份额</b>。</p>
+      </div>
+      <div class="card">
+        <h3>研究局限（诚实披露）</h3>
+        <ol style="margin:8px 0 0;padding-left:20px;font-size:14px;line-height:1.6">
+          <li>用户社区一手内容未能取得（目标页面被平台网络安全机制拦截），社区声音来自公开横评与第三方汇总页的转述，仅作「重复主题」参考。</li>
+          <li>Trustpilot 详情页未能直接读取（跳转人机验证）；4.2 分 / 3,200+ 条评价来自品牌引用与第三方汇总站，<b>未独立核实</b>。</li>
+          <li>Similarweb 官方页面访问被拒（403）；所用 Similarweb 数据来自第三方案例拆解文章中对平台截图的引用（2025 年 8–10 月区间），<b>属二次转述且数据月早于主口径约 11 个月</b>——该组数据仅作参照口径并列列出，<b>不用于分析判断</b>；流量结论一律基于最新的一手平台数据（Semrush 2026-07）。</li>
+          <li>主口径中「自然搜索环比 −59.49%」与月度总量<b>无法调和</b>（按此推算 6 月自然搜索需约 2.62M，而当月站点总量仅 2.34M）——该数字仅作平台自报值记录，不用于推断趋势；趋势以月度总量为准。</li>
+          <li>Meta 广告库未直接访问，广告数量与素材结构来自第三方广告库与投放从业者的拆解。</li>
+          <li>亚马逊评论数与 BSR 排名未直接读取，来自第三方横评站点与品牌披露口径。</li>
+          <li>营收无官方来源——2022/2023/2024 年的 10 亿 / 20 亿 / 35 亿元人民币均为中国行业媒体转述，标 ESTIMATE，不作为事实引用。</li>
+          <li>社交粉丝数存在互相冲突的公开数字（全平台 90 万+ / TikTok 39.6 万 vs 44.2 万），此处并列呈现，<b>未取其一为准</b>。</li>
+          <li>产品线、价格与评论数为动态数据，均以 2026-09-16 为准，后续可能变动。</li>
+          <li>337 案件处于早期阶段——截至数据截止日仅为「ITC 收到申请并征求公共利益意见」（2026-08-25 公示），<b>尚未正式立案</b>；涉诉专利与被诉产品的对照来自第三方实务分析，最终范围以 ITC 公告与后续程序为准，不就案件结果作任何判断。</li>
+          <li>未见到的数据：独立站收入占比、付费投放预算与 ROAS、真实转化率、复购率、留存率、LTV、邮件 / SMS 打开率、区域营收拆分——一律未推断。</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Sources ===== -->
+  <details class="sources">
+    <summary>Sources（39 条）· 完整来源登记</summary>
+    <ol>
+      <li id="SRC-001"><b>SRC-001</b> Momcozy 官网首页（含信任条、社会认同、会员与导航结构）— First-party — <a href="https://momcozy.com/" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-002"><b>SRC-002</b> Momcozy Our Story 页 — First-party — <a href="https://momcozy.com/pages/our-story" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-003"><b>SRC-003</b> Momcozy Best Sellers 集合页（美国站价格与评论数）— First-party — <a href="https://momcozy.com/collections/top-20-products" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-004"><b>SRC-004</b> Momcozy M5 Smart 产品页（规格、质保、双渠道 CTA、赠 IBCLC 咨询）— First-party — <a href="https://momcozy.com/products/m5-smart-wearable-breast-pump-upgraded-with-app-control" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-005"><b>SRC-005</b> Momcozy Affiliate Program 官方页（佣金、网络、cookie）— First-party — <a href="https://momcozy.com/pages/momcozy-affiliate-program/" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-006"><b>SRC-006</b> Momcozy Influencer Rewards Program 页（欧洲站）— First-party — <a href="https://de.momcozy.com/en/pages/influencer-rewards-program" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-007"><b>SRC-007</b> 路特创新 2027 届校园招聘简章（公司规模、专利、发展历程）— First-party — <a href="https://51uns.bysjy.com.cn/Announce/Details?id=3599788&amp;schoolCode=10710" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-008"><b>SRC-008</b> 万得征信 深圳市路特创新科技有限公司 工商信息页 — Platform — <a href="https://www.windzx.com/1256193670.html" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-009"><b>SRC-009</b> USITC / Federal Register 公告：Certain Wearable Breast Pumps（DN 3932，2026-08-25）— Media — <a href="https://www.gpo.gov/fdsys/pkg/FR-2026-08-25/html/2026-17272.htm" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-010"><b>SRC-010</b> 山东省商务厅 贸易摩擦动态：可穿戴吸奶器 337 调查申请（中文编译）— Media — <a href="http://commerce.shandong.gov.cn/art/2026/9/11/art_21445_10380994.html" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-011"><b>SRC-011</b> 337 案情实务梳理（涉诉专利与被诉产品对照表）— Media — <a href="https://www.heycross.com/article/QQ51kdXPk0rKW" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-012"><b>SRC-012</b> 品牌星球：从妈妈出发，重新设计母婴科技（份额认证、用户研究、服务机制）— Media — <a href="https://www.xfrb.com.cn/content/202609/14/c1633606.html" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-013"><b>SRC-013</b> 消费日报网：Momcozy 改写母婴产业竞争逻辑（多类目亚马逊第一、Trustpilot 4.2）— Media — <a href="https://www.xfrb.com.cn/content/202609/14/c1633606.html" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-014"><b>SRC-014</b> 潮汐商业评论 / 汽车之家转载：全球市场份额第一，Momcozy 如何重新定义妈妈的时间（用户结构、社媒粉丝、粉丝量冲突、独立站玩法）— Media — <a href="https://club.m.autohome.com.cn/bbs/thread-a-100304-115746001-1.html" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-015"><b>SRC-015</b> Beecommercer 案例拆解（引用 Similarweb 截图：2025-08~10 流量渠道结构、品牌词拆分、非品牌词工具流量）— Platform — <a href="https://m.chwang.com/article/196312621920" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16 · <b>二手转述且数据月较早，仅作参照口径，不作分析依据</b>（Similarweb 官方页访问返回 403，无法取得一手数据）</li>
+      <li id="SRC-016"><b>SRC-016</b> Semrush momcozy.com overview（2026-07 一手数据：访问量、月度趋势、自然/付费搜索、桌面流量旅程、设备结构、AI 平台流量、地域、参与度、外链）— Platform — <a href="https://www.semrush.com/website/momcozy.com/overview" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16 · <b>流量分析的主口径</b></li>
+      <li id="SRC-017"><b>SRC-017</b> Modash：Momcozy Influencer Marketing Strategy 拆解页 — Platform — <a href="https://www.modash.io/breakdowns/momcozy-influencer-marketing-strategy" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-018"><b>SRC-018</b> Modash：与 Momcozy 合作过的达人列表页 — Platform — <a href="https://www.modash.io/content-library/brands/momcozy-examples/influencers" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-019"><b>SRC-019</b> Motion 广告库：Momcozy Meta 在投广告与素材结构 — Platform — <a href="https://motionapp.com/library/momcozy" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-020"><b>SRC-020</b> Atria 广告库：Momcozy Meta 广告与促销码实例 — Platform — <a href="https://www.tryatria.com/ads/meta/momcozy-ads" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-021"><b>SRC-021</b> 大数跨境 Facebook 广告结构拆解（约 550 条在投、平台与素材结构、KOL 折扣码闭环）— Media — <a href="https://www.10100.com/article/127346985" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-022"><b>SRC-022</b> GlobeNewswire：Momcozy NYFW Pop-Up Event Revealed（2024-09-11）— Media — <a href="https://www.globenewswire.com/news-release/2024/09/11/2944807/0/en/Momcozy-NYFW-Pop-Up-Event-Revealed-Showcasing-the-Cozy-Evolution-of-Motherhood.html" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-023"><b>SRC-023</b> GlobeNewswire：Momcozy Reveals Latest Innovations at NYFW（Maternity Wear + M9，2024-09-27）— Media — <a href="https://www.globenewswire.com/news-release/2024/09/27/2954732/0/en/A-New-Chapter-for-Fashionable-Modern-Moms-Momcozy-Reveals-Latest-Innovations-at-NYFW.html" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-024"><b>SRC-024</b> PR Newswire：Momcozy Partners with PSI for Mother's Day Campaign（Truths of Motherhood，2026-04-22）— Media — <a href="https://www.prnewswire.com/news-releases/momcozy-partners-with-postpartum-support-international-for-mothers-day-campaign-302749883.html" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-025"><b>SRC-025</b> PR Newswire：Momcozy Launches Year-Long 600 Hours of Support Initiative（2026-07-27）— Media — <a href="https://prnewswire.com/news-releases/momcozy-launches-year-long-600-hours-of-support-initiative-as-new-survey-reveals-the-extraordinary-time-mothers-spend-breastfeeding-302835030.html" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-026"><b>SRC-026</b> US Weekly：Momcozy Builds a Year of Support Around Breastfeeding（Breathe &amp; Breastfeed）— Media — <a href="https://www.usmagazine.com/contributor-content/news/momcozy-breathe-and-breastfeed/" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-027"><b>SRC-027</b> Momcozy 2026 母亲节活动页（Truths of Motherhood、Gifts That Give Back、#ThingsLeftUnsaid）— First-party — <a href="https://momcozy.com/es-ca/pages/2026-mothers-day" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-028"><b>SRC-028</b> Momcozy 官博：Babylist Beverly Hills 首家快闪店开业公告 — First-party — <a href="https://momcozy.com/blogs/news/momcozy-announces-opening-of-first-ever-pop-up-shop-inside-babylist-beverly-hills" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-029"><b>SRC-029</b> Trustpilot 用户评价与 Momcozy 官方回复实例 — Platform — <a href="https://www.trustpilot.com/users/6a536edfd7872a06e0ec085f" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-030"><b>SRC-030</b> Collected.reviews：Momcozy 评价汇总与主题分析（41 条来源）— Platform — <a href="https://www.collected.reviews/online-shop/momcozy-reviews" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-031"><b>SRC-031</b> 今日头条：不起眼的哺乳内衣，撑起一个全球化品牌（平台内容策略、粉丝量与话题量）— Media — <a href="https://m.toutiao.com/article/7624406118453887534" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-032"><b>SRC-032</b> FastMoss：@momcozyofficial TikTok 账号数据页 — Platform — <a href="https://m.fastmoss.com/detail?lang=es&amp;type=follower&amp;uid=7116401541673960491" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-033"><b>SRC-033</b> 出海网：深圳母婴品牌 Momcozy 年收 35 亿，揭秘 DTC 品牌出海的社交电商密码（含 #StandUpForMums）— Media — <a href="https://m.chwang.com/article/196312621920" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-034"><b>SRC-034</b> 雨果跨境：泽宝前员工做母婴出海，干出超 30 亿元营收（红人策略、内容矩阵）— Media — <a href="https://www.cifnews.com/article/187110" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-035"><b>SRC-035</b> 第三方吸奶器横评与实测（OffKeyTikki 2026-09 / Cribworthy 2026 / Mi Sec 2026，含 S12 Pro Quick 官网 FAQ）— Media — <a href="https://offkeytikki.com/best-electric-breast-pumps/" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-036"><b>SRC-036</b> 品牌星球 / 白鲸出海等中国行业媒体对出海历程的复盘（渠道与市场验证路径）— Media — <a href="https://www.baijing.cn/m/article/53855" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-037"><b>SRC-037</b> hey cross：美国或将发起 337 调查，12 家中国企业被列名（含单价带与份额背景、PTAB 反方信息）— Media — <a href="https://www.heycross.com/article/QQ51kdXPk0rKW" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-038"><b>SRC-038</b> Momcozy 官博：World Breastfeeding Week Freebies 2026（Breathe &amp; Breastfeed 活动机制）— First-party — <a href="https://momcozy.com/de/blogs/stillen/world-breastfeeding-week-freebies" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+      <li id="SRC-039"><b>SRC-039</b> The Manila Times：Momcozy Launches Big Summer Deals 2026（通稿，署名 ROOT technology ltd.，含零售渠道清单）— Media — <a href="https://www.manilatimes.net/2026/06/18/tmt-newswire/plentisoft/momcozy-launches-big-summer-deals-2026-highlighting-feeding-and-bottle-care-essentials-for-new-parents/2368465" target="_blank" rel="noopener">链接 ↗</a> · access 2026-09-16</li>
+    </ol>
+  </details>
+
+  <footer>
+    <p>数据与研究口径：品牌从未官方披露财务数据，营收数字均为中国行业媒体转述并标 ESTIMATE。站点流量多口径并存——分析基准取<b>最新的一手平台数据（Semrush 2026-07）</b>，较早的二手转述口径（Similarweb 2025-08~10）仅并列作参照；跨平台数字<b>不可相加或互比</b>。337 案件截至数据截止日仅为「ITC 收到申请」，尚未正式立案。</p>
+    <p>研究日期 2026-09-16 · 数据截止 2026-09-16 · 本页未新增任何未在源报告中出现的数据。</p>
+    <p><strong>作者：Yan</strong> · © 2026 Yan，保留所有权利。未经授权不得商用转载。</p>
+  </footer>
+</main>
+</body>
+</html>
