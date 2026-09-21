@@ -51,15 +51,15 @@ PART 3 的铁律是**只抽取、不新研**：数据必须派生自 PART 1/2 �
 - **防退化**：报告中出现 ≥3 条同维度可比较的定量数据，默认用图表呈现，不允许退化成纯文字列表
 - **图表着色必须承载语义**：单序列整组同色；只有真实分组（竞品 vs 本品牌、口径 A vs 口径 B）才使用辅助色，且必须配色键。颜色答不出"在告诉读者什么"就改回主题色
 - **证据可追溯**：数据点旁带 Source chip（`SRC-004`），完整来源登记表放页尾折叠区，含访问日期
-- 附带自检脚本 `scripts/audit_chart_colors.py`，扫描全站非主题色着色点，捕捉"颜色误用"这类浏览器不报错、肉眼看不出、但会误导读者的问题
+- 附带自检脚本 `skills/report-visualizer-html/scripts/audit_chart_colors.py`，扫描全站非主题色着色点，捕捉"颜色误用"这类浏览器不报错、肉眼看不出、但会误导读者的问题
 
 ---
 
 ## 效果示例
 
-`examples/momcozy_report_2026-09-16.html` —— 一份用上述两个 skill 端到端产出的真实报告，包含首屏结论、KPI 卡组、图表套件、证据徽章与页尾来源登记表。
+[`examples/momcozy_report_2026-09-16.html`](examples/momcozy_report_2026-09-16.html) —— 一份用上述两个 skill 端到端产出的真实报告，包含首屏结论、KPI 卡组、图表套件、证据徽章与页尾来源登记表。
 
-直接下载用浏览器打开即可（无需服务器、无需联网）。
+下载后直接用浏览器打开即可（无需服务器、无需联网）。
 
 ---
 
@@ -75,7 +75,7 @@ Agent Skills 是各主流 agent 工具共用的开放格式，把 skill 目录�
 | 通用 | `~/.agents/skills/` | — |
 
 ```bash
-git clone https://github.com/<your-username>/DTC-Research-Skills.git
+git clone https://github.com/HolaAYan/DTC-Research-Skills.git
 cp -r DTC-Research-Skills/skills/* ~/.claude/skills/     # 换成上表中你所用工具的目录
 ```
 
@@ -100,7 +100,7 @@ XX 为什么能在三年内做到品类第一
 
 ```
 把这份报告做成 HTML 页面
-把 anker_report_2026-09-09.md 转成网页版报告
+把 glossier_report_2026-09-08.md 转成网页版报告
 ```
 
 两个 skill 可以单独用，也可以串联：先跑研究拿到 Markdown 报告，再让它转成 HTML。
@@ -114,6 +114,7 @@ DTC-Research-Skills/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
+├── .gitattributes
 ├── examples/
 │   └── momcozy_report_2026-09-16.html
 └── skills/

@@ -247,7 +247,7 @@ research:
 - **Reusability**：仅凭本层即可让下游 skill 产出 HTML / 图片 / PPT / 社媒内容，无需重做研究。
 - **Efficiency**：本层简洁；不复制长段分析；能引用就不重述。
 - **YAML Syntax Safety（必做，交付前用 Python `yaml.safe_load` 实跑一次）**：
-  - **双引号字符串内禁止出现 ASCII 双引号 `"`**。中文标题里的书名号内嵌引号（如 `《影石"全景王座"晃动》`）会提前闭合字符串并导致 `ParserError`。中文引号一律改写为 `「」` 或全角 `“”`。同理，`"` 内的撇号用单引号或改用中文标点。
+  - **双引号字符串内禁止出现 ASCII 双引号 `"`**。中文标题里的书名号内嵌引号（如 `《品牌"增长引擎"拆解》`）会提前闭合字符串并导致 `ParserError`。中文引号一律改写为 `「」` 或全角 `“”`。同理，`"` 内的撇号用单引号或改用中文标点。
   - **序列（list）中不可直接接同级 mapping 键**。`acquisition:` 下若先写 `- channel: …` 序列、再写同缩进的 `crowdfunding:`，会报 `expected <block end>`。做法：把额外键提为 `research` 下的顶层键（如 `research.crowdfunding`），或把 `acquisition` 改成 `{channels: [...], crowdfunding: {...}}` 映射。
   - 校验脚本模板：
     ```python
