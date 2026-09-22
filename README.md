@@ -1,12 +1,16 @@
 # DTC Research Skills
 
-面向出海 / DTC 品牌增长研究的两个 Agent Skills：**先做严谨的系统研究，再把研究变成可读的可视化报告。**
+面向出海 / DTC 品牌增长研究的一套 Agent Skills：**先做严谨的系统研究，再把同一份研究变成可读的可视化报告。**
 
-两个 skill 构成一条完整链路：
+skill 之间构成一条完整链路——一次研究，两种交付形态：
 
 ```
-dtc-growth-research  ──►  report-visualizer-html
-   研究 → Markdown 报告        报告 → 单文件 HTML
+                                      ┌──►  report-visualizer-html
+                                      │        报告 → 单文件 HTML
+dtc-growth-research  ─────────────────┤
+   研究 → Markdown 报告                │
+                                      └──►  report-visualizer-pdf
+                                               报告 → A4 PDF
 ```
 
 研究一次，下游可直接复用：报告里的结构化数据层（YAML）可以被多个可视化产物消费，不必重做调研。
@@ -53,13 +57,33 @@ PART 3 的铁律是**只抽取、不新研**：数据必须派生自 PART 1/2 �
 - **证据可追溯**：数据点旁带 Source chip（`SRC-004`），完整来源登记表放页尾折叠区，含访问日期
 - 附带自检脚本 `skills/report-visualizer-html/scripts/audit_chart_colors.py`，扫描全站非主题色着色点，捕捉"颜色误用"这类浏览器不报错、肉眼看不出、但会误导读者的问题
 
+### 3. `report-visualizer-pdf` — 报告转 A4 PDF
+
+把同一份研究报告转成 A4 版式的 PDF。与 HTML 版共享信息架构、组件与证据体系，但针对**纸张**重新做分页与版式设计：pt 字号体系、分页保护、打印恒为浅色。
+
+它比 HTML 版多一层能力：**公开分享过滤**。一份内部研究报告里通常混着不适合对外发布的内容——结构化数据层、执行指令、本地路径、工具操作痕迹。这个 skill 把这些确定性剔除，并按需把来源登记从被删的结构化数据里抢救出来，只留下可公开的研究内容。
+
+三个脚本，零第三方依赖（PDF 渲染靠本机 Chrome / Edge 的 CDP）：
+
+| 脚本 | 作用 |
+|---|---|
+| `scripts/filter_report.py` | 公开分享内容过滤：剔除内部章节块与 YAML 数据块，把 Source Registry 抢救为独立来源文件，并输出内部痕迹扫描报告 |
+| `scripts/html_to_pdf.cjs` | HTML → PDF 渲染器（CDP `Page.printToPDF`，矢量文本、注入页码页脚、逐页重复） |
+| `scripts/qc_pdf.py` | 质检：页数与 A4 尺寸、逐页墨迹覆盖率、正文包围盒越界、页脚存在性、逐页渲染 PNG + HTML 内容安全扫描 |
+
 ---
 
 ## 效果示例
 
-[`examples/momcozy_report_2026-09-16.html`](examples/momcozy_report_2026-09-16.html) —— 一份用上述两个 skill 端到端产出的真实报告，包含首屏结论、KPI 卡组、图表套件、证据徽章与页尾来源登记表。
+同一份 momcozy 报告的三种形态，均由上述 skill 端到端产出：
 
-下载后直接用浏览器打开即可（无需服务器、无需联网）。
+| 文件 | 形态 | 说明 |
+|---|---|---|
+| [`momcozy_report_2026-09-16.md`](examples/momcozy_report_2026-09-16.md) | Markdown 研究报告 | 三段式输出的公开版（结构化数据层已过滤），含 39 条来源登记 |
+| [`momcozy_report_2026-09-16.html`](examples/momcozy_report_2026-09-16.html) | 单文件 HTML | 首屏结论、KPI 卡组、图表套件、证据徽章与页尾来源登记表 |
+| [`momcozy_report_2026-09-16.pdf`](examples/momcozy_report_2026-09-16.pdf) | A4 PDF（16 页） | 打印版式，含逐页页码页脚与完整 Sources 节 |
+
+HTML 下载后直接用浏览器打开即可（无需服务器、无需联网）；PDF 为矢量文本，可搜索、可复制。
 
 ---
 
@@ -101,9 +125,13 @@ XX 为什么能在三年内做到品类第一
 ```
 把这份报告做成 HTML 页面
 把 glossier_report_2026-09-08.md 转成网页版报告
+把这份报告导出成 PDF
+把 glossier_report_2026-09-08.md 做成可分享的 A4 PDF
 ```
 
-两个 skill 可以单独用，也可以串联：先跑研究拿到 Markdown 报告，再让它转成 HTML。
+三个 skill 可以单独用，也可以串联：先跑研究拿到 Markdown 报告，再让它出 HTML 或 PDF——两个可视化 skill 消费同一份研究，数据不会走样。
+
+如果报告里有不适合对外发布的内容（结构化数据层、执行指令、本地路径），走 PDF 版即可：它的过滤层会先清干净，再排版。
 
 ---
 
@@ -116,7 +144,9 @@ DTC-Research-Skills/
 ├── .gitignore
 ├── .gitattributes
 ├── examples/
-│   └── momcozy_report_2026-09-16.html
+│   ├── momcozy_report_2026-09-16.md     公开版研究报告（Markdown）
+│   ├── momcozy_report_2026-09-16.html   单文件 HTML 可视化报告
+│   └── momcozy_report_2026-09-16.pdf    A4 PDF 报告（16 页）
 └── skills/
     ├── dtc-growth-research/
     │   ├── SKILL.md
@@ -125,14 +155,25 @@ DTC-Research-Skills/
     │       ├── evidence-rules.md     证据分级、信源分级与数据规则
     │       ├── output.md             三段式输出契约与自检清单
     │       └── structured-data.md    PART 3 数据模型与 YAML 规范
-    └── report-visualizer-html/
+    ├── report-visualizer-html/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   │   └── design-system.md      组件配方、图表规范、着色语义
+    │   ├── assets/
+    │   │   └── template.html         自包含起点骨架（含内置图表套件）
+    │   └── scripts/
+    │       └── audit_chart_colors.py 图表着色语义审计
+    └── report-visualizer-pdf/
         ├── SKILL.md
         ├── references/
-        │   └── design-system.md      组件配方、图表规范、着色语义
+        │   └── design-system.md      A4 版式规范、分页规则与打印铁律
         ├── assets/
-        │   └── template.html         自包含起点骨架（含内置图表套件）
+        │   ├── template-a4.html      A4 打印骨架（含内置图表套件）
+        │   └── template-a4-preview.pdf  2 页样张，用于核对版式基线
         └── scripts/
-            └── audit_chart_colors.py 图表着色语义审计
+            ├── filter_report.py      公开分享内容过滤
+            ├── html_to_pdf.cjs       HTML → PDF 渲染器（CDP）
+            └── qc_pdf.py             PDF 质检 + 内容安全扫描
 ```
 
 ---
@@ -141,7 +182,7 @@ DTC-Research-Skills/
 
 本项目采用 **MIT License**（见 `LICENSE`）。你可以自由使用、修改、分发，**包括商业用途**，条件是在副本或实质性部分中保留版权声明与许可声明。每个 skill 的 frontmatter 中也标注了 `license: MIT`。
 
-**`examples/` 目录为例外**：其中的示例报告是作者的研究产出，仅用于展示这两个 skill 的实际效果，版权归作者所有，**不在 MIT 授权范围内**（以报告页脚的版权声明为准）。如希望在自己的项目中使用其中的研究内容，请先取得授权。
+**`examples/` 目录为例外**：其中的示例报告是作者的研究产出，仅用于展示这套 skill 的实际效果，版权归作者所有，**不在 MIT 授权范围内**（以报告页脚的版权声明为准）。如希望在自己的项目中使用其中的研究内容，请先取得授权。
 
 两点需要说明：
 

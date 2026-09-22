@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="ZDwkH4zZSnEkSMkw1jXA7u">
+<head data-page-node-id="aUwaWX5UfiKLORnvDJUSBU">
+<meta charset="UTF-8" data-page-node-id="ldBHvmm9HH4FO9qHKDb4wt">
+<title>报告标题 · A4 报告</title>
+<!-- 渲染脚本读取：页脚左侧标识 / 作者署名 -->
+<meta name="rv-footer-label" content="BRAND · 报告类型 · 2026-09" data-page-node-id="7cwGde4FqCrfBi9tR0m7HU">
+<meta name="rv-author" content="Yan" data-page-node-id="pW5Am7r6fJURjbLXjSOZX3">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   A4 打印骨架（打印专用：pt 字号 / 分页保护 / 浅色恒定）
+   与 report-visualizer-html 同源设计语言；生成时以此文件为基底填充语义内容，不要自造新样式体系。
+   ⚠ 生成本文件时必须把这段注释替换为中性说明（如"A4 报告版式骨架 + 品牌令牌覆写"），
+     不要让它出现在交付的 HTML 里——注释中的工具 / skill 名会被 qc_pdf.py 判为内部痕迹。
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ============ 1. 页面与分页 ============ */
+@page{ size:A4; margin:17mm 15mm 22mm 15mm; }
+@media print{ html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
+
+/* ============ 2. 设计令牌（light = 打印基线） ============ */
+:root{
+  --bg:#ffffff; --surface:#f7f7f8; --surface-2:#eef0f3;
+  --border:#e4e6eb; --text:#1a1d21; --muted:#5c6470;
+  --accent:#4f46e5; --on-accent:#ffffff; --accent-soft:#eef2ff;
+  --ok:#15803d; --obs:#1d4ed8; --inf:#b45309; --est:#7e22ce; --unk:#475569;
+  --radius:10px;
+  --font:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",-apple-system,"Segoe UI",Arial,sans-serif;
+  --mono:ui-monospace,Consolas,"Courier New",monospace;
+}
+/* 深色主题仅屏幕预览；打印恒为浅色（PDF 不做深色版） */
+@media screen and (prefers-color-scheme:dark){
+  :root{ --bg:#0e1116; --surface:#171b22; --surface-2:#20262f; --border:#2b323d;
+    --text:#e7eaf0; --muted:#9aa3b2; --accent:#818cf8; --on-accent:#0e1116; --accent-soft:#232754;
+    --ok:#4ade80; --obs:#60a5fa; --inf:#fbbf24; --est:#c084fc; --unk:#94a3b8; }
+}
+
+/* ============ 3. Base（字号/行高按 design-system §2） ============ */
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
+  font-size:10.5pt;line-height:1.62;orphans:2;widows:2;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.3;color:var(--text)}
+h1{font-size:25pt;font-weight:800;letter-spacing:-.01em;line-height:1.25}
+h2{font-size:15pt;font-weight:750;break-after:avoid;page-break-after:avoid}
+h3{font-size:11.5pt;font-weight:700}
+p{margin:0 0 8pt}
+a{color:var(--accent);text-decoration:none}
+.muted{color:var(--muted)}
+.mono,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.num{text-align:right}
+.accentbar{height:3pt;background:var(--accent);border-radius:2pt;width:34mm;margin:0 0 18pt}
+section{margin:0 0 22pt}
+.sec-head{display:flex;align-items:baseline;gap:8pt;margin:0 0 10pt;break-after:avoid;page-break-after:avoid}
+.sec-head .snum{font-family:var(--mono);font-size:11pt;font-weight:700;color:var(--accent)}
+.sec-head h2{margin:0}
+
+/* ============ 4. 分页工具类 ============ */
+.avoid-break{break-inside:avoid;page-break-inside:avoid}
+.keep-with-next{break-after:avoid;page-break-after:avoid}
+.page-break{break-before:page;page-break-before:always}
+
+/* ============ 5. Cover + Executive Summary（第 1 页，见 design-system §6.1） ============ */
+.cover{margin:0 0 20pt}
+.kicker{font-size:8pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8pt}
+.lead{font-size:12pt;line-height:1.55;margin:14pt 0 0;width:100%;background:var(--surface);
+  border:1px solid var(--border);border-left:4pt solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;
+  padding:10pt 13pt}
+.lead b{font-weight:750}
+.meta-chips{display:flex;flex-wrap:wrap;gap:6pt;margin:12pt 0 0}
+.chip{font-size:8pt;padding:2pt 8pt;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);color:var(--muted)}
+.takeaway{margin:14pt 0 0;padding:12pt 15pt;border-radius:var(--radius);background:var(--accent-soft);
+  border:1px solid var(--border);border-left:4pt solid var(--accent)}
+.takeaway h2{margin-bottom:6pt}
+.takeaway ol{margin:0;padding:0;list-style:none;counter-reset:fd}
+.takeaway li{counter-increment:fd;position:relative;padding:3pt 0 3pt 22pt;break-inside:avoid;font-size:10pt;line-height:1.55}
+.takeaway li::before{content:counter(fd);position:absolute;left:0;top:4pt;width:15pt;height:15pt;border-radius:50%;
+  background:var(--accent);color:var(--on-accent);font-size:7.5pt;font-weight:700;display:flex;align-items:center;justify-content:center}
+.legend{display:flex;flex-wrap:wrap;gap:8pt;font-size:8pt;color:var(--muted);margin:12pt 0 0}
+
+/* ============ 6. 证据徽章 / 来源 chip（颜色 + 文字双编码） ============ */
+.badge{display:inline-block;padding:1pt 5pt;border-radius:999px;font-size:7.5pt;font-weight:700;
+  letter-spacing:.02em;border:1px solid;white-space:nowrap;vertical-align:1pt}
+.badge.fact{color:var(--ok);border-color:#15803d59;background:#15803d14}
+.badge.obs{color:var(--obs);border-color:#1d4ed859;background:#1d4ed814}
+.badge.inf{color:var(--inf);border-color:#b4530959;background:#b4530914}
+.badge.est{color:var(--est);border-color:#7e22ce59;background:#7e22ce14}
+.badge.unk{color:var(--unk);border-color:#47556959;background:#47556914}
+.ev{display:inline-block;padding:0 4pt;border-radius:999px;font-size:7.5pt;font-weight:700;border:1px solid;white-space:nowrap}
+.ev.fact{color:var(--ok);border-color:#15803d59}.ev.obs{color:var(--obs);border-color:#1d4ed859}
+.ev.inf{color:var(--inf);border-color:#b4530959}.ev.est{color:var(--est);border-color:#7e22ce59}
+.ev.unk{color:var(--unk);border-color:#47556959}
+.src-chip{font-size:7.5pt;padding:1pt 5pt;border-radius:999px;background:var(--surface-2);
+  border:1px solid var(--border);white-space:nowrap;color:var(--muted)}
+
+/* ============ 7. 卡片与网格 ============ */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12pt 14pt}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10pt}
+.card.avoid-break{break-inside:avoid}
+
+/* KPI（三部分第一行对齐 + 纯数字 + 单行） */
+.kpi-grid{display:flex;flex-wrap:nowrap;gap:10pt;margin:12pt 0 0}
+.kpi-grid>.kpi{flex:1 1 0;min-width:0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10pt 12pt;
+  display:flex;flex-direction:column;break-inside:avoid}
+.kpi-label{font-size:8pt;color:var(--muted);margin:0;min-height:2.9em;line-height:1.45}
+.kpi-value{font-size:20pt;font-weight:750;font-variant-numeric:tabular-nums;margin:3pt 0 4pt;line-height:1.1;
+  white-space:nowrap;overflow:hidden}
+.kpi-value small{font-size:.5em;font-weight:600;color:var(--muted)}
+.kpi-note{font-size:8pt;color:var(--muted);margin:0;line-height:1.5;padding-top:4pt;border-top:1px solid var(--border)}
+
+/* ============ 8. Finding / Insight 卡 ============ */
+.finding{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:12pt 15pt;margin:0 0 12pt;break-inside:avoid}
+.finding-head{display:flex;gap:8pt;align-items:flex-start}
+.fnum{font-family:var(--mono);font-weight:700;color:var(--accent);font-size:10pt;flex:none}
+.evidence{list-style:none;margin:8pt 0 0;padding:0}
+.evidence li{padding:4pt 0 4pt 7pt;border-left:2pt solid var(--border);margin:5pt 0;font-size:9.5pt;line-height:1.55}
+.analysis{margin:8pt 0 0;padding:8pt 11pt;background:var(--surface-2);border-radius:6pt;font-size:9.5pt;line-height:1.55}
+.analysis b{font-size:8pt;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+
+/* ============ 9. 表格（跨页重复表头 / 行不拆） ============ */
+.table-wrap{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);margin:0 0 10pt}
+table{width:100%;border-collapse:collapse;font-size:9.5pt;table-layout:fixed}
+caption{text-align:left;font-weight:700;font-size:9.5pt;padding:9pt 11pt;color:var(--text)}
+th,td{padding:5pt 8pt;text-align:left;border-top:1px solid var(--border);vertical-align:top;
+  overflow-wrap:anywhere;word-break:break-word;line-height:1.45}
+thead{display:table-header-group}
+thead th{border-top:none;font-size:8pt;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--surface-2)}
+tbody tr{break-inside:avoid;page-break-inside:avoid}
+.tbl-cont{font-size:8pt;color:var(--muted);margin:0 0 8pt}
+
+/* ============ 10. Timeline ============ */
+.timeline{list-style:none;margin:0;padding:0 0 0 12pt;border-left:2pt solid var(--border)}
+.timeline li{position:relative;padding:0 0 12pt 14pt;break-inside:avoid}
+.timeline li::before{content:"";position:absolute;left:-18pt;top:4pt;width:7pt;height:7pt;border-radius:50%;
+  background:var(--accent);border:1.5pt solid var(--bg)}
+.timeline time{font-family:var(--mono);font-size:8.5pt;color:var(--muted);display:block}
+.timeline p{margin:0;font-size:9.5pt}
+.timeline-h{list-style:none;margin:6pt 0 0;padding:0;display:flex;flex-wrap:wrap;gap:14pt 10pt}
+.timeline-h li{position:relative;flex:1 1 38mm;min-width:32mm;padding-top:16pt;font-size:8.5pt;line-height:1.5;break-inside:avoid}
+.timeline-h li::before{content:"";position:absolute;top:0;left:0;right:0;height:1.5pt;background:var(--border)}
+.timeline-h li::after{content:"";position:absolute;top:-2.5pt;left:0;width:7pt;height:7pt;border-radius:50%;
+  background:var(--accent);border:1.5pt solid var(--bg)}
+.timeline-h time{font-family:var(--mono);font-size:8pt;color:var(--accent);display:block;font-weight:700}
+.timeline-h p{margin:0}
+
+/* ============ 11. Quote ============ */
+.quote{margin:0 0 12pt;padding:11pt 14pt;border-left:4pt solid var(--accent);background:var(--surface);
+  border-radius:0 var(--radius) var(--radius) 0;break-inside:avoid}
+.quote blockquote{margin:0;font-size:10.5pt;font-style:italic;line-height:1.55}
+.quote figcaption{margin-top:5pt;font-size:8.5pt;color:var(--muted)}
+
+/* ============ 12. Chart suite（可比定量数据默认上图） ============ */
+.chart-title{font-size:10.5pt;font-weight:700;margin:0 0 2pt}
+.chart-note{font-size:8pt;color:var(--muted);margin:5pt 0 0;line-height:1.5}
+.chart-block{break-inside:avoid;page-break-inside:avoid;margin:0 0 14pt}
+/* 多序列色板：c1=主色 c2..c5=语义辅色
+   ⚠ 必须声明在所有内置组件（.bar-fill / .vbar / .donut / .fstep …）之后：
+   二者同为单类名同权重，若写在组件之前，组件的默认 background 会赢，
+   c2..c5 静默失效（图表全部退化成主色）。见文件末尾同名规则块。 */
+/* 水平条形组：宽度 = 值 ÷ 组内最大 × 100% */
+.bars{display:flex;flex-direction:column;gap:7pt;margin-top:6pt}
+.bar-row{display:flex;align-items:center;gap:8pt;font-size:9.5pt;min-width:0;break-inside:avoid}
+.blabel{color:var(--text);min-width:0;flex:0 1 44%;overflow-wrap:anywhere;line-height:1.35}
+.blabel .s{display:block;font-size:8pt;color:var(--muted);font-weight:500;margin-top:1pt}
+.bar-track{background:var(--surface-2);border-radius:4pt;height:13pt;overflow:hidden;flex:1 1 auto;min-width:22pt}
+.bar-fill{height:100%;border-radius:4pt;background:var(--accent);min-width:1.5pt}
+.bar-val{font-family:var(--mono);font-size:9pt;font-weight:700;white-space:nowrap;text-align:right;
+  font-variant-numeric:tabular-nums;flex:0 0 auto}
+.bar-val small{display:block;font-size:7.5pt;font-weight:500;color:var(--muted);white-space:normal;text-align:right;line-height:1.3}
+/* 窄容器（并排卡）内的条形图：压缩 label 列，给轨道留足宽度，否则条形短到无法比较 */
+.card .bars .blabel{flex:0 1 36%}
+/* 垂直柱状：--v 该值 / --max 组内最大 */
+.vcols{display:flex;align-items:flex-end;gap:9pt;min-height:112pt;padding:7pt 5pt 0;
+  border-bottom:1px solid var(--border);margin-top:6pt}
+.vcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:4pt;text-align:center;min-width:0}
+.vcol .vbar{width:min(30pt,70%);height:calc(var(--v)/var(--max)*92pt);min-height:2pt;border-radius:4pt 4pt 0 0;background:var(--accent)}
+.vcol.alt .vbar{background:var(--obs)}
+.vcol .vval{font-family:var(--mono);font-size:8.5pt;font-weight:700}
+.vcol .vlab{font-size:8pt;color:var(--muted);line-height:1.3}
+/* 环形占比：--p 百分比数值 / --col 颜色 */
+.donut-wrap{display:flex;flex-wrap:wrap;gap:14pt;align-items:center;margin-top:6pt}
+.donut-item{display:flex;flex-direction:column;align-items:center;gap:3pt;font-size:8.5pt;color:var(--muted)}
+.donut{--col:var(--accent);width:66pt;height:66pt;border-radius:50%;
+  background:conic-gradient(var(--col) calc(var(--p)*1%),var(--surface-2) 0);
+  display:grid;place-items:center;position:relative;flex:none}
+.donut::before{content:"";position:absolute;inset:9pt;border-radius:50%;background:var(--bg)}
+.donut b{position:relative;font-family:var(--mono);font-size:10pt}
+/* 漏斗：--w 相对宽度% */
+.funnel{display:flex;flex-direction:column;align-items:center;gap:4pt;margin-top:6pt}
+.fstep{width:var(--w);background:var(--accent);color:var(--on-accent);border-radius:4pt;padding:5pt 10pt;
+  display:flex;justify-content:space-between;gap:9pt;font-size:9pt;white-space:nowrap;break-inside:avoid}
+/* 层流图（growth engine） */
+.engine{display:flex;flex-direction:column;align-items:center;margin-top:7pt}
+.elayer{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:7pt 9pt;display:flex;flex-wrap:wrap;gap:6pt}
+.enode{flex:1 1 40mm;border-left:2.5pt solid var(--accent);padding:4pt 8pt;background:var(--bg);
+  border-radius:6pt;font-size:9pt;min-width:0}
+.enode b{display:block;font-size:7.5pt;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.econn{color:var(--muted);font-size:8.5pt;padding:3pt 0 2pt;text-align:center}
+.econn::before{content:"↓ "}
+
+/* 多序列色板（放在所有图表组件之后，确保覆盖组件默认 background）
+   用法：<div class="bar-fill c2" style="width:60%"> —— c1 可省略（等同主色） */
+.c1{background:var(--accent)}.c2{background:var(--obs)}.c3{background:var(--ok)}
+.c4{background:var(--est)}.c5{background:var(--inf)}
+/* 条形图若用 <span> 而非 <div> 承载 .bar-track/.bar-fill，需 display:block，否则
+   span 保持 inline、width/height 失效 → 轨道可见但填充整体消失（本 skill 曾踩） */
+.bar-fill{display:block}
+
+/* ============ 13. Sources（开放区块，不用 details） ============ */
+.sources{border:1px solid var(--border);border-radius:var(--radius);padding:12pt 15pt;background:var(--surface);margin:0 0 14pt}
+.sources h2{margin-bottom:6pt}
+.sources ol{font-size:8.5pt;color:var(--muted);margin:0;padding-left:16pt;line-height:1.5}
+.sources li{margin:4pt 0;break-inside:avoid;overflow-wrap:anywhere}
+/* 收尾说明：break-before:avoid 让它尽量与上一节同页，避免产生"只放收尾说明"的孤尾页 */
+.doc-foot{border-top:1px solid var(--border);padding-top:9pt;color:var(--muted);font-size:8.5pt;
+  break-inside:avoid;break-before:avoid;page-break-before:avoid}
+.doc-foot p{margin:2pt 0}
+</style>
+</head>
+<body data-page-node-id="HiZJb4EE7KToj66wOEdR8y">
+
+<!-- ═══════════ 第 1 页：Cover + Executive Summary（先读 design-system §6.1） ═══════════ -->
+<section class="cover" data-page-node-id="gmYexVoJnYe0jiQ9COP3sr">
+  <div class="accentbar" data-page-node-id="FBvfoS17OmC6JzV3Rop9CV"></div>
+  <p class="kicker" data-page-node-id="ZCeitktiOAVGSomL80chLC">DTC GROWTH RESEARCH · 2026-09</p>
+  <h1 class="keep-with-next" data-page-node-id="Im7WOcu8hKnmQrw4xKq7hC">报告主标题：一句话说清研究对象</h1>
+  <div class="meta-chips" data-page-node-id="BnFGEwZrQ2QwopXbHJaZFi">
+    <span class="chip" data-page-node-id="mAlD4inHO0DAWNKtdfPiAA">研究对象：…</span>
+    <span class="chip" data-page-node-id="5OvGkfyJ0UGcRYmA04tFDY">研究日期：2026-09-09</span>
+    <span class="chip" data-page-node-id="uAGQy5Ztk2sVb0rvqi8Mlw">数据截止：2026-09</span>
+    <span class="chip" data-page-node-id="Q2Wx5cu4grtFWp6WJjDCz5">证据分级见页尾</span>
+  </div>
+  <p class="lead" data-page-node-id="yVI5WCUIckGT5iZTGHKMsb"><b data-page-node-id="XqjGZK7igWzApBXAAkuqYe">核心结论：</b>一句话讲清最重要的结论——关键短语与<b data-page-node-id="wqIHC2CRsApymuMV7XZolW">关键数字</b>用 <code data-page-node-id="kOqm6jkC7s6CwdVGT1zo0N">&lt;b&gt;</code> 加粗，读者 10 秒抓住论证骨架。</p>
+
+  <!-- KPI 行（3–4 张最佳） -->
+  <div class="kpi-grid" data-page-node-id="29A7K2AwqDt0cXfbBPadSW">
+    <div class="kpi" data-page-node-id="HZCluMYRCs2AQVgLeFiva2"><p class="kpi-label" data-page-node-id="XUVl2MWvn5kiOcYolwWgC1">指标名</p><p class="kpi-value" data-page-node-id="yIJamhkALbjGR3qctZ8sz4">¥21.74<small data-page-node-id="foHoBwpYT5lG4Pbb1t3TaD">亿</small></p>
+      <p class="kpi-note" data-page-node-id="tL2gjb0VNHoZeLMfvF7hc9">口径说明 <span class="src-chip" data-page-node-id="bJ0KfxZACwlpY4lyX9mJxt">SRC-002</span></p></div>
+    <div class="kpi" data-page-node-id="y6yfqyJ25AcfGVDIL8M3ic"><p class="kpi-label" data-page-node-id="xr9up3lxsyHvGC3qyRr4Zx">指标名</p><p class="kpi-value" data-page-node-id="vPPwI6sFrI1Lx0WeRAmDNF">30.4<small data-page-node-id="iHUKaShtpJEoq2eaHssC3M">%</small></p>
+      <p class="kpi-note" data-page-node-id="LOrVKfwswgVdO3QCJQOl02">口径说明 <span class="src-chip" data-page-node-id="3zjxFNZzugSBDGTIp0jcSe">SRC-003</span></p></div>
+    <div class="kpi" data-page-node-id="rtzGQaejs7oDP6IWLDP5Gd"><p class="kpi-label" data-page-node-id="igsDDuIhYPRsD7rEj1XtPQ">指标名</p><p class="kpi-value" data-page-node-id="VAMRZfKh65GZqN0Nn4Z0jP">4.5<small data-page-node-id="6fJr1O2cV2hg5rpo86ORCW">/5</small></p>
+      <p class="kpi-note" data-page-node-id="thw0eagHpiNBFMJJ4Xkfpz">口径说明 <span class="src-chip" data-page-node-id="YDNC6liLuLR2FRTsRr9vD2">SRC-007</span></p></div>
+  </div>
+
+  <!-- 3–5 条关键发现 -->
+  <aside class="takeaway" data-page-node-id="LNcSwgfOVz45GG83ES1ffW">
+    <h2 data-page-node-id="dE6UerJ8cajEt3RKrarxXr">关键发现</h2>
+    <ol data-page-node-id="yCQeGAUxPJOrdDxUrDXXSD">
+      <li data-page-node-id="ZM8xAmp0Rj55lDebRjoU5p"><strong data-page-node-id="382dJNqAfp4Uzg0lsbih0n">发现一（最重要）</strong> —— 一句话解释。 <span class="badge fact" data-page-node-id="1sSMFuekq6uENL0o96lTov">FACT</span></li>
+      <li data-page-node-id="dIVy65n1nymQEehBEwDYMv"><strong data-page-node-id="BhSk8QNyhsNLyrIEse1dJf">发现二</strong> —— 一句话解释。 <span class="badge inf" data-page-node-id="UB7uHb5TvHeRb328tZX57j">INFERENCE</span></li>
+      <li data-page-node-id="FbmRNnt0rt9dtgavjfojQK"><strong data-page-node-id="Lex4vaFKd3Ddes5XZwbdbU">发现三</strong> —— 一句话解释。</li>
+    </ol>
+  </aside>
+
+  <!-- 证据分级图例：全文档只需在此出现一次 -->
+  <p class="legend" data-page-node-id="Io7MxnsLSUicIgFjCZ2Df0">
+    <span class="badge fact" data-page-node-id="PlPeb1NrN32sfgETsPvq8s">FACT</span> 可验证事实
+    <span class="badge obs" data-page-node-id="66NLnTDKq6ML2CYoPyKpFc">OBSERVATION</span> 观察
+    <span class="badge inf" data-page-node-id="PcEtWnzfoYAla4EfyGgsJh">INFERENCE</span> 推断
+    <span class="badge est" data-page-node-id="BVgABLPggEUFAF5LGie7GB">ESTIMATE</span> 第三方估算
+    <span class="badge unk" data-page-node-id="naXyvNdrG98qAK3y9pFHWe">UNKNOWN</span> 无可靠公开信息
+  </p>
+</section>
+
+<!-- ═══════════ 章节骨架（按需复制；编号 + 标题，不要为每章强制分页） ═══════════ -->
+<section id="s01" data-page-node-id="EjPULRcZWbH0eJbIV22raj">
+  <div class="sec-head" data-page-node-id="bFaH1cvAYwMbPuGHWZc8o4"><span class="snum" data-page-node-id="FQNcgN1hedhGfQx4UyFte3">01</span><h2 data-page-node-id="7lvAe5DoGXpgsTUNeF7VS4">品牌概览</h2></div>
+  <div class="cols2" data-page-node-id="9kTpNHBGgOmEILod4dyPvQ">
+    <div class="card avoid-break" data-page-node-id="xBixBKDHv91YKKyZetnGgq"><h3 data-page-node-id="onYrFXrPL9HcJ7YKcQYRrA">商业模式</h3><p data-page-node-id="tUbNiV1iNeQU8RYpl7gy8t">短文字块……</p></div>
+    <div class="card avoid-break" data-page-node-id="mY1ILQ3pZsINSmMx91mHwT"><h3 data-page-node-id="rameTAZWCFjHjxn5qIhoUV">渠道结构</h3><p data-page-node-id="J2UwcVsNr4n6Eibs3ufJZw">短文字块……</p></div>
+  </div>
+  <div class="card avoid-break" style="margin-top:10pt" data-page-node-id="RK4PRTEDBh90yGGVx40yeT">
+    <h3 data-page-node-id="Vn0HWefSRJs7b7NbCVJXqU">品牌里程碑</h3>
+    <ol class="timeline-h" data-page-node-id="VgpdRie8GFlm0JZMICQcnM">
+      <li data-page-node-id="Mvzr1N0vKaOXNH3Dhdibdz"><time data-page-node-id="BWHEqfmTB3mDsgi9nmcde2">2020</time><p data-page-node-id="ywGUIuIQcLmeCJfZegauLv"><strong data-page-node-id="bHHuQW69NVmm8TnNsRzwMl">节点</strong>：说明（含徽章与来源）</p></li>
+      <li data-page-node-id="jl2z7KsEyznhKG8T7oikV8"><time data-page-node-id="Gij6F4t5XYFT9SYTt2VEFG">2022-11</time><p data-page-node-id="GWa9lzqjrZ9ear6jHilfFj"><strong data-page-node-id="0lK61r8R7xh5UN0b5pEb37">节点</strong>：说明</p></li>
+      <li data-page-node-id="UaidajoYcPhmYtqBDz1xbJ"><time data-page-node-id="gQKjrhdOVzTDN0WIJkrCl6">2024</time><p data-page-node-id="zdV8a90cSWWWcZIwGJj9nP"><strong data-page-node-id="yByCeLfDlVn67H0xE7gm2z">节点</strong>：说明</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="s02" data-page-node-id="CHw0SJZEG27OFKoRP4tAqY">
+  <div class="sec-head" data-page-node-id="3xEt7XTbBopH5jLCBLnD4m"><span class="snum" data-page-node-id="p4cgPnZFjfGAw23jVSokzO">02</span><h2 data-page-node-id="TeO1i80nJDc2UQse4ZrSMj">发现与证据</h2></div>
+  <article class="finding avoid-break" data-page-node-id="1roQEhjGD3NkekDzQK0Dw4">
+    <div class="finding-head" data-page-node-id="A9H2MX4THMnzwEBWcz2NHV"><span class="fnum" data-page-node-id="wbOLx46P7ul6fsFq7e5jAj">01</span><h3 data-page-node-id="cEBzgGNffTMhVVDMPYTrhQ">Finding 标题</h3></div>
+    <ul class="evidence" data-page-node-id="sYfi4GKwqvqKNlRejHDVFp">
+      <li data-page-node-id="8BsKnGQhmHk6x4h3WsDmAS"><span class="badge fact" data-page-node-id="MrmQ8uy4J5Fsfp9Izziyeq">FACT</span> 证据叙述文本…… <span class="src-chip" data-page-node-id="MveJNjvZBFwnwfhZ6lEx45">SRC-014 ↗</span></li>
+    </ul>
+    <p class="analysis" data-page-node-id="ci6mlBdGwzu8wRa3q96SjD"><b data-page-node-id="e7DA5vPnZ5lXUKjqAyiSXQ">Analysis</b> · 分析 / 解读段落……</p>
+  </article>
+</section>
+
+<!-- ═══════════ 表格模式（精确逐行对照时才用；单维占比/排名请用图表 §7） ═══════════
+     需要时取消注释即可。要点：colgroup 定列宽、thead 跨页自动重复、行不拆开、
+     禁止 overflow-x:auto（PDF 无滚动，溢出即裁切）。配方见 design-system §6.5。
+<section id="s03">
+  <div class="sec-head"><span class="snum">03</span><h2>精确逐行对照（表格）</h2></div>
+  <div class="table-wrap">
+    <table>
+      <caption>对比矩阵标题（口径与来源）</caption>
+      <colgroup><col style="width:34%"><col style="width:20%"><col style="width:20%"><col style="width:26%"></colgroup>
+      <thead><tr><th>维度</th><th class="num">指标 A</th><th class="num">指标 B</th><th>来源</th></tr></thead>
+      <tbody>
+        <tr><td>项目 1</td><td class="num">…</td><td class="num">…</td><td><span class="src-chip">SRC-001</span></td></tr>
+        <tr><td>项目 2</td><td class="num">…</td><td class="num">…</td><td><span class="src-chip">SRC-002</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tbl-cont">表头跨页自动重复；若表格跨页，可在此加"（续）"提示。</p>
+</section>
+═══════════════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════ 图表使用示例（完整可复制清单见页面底部 <template>） ═══════════ -->
+<section id="s04" data-page-node-id="ThZFx6e4U2EVJWFCpQZi5P">
+  <div class="sec-head" data-page-node-id="pn7oL29YL6MdnMPoemdRZl"><span class="snum" data-page-node-id="d78YMUFkznFy5dTWJcDQMT">03</span><h2 data-page-node-id="GhY9bMswRWbVVqmzy6XjlH">渠道与结构</h2></div>
+  <div class="grid3" data-page-node-id="ee1p6Ez6WGi04KzZghHfhW">
+    <div class="card avoid-break" data-page-node-id="z2Tj3h0GGcke7VchVAE6CP">
+      <div class="chart-block" data-page-node-id="nCH0mIkrloor04qgJV1GfU">
+        <h3 class="chart-title" data-page-node-id="xgwpIw8OTSl2eFU3K8bQxm">渠道结构占比</h3>
+        <div class="bars" data-page-node-id="EA5ABXnuUr2kx242nCKo5q">
+          <div class="bar-row" data-page-node-id="cAX8tWk9whk0dFbFLGA0MM"><span class="blabel" data-page-node-id="NKcZBDFpsCYwEhHluBHLbe">独立站</span>
+            <div class="bar-track" data-page-node-id="3bNEYWIqTo8E3zEfXgsYJr"><div class="bar-fill c1" style="width:76%" data-page-node-id="hdNTMquUaVegkq1RjTKnd8"></div></div>
+            <span class="bar-val" data-page-node-id="262nb6hgNoK6IrJ2BCDEZs">25.2%</span></div>
+          <div class="bar-row" data-page-node-id="lv6BhLDBikLp1pxQUeWGAR"><span class="blabel" data-page-node-id="VTOngm4KA3Xw7vzvRct3bC">Amazon</span>
+            <div class="bar-track" data-page-node-id="IWnK4f9828JPdJh2qZmDR8"><div class="bar-fill c2" style="width:100%" data-page-node-id="37Ao0BbT9o0JTc4FGDiUXF"></div></div>
+            <span class="bar-val" data-page-node-id="AtPqP9IHTQPENLvTSrOPsG">33.3%</span></div>
+          <div class="bar-row" data-page-node-id="XGHGpFAZVgvkfDjYzggzfe"><span class="blabel" data-page-node-id="Ff23Dev3DBNhDvBybje1sd">线下 / 其他</span>
+            <div class="bar-track" data-page-node-id="ADdqNkJ4tuGflW0M3hOT9E"><div class="bar-fill c3" style="width:46%" data-page-node-id="AhzYYWFKtPD8ErP06bW5Dx"></div></div>
+            <span class="bar-val" data-page-node-id="7pwKEOPylInQej77ZxJn8D">15.4%</span></div>
+        </div>
+        <p class="chart-note" data-page-node-id="hnVTKaFSyXzADxEdBPY5MM">柱长按占最大项比例示意 · <span class="badge fact" data-page-node-id="1DA3Stz2myHxsVCbdg4HIU">FACT</span> <span class="src-chip" data-page-node-id="hL629t8U7riwfq0VIE96sK">SRC-003</span></p>
+      </div>
+    </div>
+    <div class="card avoid-break" data-page-node-id="1hssGDHk5kD8YUDkEw9k73">
+      <div class="chart-block" data-page-node-id="QnhI26NB73OJyIsUs7hQme">
+        <h3 class="chart-title" data-page-node-id="76mfiVVxDy7l7ZjNSAmePE">价格阶梯</h3>
+        <div class="vcols" data-page-node-id="yxizeX1cjMGRGcVEgE1LBH">
+          <div class="vcol" data-page-node-id="vHck0LEilkssUwveFqZecw"><div class="vbar c1" style="--v:100;--max:100" data-page-node-id="ksacLT1A3RTDFdJ6l4ODmG"></div><div class="vval" data-page-node-id="hnygFEGKa04wJ0RVePMkSv">$2,999</div><div class="vlab" data-page-node-id="ovLRqrhrsbfjm1DteBH0qv">旗舰</div></div>
+          <div class="vcol alt" data-page-node-id="R9VA5CRtk7UaphpXa2GiGs"><div class="vbar" style="--v:55;--max:100" data-page-node-id="0jy4M2LbMM7QOaEU6o8VWK"></div><div class="vval" data-page-node-id="iSDiAkvSvGcvPRDVdXM0PL">$1,699</div><div class="vlab" data-page-node-id="1pBeIEsozZycUu9rTNhEOT">主力</div></div>
+          <div class="vcol" data-page-node-id="jdEq4XGq6w4UCDtZyTClgQ"><div class="vbar" style="--v:18;--max:100" data-page-node-id="KJKHgCl9zkukKOS92NgwEN"></div><div class="vval" data-page-node-id="QvuEOjAHjHBvKPBjZ1MH9e">$549</div><div class="vlab" data-page-node-id="vLRXr6xAtzfLPPTVwnpVH3">入门</div></div>
+        </div>
+        <p class="chart-note" data-page-node-id="tkdkjUcDDD5SEDMUCSwuex">柱高按数值比例示意 · <span class="badge est" data-page-node-id="z1GHE9mHZU7H6GWVBBTz8b">ESTIMATE</span> <span class="src-chip" data-page-node-id="rPQRa0IADZ4zJJS87EO7DM">SRC-009</span></p>
+      </div>
+    </div>
+    <div class="card avoid-break" data-page-node-id="GwYz67ml6HCe3MmQk3WpWC">
+      <div class="chart-block" data-page-node-id="NDJkrtfWgBVxA4SmOIuuAr">
+        <h3 class="chart-title" data-page-node-id="XL9LhsUx0wnFj0XByXVqDd">独立站占比</h3>
+        <div class="donut-wrap" data-page-node-id="0z5eDmG8858LXPIFvMTGKq">
+          <div class="donut-item" data-page-node-id="x5qcO5kpjGjgWPlEzfkv1o"><div class="donut" style="--p:30.4" data-page-node-id="qkyMs9ZTpwRUGMAiUUqh8A"><b data-page-node-id="uRV113aRi3C515QuHAmHIN">30.4%</b></div>DTC 占比</div>
+        </div>
+        <p class="chart-note" data-page-node-id="DOWB1RPwIgIxKBGhptw7I4">环形按占比示意 · <span class="badge fact" data-page-node-id="bvquKWxWcHlKHRqTPQa5Jj">FACT</span> <span class="src-chip" data-page-node-id="s1HH0wiLdBKnQ8CamUUAL7">SRC-003</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ Sources：开放区块（打印时折叠内容不会显示，故不用 details） ═══════════ -->
+<section class="sources" id="sources" data-page-node-id="qA0j7tGzZ4UDBmb00x5aEV">
+  <h2 data-page-node-id="Dy5NaVIWiLc2Q7TEdLdj1Z">Sources（N 条）· 完整来源登记</h2>
+  <ol data-page-node-id="Yw0gQAafpD6Q4ZZkIUkUTQ">
+    <li data-page-node-id="DuuRQwvLfx2FMAYDgLJDCy"><b data-page-node-id="mZOzJRuPqvUHUNujsfwqd7">SRC-001</b> 来源名称 — First-party — 链接 · access 2026-09-08</li>
+    <li data-page-node-id="potykwRdMRmEFoOPYiVBZs"><b data-page-node-id="YF8xSEx99XtMfuA8XoaRVT">SRC-002</b> 来源名称 — Media — 链接 · access 2026-09-08</li>
+  </ol>
+</section>
+
+<footer class="doc-foot" data-page-node-id="haNzEMAzdfptykkHXPFTuK">
+  <p data-page-node-id="jo9l8jYEmeEMMo8FLs1NTp">数据与研究口径：保留原报告的数据提示（如"营收为官方口径非审计"）。</p>
+  <!-- 去自指（§15）：不写工具名 / skill 名 / 生成流程，只留读者需要的口径 -->
+  <p data-page-node-id="SyWyLQzvXMiUMtD2qp9S28">研究日期 2026-09-09 · 基于原研究报告整理 · 未新增任何数据</p>
+  <!-- 作者署名行：与 <meta name="rv-author"> 保持一致；无署名时删除此行 -->
+  <p data-page-node-id="x4nc9370juqBPAdRpQuNZE"><strong data-page-node-id="SNYEjUEtShGokxLECDGMYg">作者：Yan</strong> · © 2026 Yan，保留所有权利。未经授权不得商用转载。</p>
+</footer>
+
+<!-- ═══════════ COPY-ME 图表套件（<template> 不渲染，源码复制即用） ═══════════
+     原则：可比定量数据默认上图；每个数据点原样显示真实数值，柱长仅比例示意；
+     图 + 图注 + chart-note 包在同一个 .chart-block 里（防分页切开）。 -->
+<template id="chart-suite-copyme" data-page-node-id="Atx2PiUgDr8lT1qC3O9C8m">
+
+  <!-- ① 水平条形组：width = 值 ÷ 组内最大 × 100% -->
+  <div class="chart-block" data-page-node-id="nbnGT7BjGUznnS0lE8NKEw">
+    <h3 class="chart-title" data-page-node-id="XsJhgmfFf2sTUvYgJYKAtq">渠道结构占比</h3>
+    <div class="bars" data-page-node-id="omxl2KrlnC0HMxBccoyyGp">
+      <div class="bar-row" data-page-node-id="vRERWoJyJelDQJprpBQa6h"><span class="blabel" data-page-node-id="gneuMXnqO7INvfUixhwRM5">独立站<span class="s" data-page-node-id="Ms7O6QdtcL67uygsYnjETe">DTC 自营</span></span>
+        <div class="bar-track" data-page-node-id="G8MV28AhNkeZlq5Ef8AxqR"><div class="bar-fill c1" style="width:76%" data-page-node-id="nBOEb4bTQBvGludh9vRhqz"></div></div>
+        <span class="bar-val" data-page-node-id="SwtnBdkm90wB4nMkg2tpaB">25.2%</span></div>
+      <div class="bar-row" data-page-node-id="IssqKEsbwFRjo9wzIte5KF"><span class="blabel" data-page-node-id="FwmMiP2LbcWjTn4FtMem2l">Amazon</span>
+        <div class="bar-track" data-page-node-id="KGkHePfbsDHAUs4CLfY4P5"><div class="bar-fill c2" style="width:100%" data-page-node-id="p346weE017WjYcsjV1WUWR"></div></div>
+        <span class="bar-val" data-page-node-id="qvV4VH8IJS24vVUaR4Q6Yu">33.3%</span></div>
+    </div>
+    <p class="chart-note" data-page-node-id="luDv4WEWs2JnNwrx8L4KYr">柱长按占最大项比例示意 · <span class="badge fact" data-page-node-id="IEO7xqeip2DcHu5WdYns97">FACT</span> <span class="src-chip" data-page-node-id="2YpE0ZjTlM5oJ1i6JuKy3d">SRC-003</span></p>
+  </div>
+
+  <!-- ② 分组垂直柱状：--v 该值 / --max 组内最大 -->
+  <div class="chart-block" data-page-node-id="CksCoqgkmsKJeQG3x9CJgq">
+    <h3 class="chart-title" data-page-node-id="bX7yGdQKp1a3ZlUDlPzP7e">备注型柱状（时长 / 营收等）</h3>
+    <div class="vcols" data-page-node-id="RQ9TfCrySQ5DdsQzviwiam">
+      <div class="vcol" data-page-node-id="bwhytHUbD4wHEA9e0LQrBm"><div class="vbar c1" style="--v:100;--max:100" data-page-node-id="l49x9OU4yiLSOnKioA3yzH"></div><div class="vval" data-page-node-id="bZ61j3v7JQeXCvoSDJBXvh">¥21.74 亿</div><div class="vlab" data-page-node-id="pSnNyRLI1VT3CVO7t1BPVy">2024</div></div>
+      <div class="vcol alt" data-page-node-id="BiCTrKflWUYaLDLpNgQmHR"><div class="vbar" style="--v:62;--max:100" data-page-node-id="YRbJOxMeYHre59IoPGiPPn"></div><div class="vval" data-page-node-id="DjUem1a83W1iQU5FR1EF5e">¥13.5 亿</div><div class="vlab" data-page-node-id="cXSuRdGzxzFWN4s74xlNhJ">2023</div></div>
+    </div>
+    <p class="chart-note" data-page-node-id="ZxYXBIlL0hiTfGr42niwJu">柱高按数值比例示意 · <span class="badge fact" data-page-node-id="sphsCfXKNL0LBji8F0FGFH">FACT</span> <span class="src-chip" data-page-node-id="2hBj94qlI4fO0dbjLC7mLA">SRC-002</span></p>
+  </div>
+
+  <!-- ③ 环形：--p 百分比数值 -->
+  <div class="chart-block" data-page-node-id="gbcAJE9VrwxLuGpBpVWva5">
+    <div class="donut-wrap" data-page-node-id="bAxYcFkoE33yluBqEmc5rG">
+      <div class="donut-item" data-page-node-id="qzt0KV0OoVhC5owMrI743p"><div class="donut" style="--p:30.4" data-page-node-id="NZQyAb58pB888T46nNdBDY"><b data-page-node-id="gFUsj1WGyOqZEErqCvW6Is">30.4%</b></div>独立站占比</div>
+      <div class="donut-item" data-page-node-id="0iu2Y510iMLnbq2p2ZfvM5"><div class="donut" style="--p:33.3;--col:var(--obs)" data-page-node-id="ln5xB2SP0bVu644nT704nW"><b data-page-node-id="Rh9iFBpKrx1kRLJbxsa32E">33.3%</b></div>Amazon 占比</div>
+    </div>
+    <p class="chart-note" data-page-node-id="3Y0zw5eshda44wCbyUDX5m">环形按占比示意 · <span class="badge fact" data-page-node-id="n2m8QBPHR7ySwb8OUBxMpI">FACT</span></p>
+  </div>
+
+  <!-- ④ 漏斗：--w 相对宽度%（无数据的层不编数字） -->
+  <div class="chart-block" data-page-node-id="NQuBDz466QRJfv40dM5eFk">
+    <div class="funnel" data-page-node-id="98sDvRNxw1J1kJ0qXRyFVl">
+      <div class="fstep" style="--w:100%" data-page-node-id="VPBv1iDtPGPKFZSHARq2PY"><span data-page-node-id="DSS6pEZIauYuVYstoQroGm">全渠道触达</span><b data-page-node-id="RUrZlNpnLFxUHnhBrybqZa">—</b></div>
+      <div class="fstep" style="--w:58%" data-page-node-id="5Gag24VUH3rFuYDJjM62Z6"><span data-page-node-id="J8Pq1TAqVEyrkcSogRC2PZ">线上渠道</span><b data-page-node-id="0POtJTL4Q9hBwBJtGVZZ2f">58.5%</b></div>
+      <div class="fstep" style="--w:30%" data-page-node-id="8FlKPFbaCJGLUkLpulULEf"><span data-page-node-id="7FabYBa0XowCYNpF9MBw1X">独立站</span><b data-page-node-id="IVR6zjHsSFBoIPnGsnG72G">30.4%</b></div>
+    </div>
+    <p class="chart-note" data-page-node-id="LLQab484RL0IBlEi7wvO1P">层宽按占比示意 · <span class="badge fact" data-page-node-id="zF5psXiaqDJID1iLarr5IJ">FACT</span> <span class="src-chip" data-page-node-id="kH2AEZzdmSGeYg0FIrEyLk">SRC-004</span></p>
+  </div>
+
+  <!-- ⑤ 层流图：.elayer 一层（可含多个 .enode），.econn 标关系 -->
+  <div class="chart-block" data-page-node-id="BfkimjosMYlSURDesWtCuP">
+    <div class="engine" data-page-node-id="FNqhvsGHwzw31xTupeig6s">
+      <div class="elayer" data-page-node-id="GozNFVdy16oBWhB2adF6Az">
+        <div class="enode" data-page-node-id="grlpGIBbV2CuqsMwa5Jeq1"><b data-page-node-id="2nzR2FY1ScPOsmES8NdOKL">产品差异</b>LiFePO₄ + 快充</div>
+        <div class="enode" data-page-node-id="BdHFgt8WxpwYOzHw1bewu0"><b data-page-node-id="jBqGUEM6nlEcvY7FDidBG9">Creator</b>折扣码可归因</div>
+      </div>
+      <div class="econn" data-page-node-id="a0vz9d6qR8i7Tqfgtgcl5F">drives →</div>
+      <div class="elayer" data-page-node-id="k9X8RjuNHmHZsCRW8wgu68">
+        <div class="enode" data-page-node-id="fj9FwKEpV69MwmXcUUiXZ0"><b data-page-node-id="nNZY4xMerDyZ0fQzTRlhAN">转化</b>独立站 + Amazon + 零售</div>
+        <div class="enode" data-page-node-id="m0MvsYwRLZmW5qTStwOneT"><b data-page-node-id="Bll7bMaYQwmEyxYnECP0rA">留存</b>App 生态 + 会员</div>
+      </div>
+    </div>
+    <p class="chart-note" data-page-node-id="v1h2iQsIlHL4B82jGfdYwK">关系与层级依据原文结构绘制 · <span class="badge inf" data-page-node-id="r003mie8CzCFhLb0LxQHbh">INFERENCE</span></p>
+  </div>
+</template>
+
+</body>
+</html>
