@@ -345,7 +345,7 @@ ESTIMATE [SRC-035]
 ## Sources — 完整来源登记
 
 > 本报告全部数据与判断均可回溯到下列来源；编号与正文中的 `[SRC-0xx]` 标记一一对应。
-> 共 39 条，按可靠性分为 First-party（品牌官网与官方材料）/ Platform（第三方平台数据库）/ Media（权威与行业媒体）/ Community（社区）四层，**一手优先**。
+> 共 39 条，按可靠性分为 First-party（品牌官网与官方材料）/Platform（第三方平台数据库）/Media（权威与行业媒体）三层，**一手优先**。
 > 采集日期：2026-09-16。
 
 - **SRC-001** Momcozy 官网首页（含信任条、社会认同、会员与导航结构） — First-party — https://momcozy.com/ · access 2026-09-16

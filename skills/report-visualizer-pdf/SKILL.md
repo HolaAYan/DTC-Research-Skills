@@ -92,7 +92,7 @@ Part 3 应被视为**不属于公开报告的内部内容**。
 
 > 同类内部收尾块一并删除：`## Final Quality Check`、`## 自检`、`## 质检清单` 等交付自检段落，以及所有 fenced YAML / JSON 结构化数据块（`research:` 数据层属于机器可读内部层，不进入公开 PDF）。
 >
-> **唯一例外——Source Registry 转写**：§4 与 §13 要求公开报告必须完整保留来源信息。若 Source Registry 恰好位于 Part 3 的结构化数据层内，将其**转写为 PDF 的 Sources 节**（保留 SRC ID / 名称 / 类型 / URL / access 日期），而不是连同 Part 3 一起丢弃。转写的是**引用清单**，不是 Part 3 的叙事、分析或 YAML 结构——Part 3 的标题、章节、YAML 数据层本身一律不得出现在 PDF 中。`scripts/filter_report.py` 会自动完成这次转写（输出 `.sources.md` 侧车文件）。
+> **唯一例外——Source Registry 转写**：§4 与 §13 要求公开报告必须完整保留来源信息。若 Source Registry 恰好位于 Part 3 的结构化数据层内，将其**转写为 PDF 的 Sources 节**（保留 SRC ID / 名称 / 类型 / URL / access 日期），而不是连同 Part 3 一起丢弃。转写的是**引用清单**，不是 Part 3 的叙事、分析或 YAML 结构——Part 3 的标题、章节、YAML 数据层本身一律不得出现在 PDF 中。`scripts/filter_report.py` 会自动完成这次转写（输出 `.sources.md` 侧车文件），并把正文里指向 Part 3 的引用改写到公开版仍然存在的目标，不留悬空指引。
 
 ## 3.2 删除内部操作信息
 
@@ -703,6 +703,8 @@ Markdown table 应根据内容决定最终表现形式。
    ```
 
    脚本只做**可判定的机械删除**（Part 3 / Final Quality Check / fenced YAML 块 / 明确命中路径与密钥模式的行），它不替代语义过滤。若抢救到来源，会额外写出 `<报告>.sources.md`（SRC ID / 名称 / 类型 / URL / access 日期），直接用作 PDF 的 Sources 节底稿。
+
+   正文里指向被删章节的引用（如"完整来源记录见 Part 3 的 Source Registry"）会被**自动改写**到公开版仍然存在的目标，不会留下悬空指引；无法机械判断的裸指针（如"本报告分 Part 1 / Part 2 / Part 3"）会在报告里单独列出，需人工处理。**本链路不要加 `--merge-sources`**：Sources 节由本 skill 从 `.sources.md` 生成，并回会重复。该开关只用于 md 本身即为最终交付物、需要自包含的场景。
 2. 再对过滤后的文本做**语义二次过滤**（§3.2）：AI / Skill / Agent 指令、工具与 API 操作、本地路径、内部备注，"如何做研究"类内容一律删除。
 3. 过滤后自检：脚本的痕迹扫描段落应收敛到零（少量命中需逐条判断，例如正文正常提到"后台指标"不等于内部操作说明）。
 
@@ -809,5 +811,5 @@ python scripts/qc_pdf.py <输出.pdf> --html <报告.html>
 - `assets/template-a4.html` — **A4 打印起点骨架**：`@page` 规则、打印令牌、分页工具类（`.avoid-break` / `.keep-with-next` / `.page-break`）、全部组件与内置 Chart suite（bars/vcols/donut/funnel/engine + c1–c5）、`<template id="chart-suite-copyme">` 示例、页脚 meta 占位；**生成时以此为基底填充语义内容**
 - `assets/template-a4-preview.pdf` — 由 `template-a4.html` 用本 skill 工具链渲染出的 2 页 A4 样张（占位内容），用于（a）确认工具链可用、（b）目视核对版式基线
 - `scripts/html_to_pdf.cjs` — HTML → PDF 渲染器（Node 22+ 标准库，CDP `Page.printToPDF`，A4、矢量文本、注入页码页脚、逐页重复）
-- `scripts/filter_report.py` — 公开分享内容过滤辅助（确定性剔除 Part 3 / 自检段 / YAML 数据块 + Source Registry 抢救为 `.sources.md` + 内部痕迹扫描报告）
+- `scripts/filter_report.py` — 公开分享内容过滤辅助（确定性剔除 Part 3 / 自检段 / YAML 数据块 + Source Registry 抢救为 `.sources.md` + 正文断链改写 + 内部痕迹扫描报告；`--merge-sources` 可将来源登记并回公开版 md）
 - `scripts/qc_pdf.py` — PDF 质检（尺寸 / 页数 / 墨迹覆盖 / 正文包围盒越界 / 页脚存在性 + 逐页 PNG 渲染 + HTML 内容安全扫描；退出码 0 通过 / 1 告警 / 2 硬错误）

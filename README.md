@@ -63,13 +63,13 @@ PART 3 的铁律是**只抽取、不新研**：数据必须派生自 PART 1/2 �
 
 把同一份研究报告转成 A4 版式的 PDF。与 HTML 版共享信息架构、组件与证据体系，但针对**纸张**重新做分页与版式设计：pt 字号体系、分页保护、打印恒为浅色。
 
-它比 HTML 版多一层能力：**公开分享过滤**。一份内部研究报告里通常混着不适合对外发布的内容——结构化数据层、执行指令、本地路径、工具操作痕迹。这个 skill 把这些确定性剔除，并按需把来源登记从被删的结构化数据里抢救出来，只留下可公开的研究内容。
+它比 HTML 版多一层能力：**公开分享过滤**。一份内部研究报告里通常混着不适合对外发布的内容——结构化数据层、执行指令、本地路径、工具操作痕迹。这个 skill 把这些确定性剔除，并按需把来源登记从被删的结构化数据里抢救出来，只留下可公开的研究内容。剔除后，正文里指向已删章节的引用会被自动改写到仍然存在的目标，避免留下"见 Part 3"式的悬空指引。
 
 三个脚本，零第三方依赖（PDF 渲染靠本机 Chrome / Edge 的 CDP）：
 
 | 脚本 | 作用 |
 |---|---|
-| `scripts/filter_report.py` | 公开分享内容过滤：剔除内部章节块与 YAML 数据块，把 Source Registry 抢救为独立来源文件，并输出内部痕迹扫描报告 |
+| `scripts/filter_report.py` | 公开分享内容过滤：剔除内部章节块与 YAML 数据块，把 Source Registry 抢救为独立来源文件，**改写正文中指向已删章节的断链**，并输出内部痕迹扫描报告（`--merge-sources` 可把来源登记并回公开版，使其自包含） |
 | `scripts/html_to_pdf.cjs` | HTML → PDF 渲染器（CDP `Page.printToPDF`，矢量文本、注入页码页脚、逐页重复） |
 | `scripts/qc_pdf.py` | 质检：页数与 A4 尺寸、逐页墨迹覆盖率、正文包围盒越界、页脚存在性、逐页渲染 PNG + HTML 内容安全扫描 |
 
@@ -106,9 +106,9 @@ PART 3 的铁律是**只抽取、不新研**：数据必须派生自 PART 1/2 �
 | [`momcozy_report_2026-09-16.md`](examples/momcozy_report_2026-09-16.md) | Markdown 研究报告 | 三段式输出的公开版（结构化数据层已过滤），含 39 条来源登记 |
 | [`momcozy_report_2026-09-16.html`](examples/momcozy_report_2026-09-16.html) | 单文件 HTML | 首屏结论、KPI 卡组、图表套件、证据徽章与页尾来源登记表 |
 | [`momcozy_report_2026-09-16.pdf`](examples/momcozy_report_2026-09-16.pdf) | A4 PDF（16 页） | 打印版式，含逐页页码页脚与完整 Sources 节 |
-| [`momcozy_visuals_2026-09-16_v1_4x3/`](examples/momcozy_visuals_2026-09-16_v1_4x3/index.html) | PNG 图片集（15 张） | 1600×1200@2x 图片资产，含画廊 `index.html` 与可编辑 `src_html/` 源 |
+| [`momcozy_visuals_2026-09-16_v1_4x3/`](examples/momcozy_visuals_2026-09-16_v1_4x3/index.html) | PNG 图片集（5 张节选） | 1600×1200@2x 图片资产，含画廊 `index.html` 与可编辑 `src_html/` 源 |
 
-HTML 与图片集画廊下载后直接用浏览器打开即可（无需服务器、无需联网）；PDF 为矢量文本，可搜索、可复制。图片集由 15 张 PNG 组成，覆盖品牌快照、口径对照、产品与价格、增长引擎、留存、获客、创作者生态、用户画像、口碑、竞争格局、Campaign、转化、优劣势与机会、来源总览。
+HTML 与图片集画廊下载后直接用浏览器打开即可（无需服务器、无需联网）；PDF 为矢量文本，可搜索、可复制。图片集随仓库发布 5 张节选（原编号 01 / 06 / 07 / 11 / 14），覆盖品牌快照、获客结构、创作者与社媒、Campaign 节奏与来源总览；其余 10 张未随仓库发布。
 
 ---
 
@@ -175,7 +175,7 @@ DTC-Research-Skills/
 │   ├── momcozy_report_2026-09-16.pdf    A4 PDF 报告（16 页）
 │   └── momcozy_visuals_2026-09-16_v1_4x3/
 │       ├── index.html                   图片集画廊
-│       ├── 01–15_*.png                  15 张 3200×2400 PNG
+│       ├── 01/06/07/11/14_*.png         5 张 3200×2400 PNG（节选）
 │       └── src_html/                    可编辑 HTML 源 + _sys.css
 └── skills/
     ├── dtc-growth-research/
@@ -201,7 +201,7 @@ DTC-Research-Skills/
     │   │   ├── template-a4.html      A4 打印骨架（含内置图表套件）
     │   │   └── template-a4-preview.pdf  2 页样张，用于核对版式基线
     │   └── scripts/
-    │       ├── filter_report.py      公开分享内容过滤
+    │       ├── filter_report.py      公开分享内容过滤 / 断链修复
     │       ├── html_to_pdf.cjs       HTML → PDF 渲染器（CDP）
     │       └── qc_pdf.py             PDF 质检 + 内容安全扫描
     └── report-visualizer-image/
