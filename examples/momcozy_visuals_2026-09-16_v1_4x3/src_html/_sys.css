@@ -1,0 +1,232 @@
+/* ============================================================
+   Report Visualizer — Image · 画布基础样式（中性默认令牌）
+   轮次用法：拷贝本文件为输出目录 src_html/_sys.css，
+   在文件末尾追加 :root{...} 覆写令牌为品牌色（勿改组件结构）。
+   ============================================================ */
+
+:root{
+  /* 中性默认令牌（非品牌报告直接可用） */
+  --c1:#2563eb; --c2:#1d4ed8; --c3:#0ea5e9; --c4:#f59e0b; --c5:#334155;
+  --ink:#0f172a; --sub:#475569; --mut:#94a3b8;
+  --paper:#ffffff; --bg:#ffffff; --tint:#eef4ff; --line:#e2e8f0;
+  --ok:#0e7a3d; --warn:#b45309; --bad:#b91c1c; --cyan:#0891b2;
+  --ff:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans SC",Arial,sans-serif;
+  --nums:700;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#eef1f6}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+/* ---- 画布 ---- */
+.canvas{
+  position:relative;width:1600px;height:1200px;overflow:hidden;
+  background:var(--bg);color:var(--ink);font-family:var(--ff);
+  display:flex;flex-direction:column;
+}
+.content{flex:1;min-height:0;padding:0 72px;display:flex;flex-direction:column;justify-content:space-evenly}
+
+/* ---- 页眉带 ---- */
+.head{padding:34px 72px 0 72px;flex:none}
+.topline{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.kicker{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--c1)}
+.kicker .idx{color:var(--mut);font-weight:600}
+.datechip{font-size:12px;color:var(--sub);border:1px solid var(--line);background:var(--paper);
+  border-radius:999px;padding:5px 12px;white-space:nowrap}
+.titlerow{display:flex;align-items:flex-start;gap:16px}
+.titlerow::before{content:"";width:9px;height:44px;border-radius:4px;background:var(--c1);flex:none;margin-top:6px}
+.h1{font-size:52px;font-weight:800;line-height:1.12;letter-spacing:-.01em;color:var(--c1)}
+.h1 .ac{color:var(--c2)}
+.sub{margin-top:10px;color:var(--sub);font-size:19px;line-height:1.45;max-width:none}
+.sub .note{color:var(--mut)}
+
+/* ---- 页脚带 ---- */
+.foot{flex:none;border-top:2px solid color-mix(in srgb, var(--c1) 14%, transparent);
+  margin:0 72px;padding:13px 0 15px;display:flex;align-items:flex-start;gap:20px}
+.foot .fid{font-weight:800;font-size:13px;white-space:nowrap;color:var(--ink);display:flex;flex-direction:column;gap:2px}
+.foot .fid small{font-weight:500;color:var(--mut);font-size:11px}
+.foot .fmemo{flex:1;color:var(--mut);font-size:11.5px;line-height:1.5;padding-top:1px}
+.foot .fsrcs{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:430px;padding-top:1px}
+.foot .fby{font-size:11.5px;color:var(--c1);font-weight:800;letter-spacing:.04em;white-space:nowrap;margin-left:8px}
+.foot .fby b{color:var(--c1);font-weight:900}
+
+/* ---- 徽章 / chips ---- */
+/* 保留类名：fact / obs / inf / est / unk / src —— 页面级 <style> 禁止重定义这些裸类名，
+   否则 .ev 徽章会失去 inline-block 被撑满整行（见 design-system §2.8 类名冲突排查）。 */
+.ev{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.05em;
+  color:#fff;border-radius:999px;padding:2.5px 8px;line-height:1.25;white-space:nowrap}
+.ev.fact{background:var(--ok)} .ev.obs{background:#1d4ed8} .ev.inf{background:var(--warn)}
+.ev.est{background:#6d28d9} .ev.unk{background:#64748b}
+.src{display:inline-flex;align-items:center;gap:0;font-size:11px;font-weight:700;
+  color:var(--c1);background:var(--tint);border:1px solid color-mix(in srgb,var(--c1) 22%,transparent);
+  border-radius:6px;padding:2px 7px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.bul{display:inline-block;width:9px;height:9px;border-radius:3px;flex:none}
+
+/* ---- 面板与网格 ---- */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.card.tint{background:var(--tint);border-color:color-mix(in srgb,var(--c1) 18%,transparent)}
+.card.plain{background:transparent}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.cols4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.row{display:flex;align-items:center;gap:12px}
+.grow{flex:1;min-width:0}
+.sec{display:flex;align-items:center;gap:10px;margin:26px 0 14px}
+.sec:first-child{margin-top:0}
+.sec .t{font-size:19px;font-weight:800;letter-spacing:.01em}
+.sec::before{content:"";width:6px;height:19px;border-radius:3px;background:var(--c1)}
+.sec .more{margin-left:auto;font-size:12px;color:var(--mut);font-weight:600}
+
+/* ---- KPI 卡 ---- */
+.kpi .num{font-size:56px;font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.kpi .num .u{font-size:24px;font-weight:700;color:var(--sub);letter-spacing:0;margin-left:2px}
+.kpi .num.ac{color:var(--c1)}
+.kpi .lbl{margin-top:9px;font-size:15px;color:var(--sub);font-weight:600;line-height:1.35}
+.kpi .sub{font-size:12px;color:var(--mut);line-height:1.45;margin-top:5px}
+.kpi .meta{margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* ---- 条形组（数值真实，柱长按组内最大比例示意）---- */
+.barset{display:flex;flex-direction:column;gap:13px}
+.brow{display:flex;align-items:center;gap:14px}
+.brow .bl{width:196px;flex:none;font-size:15px;font-weight:700;color:var(--ink);text-align:left;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow .bt{flex:1;display:flex;align-items:center;position:relative}
+.brow .bf{height:30px;border-radius:7px;background:var(--c1);min-width:4px}
+.brow .bv{width:126px;flex:none;text-align:left;font-size:16px;font-weight:800;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.brow .bv small{font-weight:600;color:var(--mut);font-size:11.5px;margin-left:2px}
+.bnote{font-size:11px;color:var(--mut);line-height:1.4;margin-top:10px}
+
+/* ---- 100% 分段条 ---- */
+.segbar{display:flex;width:100%;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.segbar .seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;
+  white-space:nowrap;overflow:hidden}
+.legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:13px}
+.legend .li{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--sub);font-weight:600}
+.legend .li b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* ---- 环形 ---- */
+.donut{position:relative;border-radius:50%;flex:none}
+.donut::after{content:"";position:absolute;inset:24%;background:var(--bg);border-radius:50%}
+.donut .ct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;z-index:2;text-align:center}
+.donut .ct b{font-size:30px;font-weight:800;line-height:1.1}
+.donut .ct span{font-size:11.5px;color:var(--mut);margin-top:2px;line-height:1.3;max-width:70px}
+.dlegend{display:flex;flex-direction:column;gap:9px}
+.dlegend .li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--sub)}
+.dlegend .li b{color:var(--ink);margin-left:auto;font-variant-numeric:tabular-nums}
+.dlegend .li .nm{width:110px;flex:none}
+
+/* ---- 引用 / 列表 ---- */
+.quote{border-left:4px solid var(--c4);background:var(--paper);border:1px solid var(--line);
+  border-left-width:5px;border-radius:14px;padding:18px 20px}
+.quote p{font-size:21px;line-height:1.5;font-weight:600;color:var(--ink)}
+.quote .who{font-size:12.5px;color:var(--mut);margin-top:10px}
+.list{display:flex;flex-direction:column;gap:11px}
+.li2{display:flex;gap:11px;align-items:flex-start;font-size:15px;line-height:1.45;color:var(--sub)}
+.li2 b{color:var(--ink);font-weight:700}
+.chiprow{display:flex;flex-wrap:wrap;gap:9px}
+.chipx{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;
+  background:var(--paper);border:1px solid var(--line);color:var(--sub);border-radius:999px;padding:6px 13px}
+.chipx b{color:var(--ink)}
+.chipx.good{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
+.chipx.bad{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+.chipx.blue{background:var(--tint);border-color:color-mix(in srgb,var(--c1) 26%,transparent);color:var(--c1)}
+.mono{font-variant-numeric:tabular-nums}
+
+/* ---- 优先级小药丸 ---- */
+.pill{display:inline-block;font-size:11.5px;font-weight:800;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.pill.p1{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.pill.p2{background:#e0e7ff;color:#3730a3;border:1px solid #c7d2fe}
+.pill.p3{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0}
+.pill.px{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+
+/* ---- 小型细节元素 ---- */
+.divider{height:1px;background:var(--line);margin:16px 0}
+.impacttag{font-size:12.5px;color:var(--mut);font-weight:600}
+.gap8{gap:8px}.gap16{gap:16px}
+.mt6{margin-top:6px}.mt10{margin-top:10px}.mt14{margin-top:14px}.mt18{margin-top:18px}.mt22{margin-top:22px}
+.left{text-align:left}.center{text-align:center}
+strong.tick{color:var(--ok);font-size:15px}
+
+
+/* ============================================================
+   品牌令牌覆写 · Momcozy
+   主色 #6a2c3a(深梅洛) 实测取自 momcozy.com 主题 CSS(2026-09-16)
+   次级 #9c5455；tint 由主色 8% 派生。未虚构色值。
+   ============================================================ */
+:root{
+  --c1:#6a2c3a;          /* 主色：标题竖条/强调数字/主填充 */
+  --c2:#4f1f2b;          /* 主色深：渐变/次级强调 */
+  --c3:#9c5455;          /* 辅色：第二系列(官网实测次级色) */
+  --c4:#c98a4b;          /* 强调暖色：第三系列/注意 */
+  --c5:#3f3a3d;          /* 深中性 */
+  --ink:#221a1d;
+  --sub:#5c5155;
+  --mut:#9b8f93;
+  --paper:#ffffff; --bg:#ffffff;
+  --tint:#f6eeed;        /* 主色浅面板(主色 ~8%) */
+  --line:#eae2e2;
+}
+
+
+/* ============================================================
+   §1.5 页眉/页脚/正文主类 生产字号(远读标准) —— 只改 font-size
+   ============================================================ */
+/* 页眉带 */
+.kicker{font-size:17.8px}
+.datechip{font-size:16.4px}
+.h1{font-size:71.2px}
+.sub{margin-top:12px;font-size:26px;line-height:1.42}
+/* 页脚带 */
+.foot .fid{font-size:21.4px}
+.foot .fid small{font-size:18.1px}
+.foot .fmemo{font-size:18.8px;line-height:1.42}
+.foot .fsrcs{max-width:560px;gap:7px}
+.foot .fsrcs .src{font-size:18.1px}
+.foot .fby{font-size:18.8px}
+.fleg{margin-top:5px;display:flex;align-items:center;flex-wrap:wrap;gap:4px 9px;
+  font-size:17.3px;color:var(--mut);font-weight:600}
+.fleg .ev{font-size:15.6px;padding:3px 10px}
+/* 正文主类 */
+.ev{font-size:15.6px;padding:3px 10px}
+.src{font-size:16.8px;padding:3px 9px}
+.sec .t{font-size:29px}
+.sec::before{width:8px;height:26px}
+.sec .more{font-size:17px}
+.kpi .num{font-size:74px}
+.kpi .num .u{font-size:31px}
+.kpi .lbl{font-size:20px}
+.kpi .sub{font-size:16.5px;line-height:1.42}
+.brow .bl{width:252px;font-size:21px}
+.brow .bf{height:34px}
+.brow .bv{width:172px;font-size:23px}
+.brow .bv small{font-size:15px}
+.bnote{font-size:16px;line-height:1.4}
+.legend .li{font-size:19px}
+.dlegend .li{font-size:19.5px}
+.quote p{font-size:25px}
+.quote .who{font-size:17px}
+.li2{font-size:19.5px;line-height:1.45}
+.chipx{font-size:18.5px;padding:8px 16px}
+.pill{font-size:16px;padding:5px 13px}
+.card{border-radius:18px;padding:22px 24px}
+.segbar{height:52px}
+.segbar .seg{font-size:18px}
+.donut .ct b{font-size:38px}
+.donut .ct span{font-size:14.5px}
+.impacttag{font-size:16.5px}
+strong.tick{font-size:19px}
+
+
+/* SECTION1_3_MARK · §1.3 正文区居中(内容整体在正文区居中, 块间空隙最小化) */
+.content{justify-content:center;gap:16px}
+
+
+/* FOOT_WRAP_MARK · 页脚折行：legend 独占第二行，避免口径文字被挤压换行 */
+.foot{flex-wrap:wrap;gap:12px 20px;padding:11px 0 13px}
+.foot .fid{min-width:132px}
+.foot .fmemo{flex:1 1 300px;min-width:280px}
+.foot .fby{margin-left:0}
+.foot .fleg{flex:1 1 100%;margin-top:0;padding-top:8px;
+  border-top:1px dashed color-mix(in srgb,var(--c1) 16%,transparent)}

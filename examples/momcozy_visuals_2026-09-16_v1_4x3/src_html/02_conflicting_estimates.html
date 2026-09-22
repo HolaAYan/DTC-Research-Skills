@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>02 Conflicting Estimates</title>
+<link rel="stylesheet" href="_sys.css">
+<style>
+  .cfgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .cf{border:1px solid var(--line);border-radius:16px;padding:15px 18px;background:var(--paper);
+    display:flex;flex-direction:column}
+  .cf .ct{display:flex;align-items:center;gap:10px}
+  .cf .ct .n{font-size:21px;font-weight:800;color:var(--ink)}
+  .cf .vrow{display:flex;gap:11px;align-items:flex-start;margin-top:11px;padding-top:11px;
+    border-top:1px dashed var(--line)}
+  .cf .vrow:first-of-type{border-top:none;margin-top:9px;padding-top:0}
+  .cf .tag{flex:none;width:126px;font-size:15.5px;font-weight:800;color:var(--c1);
+    background:var(--tint);border-radius:7px;padding:4px 8px;text-align:center;line-height:1.3}
+  .cf .vv{flex:1;font-size:19px;line-height:1.42;color:var(--ink);font-weight:700}
+  .cf .vv span{display:block;font-size:15.5px;color:var(--mut);font-weight:600;margin-top:3px}
+  .cf .mt{margin-top:10px;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+  .rdf{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  .rdf .c{border:1px solid var(--line);border-radius:16px;padding:14px 17px;background:var(--paper);
+    display:flex;flex-direction:column;justify-content:center}
+  .rdf .c .h{font-size:18px;font-weight:800;color:var(--c1)}
+  .rdf .c p{font-size:18.5px;line-height:1.45;color:var(--sub);font-weight:600;margin-top:7px}
+  .rdf .c.hi{background:var(--tint);border-color:color-mix(in srgb,var(--c1) 22%,transparent)}
+</style></head>
+<body><div class="canvas">
+
+  <div class="head">
+    <div class="topline">
+      <div class="kicker">CONFLICTING ESTIMATES · <span class="idx">02 / 15</span></div>
+      <div class="datechip">数据截至 2026-09</div>
+    </div>
+    <div class="titlerow"><div class="h1">四组数字，各自成立</div></div>
+    <div class="sub">营收、市场份额、成立时间、社媒粉丝——同一个对象存在互斥公开口径。本页全部并列，不取其一为准。</div>
+  </div>
+
+  <div class="content">
+
+    <div class="cfgrid">
+
+      <div class="cf">
+        <div class="ct"><div class="n">营收</div><span class="ev est">EST</span></div>
+        <div class="vrow"><div class="tag">中国行业媒体</div><div class="vv">2022 &gt;10 亿元 · 2023 约 20 亿 · 2024 &gt;35 亿元
+          <span>部分文章自我标注「如有误，欢迎品牌方联系修正」</span></div></div>
+        <div class="vrow"><div class="tag">另一转载口径</div><div class="vv">2025 亚马逊年销超 $1 亿 · 年收入接近 40 亿元
+          <span>与上组数字口径不同，无法对齐核算</span></div></div>
+        <div class="mt"><span class="src">SRC-033</span><span class="src">SRC-034</span><span class="src">SRC-014</span>
+          <span style="font-size:16px;color:var(--mut);font-weight:700">官方从未披露</span></div>
+      </div>
+
+      <div class="cf">
+        <div class="ct"><div class="n">市场份额</div><span class="ev est">EST</span></div>
+        <div class="vrow"><div class="tag">Frost &amp; Sullivan</div><div class="vv">8.5% → <b>27.6%</b>（2021 → 2025 全球销量份额）
+          <span>连续五年全球销量第一认证</span></div></div>
+        <div class="vrow"><div class="tag">Grand View Research</div><div class="vv"><b>19.32%</b> 全球 · 22.21% 北美 · 20.20% 欧洲
+          <span>2024 年，覆盖线上线下全渠道</span></div></div>
+        <div class="mt"><span class="src">SRC-012</span>
+          <span style="font-size:16px;color:var(--mut);font-weight:700">方法论 / 年份 / 范围均不同，两组不可比较或相加</span></div>
+      </div>
+
+      <div class="cf">
+        <div class="ct"><div class="n">成立时间</div><span class="ev obs">OBS</span></div>
+        <div class="vrow"><div class="tag">中文材料</div><div class="vv">集团 <b>2017 年</b>成立
+          <span>校招简章 + 官方中文站</span></div></div>
+        <div class="vrow"><div class="tag">英文新闻稿</div><div class="vv">品牌 <b>2018 年</b>成立
+          <span>面向海外的稿件统一写「Since 2018」</span></div></div>
+        <div class="mt"><span class="src">SRC-007</span><span class="src">SRC-002</span><span class="src">SRC-024</span></div>
+      </div>
+
+      <div class="cf">
+        <div class="ct"><div class="n">社媒粉丝</div><span class="ev est">EST</span></div>
+        <div class="vrow"><div class="tag">口径 A · 2026-02</div><div class="vv">全平台 <b>90 万+</b>
+          <span>Instagram 46.5 万 · TikTok 39.6 万 · YouTube 1.37 万</span></div></div>
+        <div class="vrow"><div class="tag">口径 B · 2026</div><div class="vv">TikTok <b>44.2 万</b>
+          <span>另一媒体口径，与上组冲突，未取其一为准</span></div></div>
+        <div class="mt"><span class="src">SRC-031</span><span class="src">SRC-014</span></div>
+      </div>
+    </div>
+
+    <div class="rdf">
+      <div class="c"><div class="h">为什么会同时存在两个数</div>
+        <p>认证机构、统计年份与统计范围不同——份额类尤其如此，同一品牌在不同方法论下可以差出数倍。</p></div>
+      <div class="c hi"><div class="h">该怎么用</div>
+        <p>两组都保留并各自标注口径，<b>都不作为事实引用</b>。本页全部数字按第三方估算处理。</p></div>
+      <div class="c"><div class="h">判断该回到哪里</div>
+        <p>回到可验证的一手材料：站点流量、官网页面原文、监管与工商文档。</p></div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <div class="fid">02<small>Conflicting Estimates</small></div>
+    <div class="fmemo">财务、份额、粉丝数均无官方披露或独立核实，全部按第三方估算处理；本页只做并列，不做取舍。</div>
+    <div class="fsrcs"><span class="src">SRC-002</span><span class="src">SRC-007</span><span class="src">SRC-012</span><span class="src">SRC-014</span><span class="src">SRC-031</span><span class="src">SRC-033</span><span class="src">SRC-034</span></div>
+    <div class="fby">© 2026 <b>Yan</b></div>
+    <div class="fleg"><span class="ev fact">FACT</span>可验证事实 <span class="ev obs">OBS</span>观察 <span class="ev inf">INF</span>推断 <span class="ev est">EST</span>第三方估算 <span class="ev unk">UNK</span>无可靠公开数据</div>
+  </div>
+
+</div></body></html>

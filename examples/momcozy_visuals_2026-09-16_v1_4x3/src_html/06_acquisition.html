@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>06 Acquisition</title>
+<link rel="stylesheet" href="_sys.css">
+<style>
+  .content{gap:12px}
+  .kg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .kb{border:1px solid var(--line);border-radius:14px;padding:7px 14px;background:var(--paper);
+    display:flex;flex-direction:column;justify-content:center}
+  .kb.pri{border-color:color-mix(in srgb,var(--c1) 26%,transparent);background:var(--tint)}
+  .kb .num{font-size:46px;font-weight:800;line-height:1;color:var(--c1);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .kb .num .u{font-size:21px;font-weight:700;color:var(--sub);margin-left:2px}
+  .kb .lbl{margin-top:7px;font-size:17px;font-weight:600;color:var(--sub);line-height:1.32}
+  .kb .mt{margin-top:6px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .kb .mt .src{font-size:14px;padding:2px 7px}
+  .tagbar{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;color:var(--c1)}
+  .tagbar .tg{background:var(--c1);color:#fff;border-radius:7px;padding:3px 11px;font-size:15.5px;letter-spacing:.05em}
+  .tagbar .d{color:var(--mut);font-weight:700;font-size:15.5px}
+  .barset .brow .bl{width:180px;font-size:18.5px}
+  .barset .brow .bf{height:21px}
+  .barset .brow .bv{width:140px;font-size:18.5px}
+  .barset{gap:7px}
+  .refrow{display:flex;flex-wrap:wrap;gap:7px}
+  .refrow .rc{font-size:16px;font-weight:700;color:var(--sub);background:var(--paper);
+    border:1px solid var(--line);border-radius:8px;padding:5px 11px}
+  .refrow .rc b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+  .content{gap:10px}
+  .card{padding:15px 20px}
+  .bnote{font-size:15px;margin-top:7px}
+  .refrow{gap:6px}
+  .refrow .rc{padding:4px 10px}
+  .barset{gap:6px}
+  .barset .brow .bf{height:20px}
+  .readout{display:flex;gap:15px;align-items:stretch;background:var(--tint);border:1px solid color-mix(in srgb,var(--c1) 18%,transparent);border-radius:15px;padding:9px 18px}
+  .readout .bar{width:8px;flex:none;border-radius:4px;background:var(--c1)}
+  .readout .rt{font-size:16.5px;font-weight:800;color:var(--c1);letter-spacing:.06em}
+  .readout p{font-size:16.5px;line-height:1.4;color:var(--ink);font-weight:600;margin-top:5px}
+</style></head>
+<body><div class="canvas">
+
+  <div class="head">
+    <div class="topline">
+      <div class="kicker">ACQUISITION · <span class="idx">06 / 15</span></div>
+      <div class="datechip">数据截至 2026-09</div>
+    </div>
+    <div class="titlerow"><div class="h1">流量从哪来，谁在承接</div></div>
+    <div class="sub">主口径（最新一手平台数据）承担全部分析判断；较早的二手口径并列列出，仅作参照。</div>
+  </div>
+
+  <div class="content">
+
+    <div class="tagbar"><span class="tg">主口径</span>Semrush · 2026-07（一手平台数据）
+      <span class="d">平台公开几项就呈现几项 · 未公开项不反推</span></div>
+
+    <div class="kg">
+      <div class="kb pri"><div class="num">1.06<span class="u">M</span></div><div class="lbl">自然搜索访问 · 约 45.1%（派生值）</div>
+        <div class="mt"><span class="src">SRC-016</span></div></div>
+      <div class="kb"><div class="num">80.77<span class="u">K</span></div><div class="lbl">付费搜索 · 约 3.4% · 环比 +11.06%</div>
+        <div class="mt"><span class="src">SRC-016</span></div></div>
+      <div class="kb"><div class="num">2.2<span class="u">K</span></div><div class="lbl">AI 平台流量（ChatGPT / Gemini）</div>
+        <div class="mt"><span class="src">SRC-016</span></div></div>
+      <div class="kb"><div class="num">2.35<span class="u">M</span></div><div class="lbl">站点总访问 · 环比 +0.38%</div>
+        <div class="mt"><span class="src">SRC-016</span><span class="ev est" style="margin-left:5px">EST</span></div></div>
+    </div>
+
+    <div class="cols2" style="gap:12px">
+
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center">
+        <div class="sec" style="margin:0 0 10px"><div class="t">月度总访问趋势</div>
+          <div class="more">单位：百万次</div></div>
+        <div class="barset">
+          <div class="brow"><div class="bl">2026-05</div><div class="bt"><div class="bf" style="width:100%"></div></div><div class="bv">3.06</div></div>
+          <div class="brow"><div class="bl">2026-06</div><div class="bt"><div class="bf" style="width:76%"></div></div><div class="bv">2.34</div></div>
+          <div class="brow"><div class="bl">2026-07</div><div class="bt"><div class="bf" style="width:77%"></div></div><div class="bv">2.35</div></div>
+        </div>
+        <div class="bnote">柱长按组内最大值比例示意；05 月高峰未延续，06–07 稳定在 2.35M 附近。 <span class="src" style="margin-left:5px">SRC-016</span> <span class="ev est">EST</span></div>
+      </div>
+
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center">
+        <div class="sec" style="margin:0 0 10px"><div class="t">地域结构（2026-07）</div>
+          <div class="more">占全站访问比例</div></div>
+        <div class="barset">
+          <div class="brow"><div class="bl">美国</div><div class="bt"><div class="bf" style="width:100%"></div></div><div class="bv">49.61<small>%</small></div></div>
+          <div class="brow"><div class="bl">英国</div><div class="bt"><div class="bf" style="width:24%"></div></div><div class="bv">11.79<small>%</small></div></div>
+          <div class="brow"><div class="bl">法国</div><div class="bt"><div class="bf" style="width:18%"></div></div><div class="bv">8.76<small>%</small></div></div>
+          <div class="brow"><div class="bl">德国</div><div class="bt"><div class="bf" style="width:13%"></div></div><div class="bv">6.41<small>%</small></div></div>
+          <div class="brow"><div class="bl">西班牙</div><div class="bt"><div class="bf" style="width:7%"></div></div><div class="bv">3.27<small>%</small></div></div>
+        </div>
+        <div class="bnote">美国占比由 2026-03 的 62.63% 降至 49.61%，欧洲占比上升。 <span class="src" style="margin-left:5px">SRC-016</span> <span class="ev est">EST</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="tagbar"><span class="tg" style="background:var(--mut)">参照口径</span>Similarweb · 2025-08~10（二手转述，数据月早约 11 个月）
+        <span class="d">仅并列、不作分析依据</span></div>
+      <div class="refrow" style="margin-top:10px">
+        <span class="rc">付费搜索 <b>45.04%</b></span>
+        <span class="rc">直接访问 <b>32.88%</b></span>
+        <span class="rc">社交媒体 <b>12.70%</b></span>
+        <span class="rc">自然搜索 <b>5.80%</b></span>
+        <span class="rc">引荐 <b>2.80%</b></span>
+        <span class="rc">展示 <b>0.72%</b></span>
+        <span class="rc">邮件 <b>0.05%</b></span>
+      </div>
+      <div class="bnote">两口径方法论、统计范围与统计月份均不同，跨平台数字不可相加或互比，差值不作为品牌优劣势判断。 <span class="src" style="margin-left:5px">SRC-015</span> <span class="ev est">EST</span></div>
+    </div>
+
+    <div class="readout">
+      <div class="bar"></div>
+      <div class="grow">
+        <div class="rt">独立站目前是「承接」而非「造量」</div>
+        <p>自然搜索是最大的可识别渠道，但首位自然关键词就是品牌词 <b>momcozy pump</b>——说明站点主要在接住已有品牌需求。真正的增量考题，是把备孕与孕早期的非品牌需求转成站点流量：主口径的受众重叠站点为 <b>nameberry.com、babynames.com、thebump.com</b>，均为取名与孕期信息站。</p>
+      </div>
+      <div style="text-align:right;white-space:nowrap"><span class="ev inf">INF</span></div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <div class="fid">06<small>Acquisition</small></div>
+    <div class="fmemo">主口径为平台自有样本估算，非站点真实后台数据；参照口径为第三方转述，仅作并列呈现。</div>
+    <div class="fsrcs"><span class="src">SRC-015</span><span class="src">SRC-016</span><span class="src">SRC-017</span></div>
+    <div class="fby">© 2026 <b>Yan</b></div>
+    <div class="fleg"><span class="ev fact">FACT</span>可验证事实 <span class="ev obs">OBS</span>观察 <span class="ev inf">INF</span>推断 <span class="ev est">EST</span>第三方估算 <span class="ev unk">UNK</span>无可靠公开数据</div>
+  </div>
+
+</div></body></html>

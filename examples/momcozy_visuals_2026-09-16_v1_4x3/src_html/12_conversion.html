@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>12 Conversion</title>
+<link rel="stylesheet" href="_sys.css">
+<style>
+  .content{gap:12px}
+  .tbar{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .tbar .t{border:1px solid color-mix(in srgb,var(--c1) 22%,transparent);background:var(--tint);
+    border-radius:12px;padding:17px 10px;text-align:center}
+  .tbar .t b{font-size:17.5px;font-weight:800;color:var(--c1);display:block;line-height:1.3}
+  .tbar .t span{font-size:15px;color:var(--sub);font-weight:700;display:block;margin-top:5px}
+  .cc{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .c{border:1px solid var(--line);border-radius:14px;padding:18px 22px;background:var(--paper);display:flex;flex-direction:column}
+  .c .h{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:800;padding-bottom:12px;
+    border-bottom:2px solid var(--line);margin-bottom:13px}
+  .c.up .h{color:#166534} .c.up .h i{background:#166534}
+  .c.dn .h{color:#991b1b} .c.dn .h i{background:#991b1b}
+  .c .h i{font-style:normal;width:11px;height:11px;border-radius:4px;flex:none}
+  .c ul{list-style:none;display:flex;flex-direction:column;gap:13px}
+  .c li{font-size:17.5px;line-height:1.48;color:var(--sub);font-weight:600;padding-left:18px;position:relative}
+  .c li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--c3)}
+  .c li b{color:var(--ink);font-weight:800}
+  .c .mt{margin-top:13px;padding-top:10px;border-top:1px dashed var(--line)}
+  .chiprow{display:flex;flex-wrap:wrap;gap:10px}
+  .chiprow .cx{font-size:17px;font-weight:700;color:var(--sub);background:var(--paper);
+    border:1px solid var(--line);border-radius:9px;padding:9px 14px}
+  .chiprow .cx.g{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
+  .chiprow .cx.b{background:var(--tint);border-color:color-mix(in srgb,var(--c1) 26%,transparent);color:var(--c1)}
+  .readout{display:flex;gap:15px;align-items:stretch;background:var(--tint);border:1px solid color-mix(in srgb,var(--c1) 18%,transparent);border-radius:15px;padding:15px 18px}
+  .readout .bar{width:8px;flex:none;border-radius:4px;background:var(--c1)}
+  .readout .rt{font-size:17px;font-weight:800;color:var(--c1);letter-spacing:.06em}
+  .readout p{font-size:17.5px;line-height:1.44;color:var(--ink);font-weight:600;margin-top:6px}
+</style></head>
+<body><div class="canvas">
+
+  <div class="head">
+    <div class="topline">
+      <div class="kicker">CONVERSION &amp; CRO · <span class="idx">12 / 15</span></div>
+      <div class="datechip">数据截至 2026-09</div>
+    </div>
+    <div class="titlerow"><div class="h1">信任前置的转化设计</div></div>
+    <div class="sub">把类目第一、质保、专业顾问、保险支付全部堆在决策路径上，而不是靠折扣催促。</div>
+  </div>
+
+  <div class="content">
+
+    <div class="tbar">
+      <div class="t"><b>FSA / HSA<br>Accepted</b><span>保险支付</span></div>
+      <div class="t"><b>IBCLC Certified<br>Support</b><span>专业顾问</span></div>
+      <div class="t"><b>30-Day<br>Risk-Free</b><span>无理由退换</span></div>
+      <div class="t"><b>2-Years<br>Full Warranty</b><span>推车 3 年</span></div>
+      <div class="t"><b>Free 1-on-1<br>Consult</b><span>赠专业咨询</span></div>
+      <div class="t"><b>Free Shipping<br>over $25</b><span>满额免运</span></div>
+    </div>
+
+    <div class="cc">
+      <div class="c up">
+        <div class="h"><i></i>转化路径上做得好的</div>
+        <ul>
+          <li><b>信任元素密度极高且分工明确</b>——保障类 / 专业类 / 支付类 / 社会认同类各司其职</li>
+          <li><b>按「妈妈所处阶段」组织导航</b>——而不是按产品分类，降低新手的选择成本</li>
+          <li><b>站内与 Amazon 双出口</b>——不强行把用户锁在自营站，减少决策摩擦</li>
+          <li><b>评价量级本身就是转化资产</b>——单品评价普遍在 1,000–2,000 条级</li>
+        </ul>
+        <div class="mt"><span class="src">SRC-001</span><span class="src" style="margin-left:5px">SRC-004</span><span class="ev obs" style="margin-left:6px">OBS</span></div>
+      </div>
+
+      <div class="c dn">
+        <div class="h"><i></i>可能产生摩擦的</div>
+        <ul>
+          <li><b>默认法兰尺码单一（24 mm）</b>——社区反馈需第三方配件才能适配小尺码，是退货与差评的常见起点</li>
+          <li><b>型号过多且命名相似</b>——M5 / M5 Lite / M5 Smart / S12 Pro / S12 Pro Quick，需要用户自行对比</li>
+          <li><b>配件是持续成本却未前置提示</b>——购买页没有明示更换周期</li>
+          <li><b>各配置起价差异大</b>——「From $119.99」与「$199.99」并存，首屏价格认知可能被误读</li>
+        </ul>
+        <div class="mt"><span class="src">SRC-004</span><span class="src" style="margin-left:5px">SRC-030</span><span class="src">SRC-035</span><span class="ev obs" style="margin-left:6px">OBS</span></div>
+      </div>
+    </div>
+
+    <div class="chiprow">
+      <span class="cx b">Buy 3 Save 25%</span>
+      <span class="cx b">Buy 4 Save 30%</span>
+      <span class="cx">场景 Bundle 组合</span>
+      <span class="cx g">FSA / HSA 可用</span>
+      <span class="cx">Klarna / Afterpay 分期</span>
+      <span class="cx">CozyCoins 三档会员</span>
+      <span class="cx">赠 30 分钟 IBCLC</span>
+      <span class="cx">$25 起免运</span>
+    </div>
+
+    <div class="readout">
+      <div class="bar"></div>
+      <div class="grow">
+        <div class="rt">转化设计里最大的缺口</div>
+        <p>摩擦清单的四条几乎都能用「一次页面改动」解决，而其中三条（默认尺码、配件周期、型号命名）恰好都与产品线过密有关——<b>把选型复杂度推给用户，是当前最便宜的转化损失点</b>。无后台数据，真实转化率与弃单率不做推断。</p>
+      </div>
+      <div style="text-align:right;white-space:nowrap"><span class="ev inf">INF</span></div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <div class="fid">12<small>Conversion &amp; CRO</small></div>
+    <div class="fmemo">仅基于实际打开的页面结构观察；无后台数据，不推断真实转化率、热力图或弃单表现。</div>
+    <div class="fsrcs"><span class="src">SRC-001</span><span class="src">SRC-004</span><span class="src">SRC-030</span><span class="src">SRC-035</span></div>
+    <div class="fby">© 2026 <b>Yan</b></div>
+    <div class="fleg"><span class="ev fact">FACT</span>可验证事实 <span class="ev obs">OBS</span>观察 <span class="ev inf">INF</span>推断 <span class="ev est">EST</span>第三方估算 <span class="ev unk">UNK</span>无可靠公开数据</div>
+  </div>
+
+</div></body></html>

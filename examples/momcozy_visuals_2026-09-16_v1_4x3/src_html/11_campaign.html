@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>11 Campaign</title>
+<link rel="stylesheet" href="_sys.css">
+<style>
+  .content{gap:11px}
+  .tl{position:relative;padding:4px 0 0}
+  .tlrow{display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+  .tlitem{position:relative;padding:0 10px}
+  .tlitem::before{content:"";position:absolute;left:0;right:0;top:94px;height:4px;background:var(--line)}
+  .tlitem:first-child::before{left:50%}
+  .tlitem:last-child::before{right:50%}
+  .up{height:84px;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:12px;text-align:center}
+  .up .d{font-size:16px;font-weight:800;color:var(--c1);font-variant-numeric:tabular-nums}
+  .up .n{font-size:17.5px;font-weight:800;color:var(--ink);line-height:1.24;margin-top:4px}
+  .up .s{font-size:14.5px;color:var(--mut);font-weight:600;margin-top:2px}
+  .dotwrap{height:24px;position:relative}
+  .dot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:19px;height:19px;
+    border-radius:50%;background:var(--c1);box-shadow:0 0 0 4px var(--paper);z-index:2}
+  .dn{margin-top:12px;text-align:center;font-size:16px;color:var(--sub);font-weight:700;line-height:1.34}
+  .cc{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .c{border:1px solid var(--line);border-radius:14px;padding:12px 15px;background:var(--paper);display:flex;flex-direction:column}
+  .c .role{font-size:14.5px;font-weight:800;letter-spacing:.06em;color:#fff;background:var(--c3);
+    border-radius:6px;padding:2px 9px;align-self:flex-start}
+  .c .n{font-size:18px;font-weight:800;color:var(--ink);margin-top:9px;line-height:1.26}
+  .c .d{font-size:16px;line-height:1.4;color:var(--sub);font-weight:600;margin-top:7px;flex:1}
+  .c .mt{margin-top:9px}
+  .c .mt .src{font-size:13.5px;padding:2px 7px}
+  .oth{display:flex;flex-wrap:wrap;gap:6px}
+  .oth .o{font-size:15.5px;font-weight:700;color:var(--sub);background:var(--paper);
+    border:1px solid var(--line);border-radius:8px;padding:5px 11px}
+  .oth .o b{color:var(--ink)}
+  .mech{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .mc{border:1px solid var(--line);border-radius:14px;padding:11px 16px;background:var(--paper)}
+  .mc .mh{font-size:18px;font-weight:800;color:var(--c1);padding-bottom:9px;
+    border-bottom:2px solid var(--line);margin-bottom:10px}
+  .mc ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+  .mc li{font-size:15.5px;line-height:1.42;color:var(--sub);font-weight:600;padding-left:16px;position:relative}
+  .mc li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:2px;background:var(--c3)}
+  .mc li b{color:var(--ink);font-weight:800}
+  .readout{display:flex;gap:15px;align-items:stretch;background:var(--tint);border:1px solid color-mix(in srgb,var(--c1) 18%,transparent);border-radius:15px;padding:10px 18px}
+  .readout .bar{width:8px;flex:none;border-radius:4px;background:var(--c1)}
+  .readout .rt{font-size:16.5px;font-weight:800;color:var(--c1);letter-spacing:.06em}
+  .readout p{font-size:17px;line-height:1.4;color:var(--ink);font-weight:600;margin-top:5px}
+</style></head>
+<body><div class="canvas">
+
+  <div class="head">
+    <div class="topline">
+      <div class="kicker">CAMPAIGN RHYTHM · <span class="idx">11 / 15</span></div>
+      <div class="datechip">数据截至 2026-09</div>
+    </div>
+    <div class="titlerow"><div class="h1">把节点做成跨年承诺</div></div>
+    <div class="sub">从「把麦克风交给真实妈妈」到「把专业支持写进品牌结构」——三条主战役构成一条叙事升级线。</div>
+  </div>
+
+  <div class="content">
+
+    <div class="tl">
+      <div class="tlrow">
+        <div class="tlitem">
+          <div class="up"><div class="d">2023-11</div><div class="n">#StandUpForMums</div><div class="s">英国</div></div>
+          <div class="dotwrap"><div class="dot"></div></div>
+          <div class="dn">8,000+ 母亲<br>在线分享故事</div>
+        </div>
+        <div class="tlitem">
+          <div class="up"><div class="d">2024-09</div><div class="n">NYFW 快闪</div><div class="s">纽约 SoHo</div></div>
+          <div class="dotwrap"><div class="dot"></div></div>
+          <div class="dn">首发 Maternity Wear<br>与 M9 Mobile Flow</div>
+        </div>
+        <div class="tlitem">
+          <div class="up"><div class="d">2026-02</div><div class="n">Babylist 快闪店</div><div class="s">比佛利山</div></div>
+          <div class="dotwrap"><div class="dot"></div></div>
+          <div class="dn">注册表周末<br>线下信任触点</div>
+        </div>
+        <div class="tlitem">
+          <div class="up"><div class="d">2026-04</div><div class="n">Choose You, Too</div><div class="s">美国 · 母亲节</div></div>
+          <div class="dotwrap"><div class="dot"></div></div>
+          <div class="dn">睡眠类产品销售额<br>15% 捐赠 PSI</div>
+        </div>
+        <div class="tlitem">
+          <div class="up"><div class="d">2026-07</div><div class="n">Breathe &amp; Breastfeed</div><div class="s">美国 + 中东</div></div>
+          <div class="dotwrap"><div class="dot"></div></div>
+          <div class="dn">600 Hours<br>跨年支持承诺</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cc">
+      <div class="c"><div class="role">SIGNATURE</div>
+        <div class="n">#StandUpForMums</div>
+        <div class="d">不找明星，把麦克风交回真实妈妈——后续所有创作者策略都建立在这个底色上。转化类结果未公开。</div>
+        <div class="mt"><span class="src">SRC-033</span><span class="ev est" style="margin-left:5px">EST</span></div></div>
+
+      <div class="c"><div class="role">RECENT</div>
+        <div class="n">Choose You, Too</div>
+        <div class="d">把情感营销升级为议题营销 + 公益结构：与 PSI 合作发布母亲节报告，指定品类销售额 15% 捐赠心理热线。</div>
+        <div class="mt"><span class="src">SRC-024</span><span class="src" style="margin-left:5px">SRC-027</span><span class="ev fact" style="margin-left:5px">FACT</span></div></div>
+
+      <div class="c"><div class="role">LATEST</div>
+        <div class="n">Breathe &amp; Breastfeed</div>
+        <div class="d">用「支持」而非折扣占据叙事主导权：免费 24 小时专业顾问支持（合计 300+ 小时），并同步撬动中东新市场。</div>
+        <div class="mt"><span class="src">SRC-025</span><span class="src" style="margin-left:5px">SRC-026</span><span class="ev fact" style="margin-left:5px">FACT</span></div></div>
+    </div>
+
+    <div class="oth">
+      <span class="o">其他节点：</span>
+      <span class="o">Prime Day 2026 · <b>多站点细分榜 TOP1</b></span>
+      <span class="o">Big Summer Deals（2026-06）</span>
+      <span class="o">Black Friday · <b>BDBFFS20</b></span>
+      <span class="o">哺乳喂养月 · <b>BDBW20</b></span>
+    </div>
+
+    <div class="mech">
+      <div class="mc">
+        <div class="mh">节奏性促销（节点驱动）</div>
+        <ul>
+          <li><b>Black Friday</b>——全站 <b>BDBFFS20</b>（20% OFF）</li>
+          <li><b>World Breastfeeding Week</b>——<b>BDBW20</b>（20% OFF，覆盖暖奶套装 / KleanPal Pro / 鼻腔吸引器）</li>
+          <li><b>Big Summer Deals</b>——2026-06 喂养与奶瓶护理专题</li>
+          <li><b>Prime Day 2026</b>——多站点多个细分榜 TOP1</li>
+        </ul>
+      </div>
+      <div class="mc">
+        <div class="mh">常态化机制（不靠节点）</div>
+        <ul>
+          <li><b>IBCLC 专业顾问支持</b>——600 小时计划内的免费热线入口</li>
+          <li><b>Momcozy Care Program</b>——会员与服务体系的常设承接</li>
+          <li><b>内容底座</b>——Podcast 与 Support Hub 持续输出</li>
+          <li><b>用户社群</b>——规模 1 万+ 人的既有社区</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="readout">
+      <div class="bar"></div>
+      <div class="grow">
+        <div class="rt">三主战役的共同点：都不以折扣为核心</div>
+        <p>用真实故事、公益结构与专业服务替代价格战——把一次性节点沉淀成品牌资产。代价是所有公开结果（转化、销售额、捐赠总额）一律未披露，效力无法从公开数据验证。</p>
+      </div>
+      <div style="text-align:right;white-space:nowrap"><span class="ev inf">INF</span></div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <div class="fid">11<small>Campaign Rhythm</small></div>
+    <div class="fmemo">三条主战役的结果类数据均未公开披露；节点日期以官方通稿与官方页面为准。</div>
+    <div class="fsrcs"><span class="src">SRC-013</span><span class="src">SRC-024</span><span class="src">SRC-025</span><span class="src">SRC-028</span><span class="src">SRC-033</span></div>
+    <div class="fby">© 2026 <b>Yan</b></div>
+    <div class="fleg"><span class="ev fact">FACT</span>可验证事实 <span class="ev obs">OBS</span>观察 <span class="ev inf">INF</span>推断 <span class="ev est">EST</span>第三方估算 <span class="ev unk">UNK</span>无可靠公开数据</div>
+  </div>
+
+</div></body></html>

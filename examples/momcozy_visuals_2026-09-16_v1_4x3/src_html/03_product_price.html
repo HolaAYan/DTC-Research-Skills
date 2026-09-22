@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>03 Product &amp; Price</title>
+<link rel="stylesheet" href="_sys.css">
+<style>
+  .content{gap:13px}
+  .ladder .brow{gap:14px}
+  .ladder .brow .bl{width:262px;font-size:19px}
+  .ladder .brow .bf{height:22px;background:linear-gradient(90deg,var(--c1),var(--c3))}
+  .ladder .brow .bv{width:168px;font-size:20px}
+  .ladder .brow .bv small{font-size:14px}
+  .ladder .barset{gap:5px}
+  .catrow{display:flex;flex-wrap:wrap;gap:7px}
+  .catrow .ct{font-size:16.5px;font-weight:700;color:var(--ink);background:var(--tint);
+    border:1px solid color-mix(in srgb,var(--c1) 18%,transparent);border-radius:9px;padding:5px 11px}
+  .catrow .ct i{font-style:normal;color:var(--c1);font-weight:800}
+  .readout{display:flex;gap:15px;align-items:stretch;background:var(--tint);border:1px solid color-mix(in srgb,var(--c1) 18%,transparent);border-radius:15px;padding:11px 17px}
+  .readout .bar{width:8px;flex:none;border-radius:4px;background:var(--c1)}
+  .readout .rt{font-size:16.5px;font-weight:800;color:var(--c1);letter-spacing:.06em}
+  .readout p{font-size:16.5px;line-height:1.4;color:var(--ink);font-weight:600;margin-top:5px}
+</style></head>
+<body><div class="canvas">
+
+  <div class="head">
+    <div class="topline">
+      <div class="kicker">PRODUCT &amp; PRICE · <span class="idx">03 / 15</span></div>
+      <div class="datechip">数据截至 2026-09</div>
+    </div>
+    <div class="titlerow"><div class="h1">价格阶梯与品类矩阵</div></div>
+    <div class="sub">用一台泵进入，用一条产品线留住两年：$29.99 的哺乳内衣到 $629.99 的婴儿推车，全部卡在同一个用户的不同月份上。</div>
+  </div>
+
+  <div class="content">
+
+    <div class="card ladder">
+      <div class="sec" style="margin:0 0 10px"><div class="t">美国站价格阶梯</div>
+        <div class="more">As of 2026-09-16 · 标注「起」者为最低配置起价</div></div>
+      <div class="barset">
+        <div class="brow"><div class="bl">Air 1 超薄穿戴泵</div><div class="bt"><div class="bf" style="width:100%"></div></div><div class="bv">$369.99</div></div>
+        <div class="brow"><div class="bl">Wellness 1 / W1 加热泵</div><div class="bt"><div class="bf" style="width:89%"></div></div><div class="bv">$329.99</div></div>
+        <div class="brow"><div class="bl">KleanPal Pro 洗消烘储</div><div class="bt"><div class="bf" style="width:81%"></div></div><div class="bv">$299.99</div></div>
+        <div class="brow"><div class="bl">V1 Pro（300 mmHg）</div><div class="bt"><div class="bf" style="width:54%"></div></div><div class="bv">$199.99</div></div>
+        <div class="brow"><div class="bl">M9 Mobile Flow</div><div class="bt"><div class="bf" style="width:43%"></div></div><div class="bv">$159.99</div></div>
+        <div class="brow"><div class="bl">M6 Mobile Style</div><div class="bt"><div class="bf" style="width:35%"></div></div><div class="bv">$129.99</div></div>
+        <div class="brow"><div class="bl">M5 Smart（App 控制）</div><div class="bt"><div class="bf" style="width:32%"></div></div><div class="bv">$119.99<small>起</small></div></div>
+        <div class="brow"><div class="bl">S12 Pro Quick</div><div class="bt"><div class="bf" style="width:20%"></div></div><div class="bv">$74.99<small>起</small></div></div>
+        <div class="brow"><div class="bl">U 型孕妇枕</div><div class="bt"><div class="bf" style="width:12%"></div></div><div class="bv">$44.99<small>起</small></div></div>
+        <div class="brow"><div class="bl">哺乳内衣 YN21</div><div class="bt"><div class="bf" style="width:8%"></div></div><div class="bv">$29.99<small>起</small></div></div>
+      </div>
+      <div class="bnote" style="margin-top:9px">柱长按价格占组内最大值（$369.99）比例示意，数值原样显示；ChangeGo 推车 From $629.99 未列入本轴。 <span class="src" style="margin-left:5px">SRC-003</span> <span class="ev fact">FACT</span></div>
+
+      <div class="sec" style="margin:10px 0 7px"><div class="t">五条品类线</div>
+        <div class="more">从高频入口横向铺开，覆盖用户 2–3 年生命周期</div></div>
+      <div class="catrow">
+        <div class="ct">穿戴式吸奶器 <i>· 核心入口</i></div>
+        <div class="ct">奶瓶清洗</div>
+        <div class="ct">喂养 · 暖奶</div>
+        <div class="ct">睡眠 · 孕期</div>
+        <div class="ct">出行 · 监护</div>
+        <div class="ct">哺乳内衣</div>
+        <div class="ct">婴儿背带</div>
+      </div>
+      <div class="bnote" style="margin-top:6px">孕期买托腹带，产后买泵，返岗买免手持泵 + 背奶用品，之后买清洗机、睡袋、背带、推车。 <span class="src" style="margin-left:5px">SRC-003</span> <span class="ev obs">OBS</span></div>
+    </div>
+
+    <div class="readout">
+      <div class="bar"></div>
+      <div class="grow">
+        <div class="rt">最值得注意的是底部，不是高端</div>
+        <p>S12 Pro Quick 起价 $74.99、M5 起价 $119.99，已低于 2021 年「$150–200 中端空白带」的原始定位——用入门款守住类目第一的销量位置，用 Air 1 / Wellness 1 向上试探毛利。<b>代价是型号过多</b>：在售泵型至少 11 款、命名高度相似，社区已出现「哪个才是我要的」类选型困惑。</p>
+      </div>
+      <div style="text-align:right;white-space:nowrap"><span class="ev inf">INF</span></div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <div class="fid">03<small>Product &amp; Price</small></div>
+    <div class="fmemo">价格为美国官网挂牌价，动态数据以 2026-09-16 为准；柱长仅比例示意。</div>
+    <div class="fsrcs"><span class="src">SRC-001</span><span class="src">SRC-003</span><span class="src">SRC-004</span><span class="src">SRC-035</span></div>
+    <div class="fby">© 2026 <b>Yan</b></div>
+    <div class="fleg"><span class="ev fact">FACT</span>可验证事实 <span class="ev obs">OBS</span>观察 <span class="ev inf">INF</span>推断 <span class="ev est">EST</span>第三方估算 <span class="ev unk">UNK</span>无可靠公开数据</div>
+  </div>
+
+</div></body></html>
