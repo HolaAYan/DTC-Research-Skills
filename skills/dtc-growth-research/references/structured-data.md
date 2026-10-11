@@ -137,9 +137,9 @@ Modash 单列（`modash`）：收录时给 `url / findings / date`；未收录�
 
 ### 3.11 campaigns
 
-**恰好 3 个** Campaign（signature / recent / latest 的角色用 `campaign_type` 表示），字段：`name / date / type / product / target_audience / core_message / channels / creator_or_partnership / offer / public_result / source / evidence_type`。无公开结果 → `public_result: Not publicly disclosed`。
+**最多 3 个有公开证据支持的** Campaign（signature / recent / latest 的角色用 `campaign_type` 表示），字段：`name / date / type / product / target_audience / core_message / channels / creator_or_partnership / offer / public_result / source / evidence_type`。无公开结果 → `public_result: Not publicly disclosed`。
 
-- **不多不少 3 条**。若观察到超过 3 个值得记录的节点，**不要**把 `campaigns` 撑到 4 条以上，也不要把同一条同时写进两个位置——把「非三主案例」的节点移入**独立顶层键 `research.brand_moments`**（字段精简：`name / date / role(说明为何不列入三主案例，如「品牌跃迁动作」) / product / creator_or_partnership / public_result / source / evidence_type`）。PART 2 的 06 章同样只在正文写 3 个主案例，其余归入「其他代表性节点」小节。
+- **允许 1–3 条；无可靠案例时省略 `campaigns`**，并在 PART 2 说明证据缺口。不要填占位案例、重复案例或新增研究来满足配额；无法访问来源不代表没有 Campaign。若观察到超过 3 个值得记录的节点，**不要**把 `campaigns` 撑到 4 条以上，也不要把同一条同时写进两个位置——把其他节点移入**独立顶层键 `research.brand_moments`**（字段精简：`name / date / role / product / creator_or_partnership / public_result / source / evidence_type`）。PART 2 与 PART 3 必须使用同一组已研究案例。
 - 选取原则：`Signature` 取最能代表品牌长期定位的一条；`Recent` 取近 12 个月最有代表性的一条；`Latest` 取当前正在跑的一条。
 
 ### 3.12 growth_engine
@@ -266,5 +266,5 @@ research:
     print('OK', list(r.keys()), '| registry', len(srcs), '| refs', len(refs))
     ```
     > 登记行剔除正则按 `- {id: SRC-001, ...}`（inline）与 `- id: SRC-001`（block）两种写法均适用；若 registry 用了别的排版，改成对应形式，或改为「切掉 `^\s*sources:` 至文末」（该方法要求 `sources` 是 YAML 最后一个键）。
-  - 顺带核验：registry 无未解析引用、无"注册了但**全文**未引用"的来源（正文引用了、YAML 里没引用，**不算** unused）、`type` 无 `Estimate` 残留、`source_nature` 取值合规、campaign 含 Signature/Recent/Latest 三类、Modash 节点有明确 status。
+  - 顺带核验：registry 无未解析引用、无"注册了但**全文**未引用"的来源（正文引用了、YAML 里没引用，**不算** unused）、`type` 无 `Estimate` 残留、`source_nature` 取值合规、campaign 最多 3 个独立且有证据支持的案例（角色缺失须在 PART 2 说明，不强求三类齐全）、Modash 节点有明确 status。
 
