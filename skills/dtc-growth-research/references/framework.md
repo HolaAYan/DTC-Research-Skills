@@ -173,7 +173,7 @@ Campaign / Product / Date / Funding goal / Amount raised / Backers / Campaign hi
 
 ## 06 Campaign
 
-选 **3 个有代表性的 Campaign**：
+选 **最多 3 个有公开证据支持的代表性 Campaign**；不要为凑满角色而编造案例或重复同一个案例：
 
 | 编号 | 类型 | 时间要求 |
 |---|---|---|
@@ -187,7 +187,7 @@ Campaign / Product / Date / Funding goal / Amount raised / Backers / Campaign hi
 - **Results**（必须有公开来源；没有 → 写 `Result: Not publicly disclosed`）
 - Why it matters（该 Campaign 对品牌增长的意义）
 
-> **恰好 3 个主案例**。若研究过程中发现超过 3 个值得记录的节点，**不要**在正文里平铺成 Campaign 4、5……，而是保留 3 个主案例（Signature / Recent / Latest 各一），其余压缩为章末的「其他代表性节点」小节（一行一个：名称 + 时间 + 一句话角色），并在 PART 3 写入独立顶层键 `research.brand_moments`。同一条节点不得在 `campaigns` 与 `brand_moments` 中重复出现。
+> **主案例以证据为限，最多 3 个**。Signature / Recent / Latest 是选取角色，不是必须凑满的配额。只有 1–2 个可靠案例时就报告这些案例，并说明缺少哪些角色的公开证据；没有可靠案例时写 `No reliable public data found.`，PART 3 省略 `campaigns`。无法访问的来源不等于没有 Campaign。若研究过程中发现超过 3 个值得记录的节点，保留最多 3 个主案例，其余压缩为章末的「其他代表性节点」小节（一行一个：名称 + 时间 + 一句话角色），并在 PART 3 写入独立顶层键 `research.brand_moments`。同一条节点不得在 `campaigns` 与 `brand_moments` 中重复出现。
 
 ---
 
